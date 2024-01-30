@@ -1,0 +1,25 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Apply styles to all elements */
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  /* Colors */
+  --teal: #134e4a;
+  --emerald: #10b981;
+  --pink: #ff6b81;
+  --pink-hover: #b24f5e;
+  --dark-text: #333;
+  --hover-dark: #222;
+  --linear-gradient-background: linear-gradient(
+    to right,
+    var(--teal),
+    var(--emerald)
+  );
+}
