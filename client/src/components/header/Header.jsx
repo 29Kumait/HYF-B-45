@@ -14,7 +14,7 @@ function Header() {
           <img src={SearchIcon} alt="Search Icon" className="search-icon" />
           <input
             type="text"
-            placeholder="Find what you need"
+            placeholder="Bike, laptop, stroller..."
             className="search-input"
           />
         </div>
