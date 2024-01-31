@@ -39,6 +39,7 @@
 .landing-button:hover {
   background-color: #000000;
   color: #ffffff;
+  cursor: pointer;
 }
 
 .landing-image {
