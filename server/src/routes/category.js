@@ -11,7 +11,7 @@ const categoryRouter = express.Router();
 categoryRouter.use(
   "/assets/categories",
   express.static(
-    path.join(__dirname, "..", "..", "client", "src", "assets", "categories")
+    path.join(__dirname, "..", "..", "client", "public", "assets", "categories")
   )
 );
 
