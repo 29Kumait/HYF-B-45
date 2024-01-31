@@ -2,6 +2,7 @@ import React from "react";
 import SearchIcon from "../../assets/search-icon.svg";
 import Logo from "../../assets/logo-color.svg";
 import "./Header.css";
+import { Link } from "react-router-dom";
 
 function Header() {
   return (
@@ -18,8 +19,12 @@ function Header() {
             className="search-input"
           />
         </div>
-        <button className="login-button">Sign In</button>
-        <button className="get-started-button">Sign Up</button>
+        <Link to="/sign-in">
+          <button className="login-button">Sign In</button>
+        </Link>
+        <Link to="/sign-up">
+          <button className="get-started-button">Sign Up</button>
+        </Link>
       </div>
     </header>
   );
