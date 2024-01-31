@@ -7,6 +7,8 @@ const itemSchema = new mongoose.Schema({
   category: { type: String, required: true },
   imageURL: { type: String, required: true },
   price: { type: Number, required: true },
+  deposit: { type: Number },
+  active: { type: Boolean, default: true },
   renter_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
