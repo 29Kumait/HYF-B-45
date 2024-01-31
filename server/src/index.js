@@ -8,6 +8,7 @@ import { logInfo, logError } from "./util/logging.js";
 import connectDB from "./db/connectDB.js";
 import testRouter from "./testRouter.js";
 import { initializeCategories } from "./models/Category.js";
+import { initializeItems } from "./models/Item.js";
 
 // The environment should set the port
 const port = process.env.PORT;
@@ -21,6 +22,7 @@ const startServer = async () => {
   try {
     await connectDB();
     await initializeCategories();
+    await initializeItems();
     app.listen(port, () => {
       logInfo(`Server started on port ${port}`);
     });
