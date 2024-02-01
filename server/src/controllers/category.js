@@ -3,7 +3,7 @@ import { logError } from "../util/logging.js";
 
 export const getCategories = async (req, res) => {
   try {
-    const categories = await Category.find({}, { _id: 0, __v: 0 });
+    const categories = await Category.find({}, { __v: 0 });
     res.status(200).json({ success: true, result: categories });
   } catch (error) {
     logError(error);
