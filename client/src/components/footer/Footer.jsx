@@ -1,0 +1,38 @@
+import React from "react";
+import "./Footer.css";
+import Logo from "../../assets/logo-black.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+
+library.add(fab);
+
+export const Footer = () => {
+  return (
+    <footer>
+      <div className="column">
+        <img src={Logo} alt="logo-black" />
+        <p className="copyright">© Copyright 2024.</p>
+      </div>
+      <div className="column"></div>
+      <div className="column">
+        <h3 className="contact">contactUs</h3>
+        <p>info@peerent.com</p>
+        <p>+3122222333</p>
+      </div>
+      <div className="column">
+        <h3 className="contact">ourLocation</h3>
+        <p>Amsterdam</p>
+        <p>Overhoeksplein 2, 1031KS</p>
+      </div>
+      <div className="column"></div>
+      <div className="column">
+        <h3 className="contact">followUs</h3>
+        <FontAwesomeIcon icon={["fab", "facebook"]} />
+        <FontAwesomeIcon icon={["fab", "instagram"]} />
+        <FontAwesomeIcon icon={["fab", "linkedin"]} />
+        <FontAwesomeIcon icon={["fab", "x-twitter"]} />
+      </div>
+    </footer>
+  );
+};
