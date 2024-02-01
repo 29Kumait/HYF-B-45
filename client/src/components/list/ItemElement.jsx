@@ -1,27 +1,35 @@
 import React from "react";
+import PropTypes from "prop-types";
 import MoProfilePicture from "../../assets/mo.png";
-import ProductImage from "../../assets/1.jpg";
 
 import "./ItemsList.css"; // Import the CSS file
 
-const ItemElement = () => {
+const ItemElement = ({ item }) => {
   return (
     <li className="product-item">
       <div className="product-item__owner">
         <img src={MoProfilePicture} alt="Owner" />
         <span>Mohammed</span>
       </div>
-      <img src={ProductImage} alt="Product" className="product-item__image" />
-      <h2 className="product-item__name">Product Title</h2>
-      <p className="product-item__description">
-        Product description, this product is very good
-      </p>
-      <div className="product-item__chat">
-        <span className="product-item__price">$19.99</span>
-        <button className="product-item__chat-button">View Details</button>
+      <img
+        src={item.imageURL}
+        alt={item.title}
+        className="product-item__image"
+      />
+      <h2 className="product-item__name">{item.title}</h2>
+      <div className="product-item__view">
+        <span className="product-item__price">${item.price}/ per day</span>
+        <button className="product-item__view-button">View Details</button>
       </div>
     </li>
   );
+};
+ItemElement.propTypes = {
+  item: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    imageURL: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 export default ItemElement;

@@ -53,7 +53,7 @@
   color: #666666;
   margin-bottom: 8px;
 }
-.product-item__chat {
+.product-item__view {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -64,7 +64,7 @@
   color: var(--emerald);
 }
 
-.product-item__chat-button {
+.product-item__view-button {
   background-color: var(--pink);
   color: #ffffff;
   border: none;
@@ -76,7 +76,7 @@
   transition: background-color 0.3s ease;
 }
 
-.product-item__chat-button:hover {
+.product-item__view-button:hover {
   background-color: var(--pink-hover);
 }
 

@@ -1,14 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ItemElement from "./ItemElement";
 import "./ItemsList.css";
+import useFetch from "../../hooks/useFetch";
 
 const ItemsList = () => {
-  const products = Array.from({ length: 20 }, (_, index) => index + 1);
+  const [items, setItems] = useState([]);
+  const { isLoading, error, performFetch, cancelFetch } = useFetch(
+    "/item",
+    (response) => {
+      setItems(response.result);
+    }
+  );
+  useEffect(() => {
+    performFetch();
+    return cancelFetch;
+  }, []);
+
+  if (isLoading) {
+    return <div className="loading">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="error">Error: {error.toString()}</div>;
+  }
 
   return (
     <ul className="product-list">
-      {products.map((productId) => (
-        <ItemElement key={productId} />
+      {items.map((item) => (
+        <ItemElement key={item._id} item={item} />
       ))}
     </ul>
   );
