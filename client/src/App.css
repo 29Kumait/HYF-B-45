@@ -13,9 +13,11 @@ body {
 :root {
   /* Colors */
   --teal: #134e4a;
+  --teal-bg: #f0fdfa;
   --emerald: #10b981;
   --pink: #ff6b81;
-  --pink-hover: #b24f5e;
+  --pink-bg: #fce7f3;
+  --pink-hover: #c82870;
   --dark-text: #333;
   --hover-dark: #222;
   --linear-gradient-background: linear-gradient(
