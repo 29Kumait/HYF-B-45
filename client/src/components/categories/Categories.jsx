@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./Categories.css";
 import useFetch from "../../hooks/useFetch";
+import { logInfo } from "../../../../server/src/util/logging.js";
 
 function Categories() {
   const [categories, setCategories] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     "/category",
     (response) => {
@@ -15,6 +17,11 @@ function Categories() {
     performFetch();
     return cancelFetch;
   }, []);
+
+  const handleClick = (categoryName) => {
+    setSelectedCategory(categoryName);
+    logInfo(selectedCategory);
+  };
 
   let content = null;
 
@@ -28,8 +35,7 @@ function Categories() {
         {categories &&
           categories.map((category) => {
             return (
-              <li key={category._id}>
-                {" "}
+              <li key={category._id} onClick={() => handleClick(category.name)}>
                 <img className="icon" src={category.icon} alt={category.name} />
                 <span>{category.name}</span>
               </li>
