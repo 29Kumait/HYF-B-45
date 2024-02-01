@@ -9,7 +9,6 @@ import connectDB from "./db/connectDB.js";
 import testRouter from "./testRouter.js";
 import { initializeCategories } from "./models/Category.js";
 import { initializeItems } from "./models/Item.js";
-
 // The environment should set the port
 const port = process.env.PORT;
 
