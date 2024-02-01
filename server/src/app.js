@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-
+import itemRouter from "./routes/item.js";
 import userRouter from "./routes/user.js";
 import categoryRouter from "./routes/category.js";
 
@@ -19,5 +19,6 @@ app.use(cors());
  */
 app.use("/api/user", userRouter);
 app.use("/api/category", categoryRouter);
+app.use("/api/item", itemRouter);
 
 export default app;
