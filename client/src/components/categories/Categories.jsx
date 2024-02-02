@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./Categories.css";
 import useFetch from "../../hooks/useFetch";
-import { logInfo } from "../../../../server/src/util/logging.js";
+import PropTypes from "prop-types";
 
-function Categories() {
+function Categories({ handleClick }) {
   const [categories, setCategories] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState(null);
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     "/category",
     (response) => {
@@ -17,11 +16,6 @@ function Categories() {
     performFetch();
     return cancelFetch;
   }, []);
-
-  const handleClick = (categoryName) => {
-    setSelectedCategory(categoryName);
-    logInfo(selectedCategory);
-  };
 
   let content = null;
 
@@ -47,5 +41,9 @@ function Categories() {
 
   return <div className="categories">{content}</div>;
 }
+
+Categories.propTypes = {
+  handleClick: PropTypes.func.isRequired,
+};
 
 export default Categories;
