@@ -17,13 +17,16 @@ export const Footer = () => {
       <div className="column"></div>
       <div className="column">
         <h3 className="contact">contactUs</h3>
-        <p>info@peerent.com</p>
-        <p>+3122222333</p>
+        <a className="email" href="mailto:info@peerent.com">
+          <p>info@peerent.com</p>
+        </a>
+        <a className="phone" href="tel:+3122222333">
+          <p>+31 6 22 22 22 33</p>
+        </a>
       </div>
       <div className="column">
         <h3 className="contact">ourLocation</h3>
-        <p>Amsterdam</p>
-        <p>Overhoeksplein 2, 1031KS</p>
+        <p>Amsterdam Overhoeksplein 2 1031KS</p>
       </div>
       <div className="column"></div>
       <div className="column">

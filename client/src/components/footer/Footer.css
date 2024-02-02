@@ -1,6 +1,7 @@
 footer {
   background-color: aquamarine;
   display: flex;
+  padding: 20px;
 }
 
 .column {
@@ -29,7 +30,20 @@ footer {
 .column svg {
   margin: 20px 0;
   margin-left: 3px;
-  height: 30px;
-  width: 30px;
+  height: 25px;
+  width: 25px;
   cursor: pointer;
+}
+
+.email,
+.phone {
+  color: black;
+}
+
+.email:hover {
+  color: pink;
+}
+
+.phone:hover {
+  color: pink;
 }
