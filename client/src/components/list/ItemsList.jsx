@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 import ItemElement from "./ItemElement";
 import "./ItemsList.css";
 import useFetch from "../../hooks/useFetch";
+import PropTypes from "prop-types";
 
-const ItemsList = () => {
+const ItemsList = ({ selectedCategory }) => {
   const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
@@ -35,12 +36,23 @@ const ItemsList = () => {
     return <div className="error">Error: {error.toString()}</div>;
   }
 
-  return (
-    <div>
+return (
+  <div>
+    {selectedCategory ? (
       <ul className="product-list">
-        {items.map((item) => (
-          <ItemElement key={item._id} item={item} />
-        ))}
+        {items
+          .filter((item) => item.category === selectedCategory)
+          .map((item) => (
+            <ItemElement key={item._id} item={item} />
+          ))}
+      </ul>
+    ) : (
+      <ul className="product-list">
+        {items
+          .slice((currentPage - 1) * 9, currentPage * 9)
+          .map((item) => (
+            <ItemElement key={item._id} item={item} />
+          ))}
       </ul>
       <div className="pagination">
         <button onClick={handlePrevPage} disabled={currentPage === 1}>
@@ -49,8 +61,14 @@ const ItemsList = () => {
         <span> Page {currentPage} </span>
         <button onClick={handleNextPage}>Next</button>
       </div>
-    </div>
-  );
+    )}
+  </div>
+);
+
+};
+
+ItemsList.propTypes = {
+  selectedCategory: PropTypes.string.isRequired,
 };
 
 export default ItemsList;

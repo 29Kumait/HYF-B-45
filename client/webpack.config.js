@@ -14,7 +14,14 @@ module.exports = {
     rules: [
       {
         test: /\.(png|jp(e*)g|svg|gif)$/,
-        use: ["file-loader"],
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              outputPath: "assets/categories",
+            },
+          },
+        ],
       },
       {
         test: /\.css$/i,
