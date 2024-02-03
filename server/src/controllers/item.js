@@ -3,13 +3,18 @@ import { logError } from "../util/logging.js";
 
 export const getItems = async (req, res) => {
   try {
-    // Fetch the first 9 items from the database
-    const items = await Item.find().limit(9);
+    // Get the page number from query parameters
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = 9;
 
-    // If successful, send a JSON response with the items
+    //Calculate the skip value based on the page number
+    const skip = (page - 1) * pageSize;
+
+    //Fetch items for the specified page with a limit of 9
+    const items = await Item.find().skip(skip).limit(pageSize);
+
     res.status(200).json({ success: true, result: items });
   } catch (error) {
-    // If an error occurs, log the error and send a 500 Internal Server Error response
     logError(error);
     res.status(500).json({
       success: false,
