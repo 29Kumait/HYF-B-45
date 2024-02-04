@@ -88,3 +88,27 @@
   padding: 0px 100px;
   background-color: var(--teal-bg);
 }
+/* pagination style */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pagination button {
+  background-color: var(--pink);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  margin: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100px;
+  transition: background-color 0.3s ease;
+}
+
+.pagination button:disabled {
+  background-color: rgb(157, 153, 153);
+  cursor: not-allowed;
+}
