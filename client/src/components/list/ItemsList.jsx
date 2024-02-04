@@ -67,7 +67,7 @@ const ItemsList = ({ selectedCategory }) => {
 };
 
 ItemsList.propTypes = {
-  selectedCategory: PropTypes.string.isRequired,
+  selectedCategory: PropTypes.string,
 };
 
 export default ItemsList;
