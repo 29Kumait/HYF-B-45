@@ -36,35 +36,34 @@ const ItemsList = ({ selectedCategory }) => {
     return <div className="error">Error: {error.toString()}</div>;
   }
 
-return (
-  <div>
-    {selectedCategory ? (
-      <ul className="product-list">
-        {items
-          .filter((item) => item.category === selectedCategory)
-          .map((item) => (
-            <ItemElement key={item._id} item={item} />
-          ))}
-      </ul>
-    ) : (
-      <ul className="product-list">
-        {items
-          .slice((currentPage - 1) * 9, currentPage * 9)
-          .map((item) => (
-            <ItemElement key={item._id} item={item} />
-          ))}
-      </ul>
-      <div className="pagination">
-        <button onClick={handlePrevPage} disabled={currentPage === 1}>
-          Previous
-        </button>
-        <span> Page {currentPage} </span>
-        <button onClick={handleNextPage}>Next</button>
-      </div>
-    )}
-  </div>
-);
-
+  return (
+    <div>
+      {selectedCategory ? (
+        <ul className="product-list">
+          {items
+            .filter((item) => item.category === selectedCategory)
+            .map((item) => (
+              <ItemElement key={item._id} item={item} />
+            ))}
+        </ul>
+      ) : (
+        <div>
+          <ul className="product-list">
+            {items.slice((currentPage - 1) * 9, currentPage * 9).map((item) => (
+              <ItemElement key={item._id} item={item} />
+            ))}
+          </ul>
+          <div className="pagination">
+            <button onClick={handlePrevPage} disabled={currentPage === 1}>
+              Previous
+            </button>
+            <span> Page {currentPage} </span>
+            <button onClick={handleNextPage}>Next</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 
 ItemsList.propTypes = {
