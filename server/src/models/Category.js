@@ -15,51 +15,51 @@ const initializeCategories = async () => {
       const initialCategories = [
         {
           name: "Sound & Vision",
-          icon: "/assets/categories/sound-and-vision.png",
+          icon: "http://res.cloudinary.com/dibnqoge8/image/upload/v1707140655/rqj8wjrudubgkx1wvwny.png",
         },
         {
           name: "Gaming",
-          icon: "/assets/categories/gaming.png",
+          icon: "http://res.cloudinary.com/dibnqoge8/image/upload/v1707140656/ljt0duqkqno2lduupnvw.png",
         },
         {
           name: "Transport",
-          icon: "/assets/categories/transport.png",
+          icon: "http://res.cloudinary.com/dibnqoge8/image/upload/v1707140657/il8agtuc9dvmz9cnra82.png",
         },
         {
           name: "Computers",
-          icon: "/assets/categories/computers.png",
+          icon: "http://res.cloudinary.com/dibnqoge8/image/upload/v1707140658/ht5qzlwbq3klsruoktrk.png",
         },
         {
           name: "Care",
-          icon: "/assets/categories/care.png",
+          icon: "http://res.cloudinary.com/dibnqoge8/image/upload/v1707140660/smrrxhmsisxui4fmktzb.png",
         },
         {
           name: "Clothing",
-          icon: "/assets/categories/clothes.png",
+          icon: "http://res.cloudinary.com/dibnqoge8/image/upload/v1707140661/s4kxbcd0xtnpsuvjtc0w.png",
         },
         {
           name: "Tool",
-          icon: "/assets/categories/tools.png",
+          icon: "http://res.cloudinary.com/dibnqoge8/image/upload/v1707140662/qsgylersdnvafwcrbnlm.png",
         },
         {
           name: "Kitchen",
-          icon: "/assets/categories/kitchen.png",
+          icon: "http://res.cloudinary.com/dibnqoge8/image/upload/v1707140663/pmziowefixjxnl8v0fz4.png",
         },
         {
           name: "Household",
-          icon: "/assets/categories/household.png",
+          icon: "http://res.cloudinary.com/dibnqoge8/image/upload/v1707140664/dzzr2mw9uwrq19cy0odn.png",
         },
         {
           name: "Sports & Leisure",
-          icon: "/assets/categories/sports-and-leisure.png",
+          icon: "http://res.cloudinary.com/dibnqoge8/image/upload/v1707140665/xbnqkrduqfnziiekwb9b.png",
         },
         {
           name: "Party & Event",
-          icon: "/assets/categories/party-and-event.png",
+          icon: "http://res.cloudinary.com/dibnqoge8/image/upload/v1707140666/eqzbbzk0yno0zzkevozg.png",
         },
         {
           name: "Pets",
-          icon: "/assets/categories/pets.png",
+          icon: "http://res.cloudinary.com/dibnqoge8/image/upload/v1707140667/bspwb5w1keolz2qnkxr9.png",
         },
       ];
 

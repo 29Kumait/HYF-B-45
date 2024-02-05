@@ -12,6 +12,7 @@ export const Footer = () => {
     <footer>
       <div className="column">
         <img src={Logo} alt="logo-black" />
+        <p className="description">Hub for Borrowing & Lending</p>
         <p className="copyright">© Copyright 2024.</p>
       </div>
       <div className="column"></div>
@@ -26,9 +27,9 @@ export const Footer = () => {
       </div>
       <div className="column">
         <h3 className="contact">ourLocation</h3>
-        <p>Amsterdam Overhoeksplein 2 1031KS</p>
+        <p>Amsterdam, 1031KS</p>
+        <p>Overhoeksplein 2</p>
       </div>
-      <div className="column"></div>
       <div className="column">
         <h3 className="contact">followUs</h3>
         <FontAwesomeIcon icon={["fab", "facebook"]} />

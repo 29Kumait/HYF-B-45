@@ -14,6 +14,11 @@
   display: flex;
 }
 
+.list-categories :hover,
+.list-categories li.selected-category {
+  background-color: #3bb38b;
+}
+
 .list-categories li {
   flex: 0 0 calc(16.666% - 10px);
   margin: 5px;
@@ -31,4 +36,10 @@
 
 .list-categories li span {
   padding-left: 8px;
+}
+
+@media (max-width: 600px) {
+  .list-categories li {
+    flex: 0 0 calc(25% - 10px);
+  }
 }

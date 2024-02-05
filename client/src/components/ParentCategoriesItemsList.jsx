@@ -11,7 +11,10 @@ export const ParentCategoriesItemsList = () => {
 
   return (
     <>
-      <Categories handleClick={handleClick} />
+      <Categories
+        handleClick={handleClick}
+        selectedCategory={selectedCategory}
+      />
       <ItemsList selectedCategory={selectedCategory} />
     </>
   );

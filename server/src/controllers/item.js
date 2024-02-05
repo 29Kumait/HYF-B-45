@@ -1,5 +1,5 @@
-import { Item } from "../models/Item.js";
-import { logError } from "../util/logging.js";
+import { Item, validateItem } from "../models/Item.js";
+import { logError, logInfo } from "../util/logging.js";
 
 export const getItems = async (req, res) => {
   try {
@@ -19,6 +19,42 @@ export const getItems = async (req, res) => {
     res.status(500).json({
       success: false,
       msg: "Unable to get items, try again later",
+    });
+  }
+};
+
+// Controller function to handle the creation of a new item
+export const createItem = async (req, res) => {
+  try {
+    // Validate the request body
+    const errors = validateItem(req.body);
+    if (errors.length > 0) {
+      return res.status(400).json({ success: false, errors });
+    }
+
+    // Create a new item object based on the request body
+    const newItem = new Item(req.body);
+
+    // Save the new item to the database
+    await newItem.save();
+
+    // Log success message
+    logInfo("New item created:", newItem);
+
+    // Send a success response
+    return res.status(201).json({
+      success: true,
+      message: "Item created successfully",
+      item: newItem,
+    });
+  } catch (error) {
+    // Log error message
+    logError("Error creating item:", error.message);
+
+    // Send an error response
+    return res.status(500).json({
+      success: false,
+      error: "Internal Server Error",
     });
   }
 };
