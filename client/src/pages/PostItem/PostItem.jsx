@@ -7,9 +7,8 @@ const PostItem = () => {
   return (
     <div>
       <Header />
-      <h1>Here you can Post an item</h1>
-
       <PostItemForm />
+
       <Footer />
     </div>
   );
