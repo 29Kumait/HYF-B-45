@@ -4,13 +4,11 @@ import { Footer } from "../../components/footer/Footer";
 import PostItemForm from "../../components/postItem/PostItemForm";
 
 const PostItem = () => {
-  
   return (
     <div>
       <Header />
-      <PostItemForm/>
+      <PostItemForm />
 
-      
       <Footer />
     </div>
   );

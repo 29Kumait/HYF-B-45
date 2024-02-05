@@ -1,10 +1,8 @@
-
 import React, { useState } from "react";
 import "./PostItemForm.css";
 import useFetch from "../../hooks/useFetch.js";
 
-const PostItemForm = () => 
-{
+const PostItemForm = () => {
   // State for form fields
   const [formData, setFormData] = useState({
     title: "",
@@ -20,7 +18,6 @@ const PostItemForm = () =>
   const { isLoading, error, performFetch } = useFetch("/item", (result) => {
     // Handle successful response
     if (result.success) {
-      
       //navigateToDetailsPage(result.result.itemId);
     } else {
       // Handle unsuccessful response
@@ -97,95 +94,91 @@ const PostItemForm = () =>
       <h2>Add Item</h2>
       <form onSubmit={handleSubmit} className="contaner">
         <div className="form-group">
-        <label>
-          Title
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleInputChange}
-            required
-          />
-        </label>
-        </div>
-        
-        <div className="form-group">
-        <label>
-          Category
-          <input
-            type="text"
-            name="category"
-            value={formData.category}
-            onChange={handleInputChange}
-            required
-          />
-        </label>
-        </div>
-        
-        <div className="form-group">
-        <label>
-          Description
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleInputChange}
-          />
-        </label>
-        </div>
-        
-          <div className="form-group">
           <label>
-          Price
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleInputChange}
-            required
-          />
-        </label>
-          </div>
-        
-
-          <div className="form-group">
-          <label>
-          Contains Deposit
-          <input
-            type="checkbox"
-            name="containsDeposit"
-            checked={formData.containsDeposit}
-            onChange={handleInputChange}
-          />
-        </label>
-          </div>
-        
-
-        {formData.containsDeposit && (
-          <div className="form-group">
-              <label>
-            Deposit Amount:
+            Title
             <input
-              type="number"
-              name="depositAmount"
-              value={formData.depositAmount}
+              type="text"
+              name="title"
+              value={formData.title}
               onChange={handleInputChange}
-              max={formData.price * 0.5} 
               required
             />
           </label>
-          </div>
-          
-        )}
+        </div>
+
+        <div className="form-group">
+          <label>
+            Category
+            <input
+              type="text"
+              name="category"
+              value={formData.category}
+              onChange={handleInputChange}
+              required
+            />
+          </label>
+        </div>
+
+        <div className="form-group">
+          <label>
+            Description
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleInputChange}
+            />
+          </label>
+        </div>
+
+        <div className="form-group">
+          <label>
+            Price
+            <input
+              type="number"
+              name="price"
+              value={formData.price}
+              onChange={handleInputChange}
+              required
+            />
+          </label>
+        </div>
+
+        <div className="form-group">
+          <label>
+            Contains Deposit
+            <input
+              type="checkbox"
+              name="containsDeposit"
+              checked={formData.containsDeposit}
+              onChange={handleInputChange}
+            />
+          </label>
+        </div>
+
+        {formData.containsDeposit && (
           <div className="form-group">
-          <button className="btn" type="submit" disabled={isLoading}>
-          {isLoading ? "Adding..." : "Add Item"}
-        </button>
+            <label>
+              Deposit Amount:
+              <input
+                type="number"
+                name="depositAmount"
+                value={formData.depositAmount}
+                onChange={handleInputChange}
+                max={formData.price * 0.5}
+                required
+              />
+            </label>
           </div>
-        
+        )}
+        <div className="form-group">
+          <button className="btn" type="submit" disabled={isLoading}>
+            {isLoading ? "Adding..." : "Add Item"}
+          </button>
+        </div>
 
         {error && <div>Error: {error}</div>}
       </form>
     </div>
   );
 };
-export default PostItemForm 
+export default PostItemForm;
