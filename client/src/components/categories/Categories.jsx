@@ -3,7 +3,7 @@ import "./Categories.css";
 import useFetch from "../../hooks/useFetch";
 import PropTypes from "prop-types";
 
-function Categories({ handleClick }) {
+function Categories({ handleClick, selectedCategory }) {
   const [categories, setCategories] = useState(null);
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     "/category",
@@ -28,8 +28,13 @@ function Categories({ handleClick }) {
       <ul className="list-categories">
         {categories &&
           categories.map((category) => {
+            const isSelected = category.name === selectedCategory;
             return (
-              <li key={category._id} onClick={() => handleClick(category.name)}>
+              <li
+                key={category._id}
+                onClick={() => handleClick(category.name)}
+                className={isSelected ? "selected-category" : ""}
+              >
                 <img className="icon" src={category.icon} alt={category.name} />
                 <span>{category.name}</span>
               </li>
@@ -44,6 +49,7 @@ function Categories({ handleClick }) {
 
 Categories.propTypes = {
   handleClick: PropTypes.func.isRequired,
+  selectedCategory: PropTypes.string,
 };
 
 export default Categories;

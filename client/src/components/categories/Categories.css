@@ -14,6 +14,11 @@
   display: flex;
 }
 
+.list-categories :hover,
+.list-categories li.selected-category {
+  background-color: #3bb38b;
+}
+
 .list-categories li {
   flex: 0 0 calc(16.666% - 10px);
   margin: 5px;

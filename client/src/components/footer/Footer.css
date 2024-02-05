@@ -14,6 +14,13 @@ footer {
   padding-left: 20px;
 }
 
+.description {
+  font-size: 14px;
+  margin-left: 33px;
+  margin-top: -5px;
+  padding-bottom: 10px;
+}
+
 .copyright {
   font-size: 10px;
   margin-left: 33px;
