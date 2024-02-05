@@ -4,6 +4,7 @@ import Home from "./pages/Home/Home";
 import "./App.css";
 import SignUp from "./pages/SignUp/SignUp";
 import SignIn from "./pages/SignIn/SignIn";
+import PostItem from "./pages/PostItem/PostItem";
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/post-item" element={<PostItem />} />
       </Routes>
     </>
   );

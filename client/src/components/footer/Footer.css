@@ -14,6 +14,13 @@ footer {
   padding-left: 20px;
 }
 
+.description {
+  font-size: 14px;
+  margin-left: 33px;
+  margin-top: -5px;
+  padding-bottom: 10px;
+}
+
 .copyright {
   font-size: 10px;
   margin-left: 33px;
@@ -46,4 +53,21 @@ footer {
 
 .phone:hover {
   color: pink;
+}
+
+@media (max-width: 600px) {
+  footer {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 0;
+    padding: 0 0;
+  }
+  .column {
+    margin: 1px 1px;
+    padding: 1px 1px;
+  }
+
+  .column svg {
+    margin: 0 0;
+  }
 }
