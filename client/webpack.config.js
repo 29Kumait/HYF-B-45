@@ -18,7 +18,7 @@ module.exports = {
           {
             loader: "file-loader",
             options: {
-              outputPath: "assets/categories",
+              outputPath: "assets/categories/[name].[ext]",
             },
           },
         ],
