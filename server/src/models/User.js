@@ -1,30 +1,45 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs"; // Sanaz install bcrypt for password hashing
 import validateAllowedFields from "../util/validateAllowedFields.js";
 
 const userSchema = new mongoose.Schema({
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
   username: { type: String, required: true, unique: true },
-  email: { type: String, required: true },
   password: {
     type: String,
     required: true,
     validate: {
       validator: (value) => {
-        // Password should be at least 8 characters and contain both numbers and letters
         return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(value);
       },
       message:
         "Password must be at least 8 characters and contain both numbers and letters",
     },
   },
-  firstName: { type: String },
-  lastName: { type: String },
-  cityName: { type: String, required: true },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    match: [/\S+@\S+\.\S+/, "is invalid"], // Regex to validate email format
+  },
+  city: { type: String, required: true },
   imageURL: { type: String },
 });
 
-const User = mongoose.model("users", userSchema);
+// Hashing passwords pre-save
+userSchema.pre("save", async function (next) {
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 8);
+  }
+  next();
+});
 
-export const validateUser = (userObject) => {
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  return bcrypt.compare(candidatePassword, this.password);
+};
+
+const validateUser = (userObject) => {
   const errorList = [];
   const allowedKeys = [
     "username",
@@ -32,7 +47,7 @@ export const validateUser = (userObject) => {
     "password",
     "firstName",
     "lastName",
-    "cityName",
+    "city",
     "imageURL",
   ];
 
@@ -42,23 +57,18 @@ export const validateUser = (userObject) => {
     errorList.push(validatedKeysMessage);
   }
 
-  if (userObject.username == null) {
-    errorList.push("username is a required field");
-  }
+  //  in case Mongoose's built-in validation isn't automatically applied.
 
-  if (userObject.email == null) {
-    errorList.push("email is a required field");
-  }
-
-  if (userObject.password == null) {
-    errorList.push("password is a required field");
-  }
-
-  if (userObject.cityName == null) {
-    errorList.push("cityName is a required field");
-  }
+  ["username", "email", "password", "city"].forEach((key) => {
+    if (userObject[key] == null) {
+      errorList.push(`${key} is a required field`);
+    }
+  });
 
   return errorList;
 };
 
+const User = mongoose.model("users", userSchema);
+
+export { validateUser };
 export default User;
