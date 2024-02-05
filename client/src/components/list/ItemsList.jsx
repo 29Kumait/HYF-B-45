@@ -6,15 +6,20 @@ import useFetch from "../../hooks/useFetch";
 import PropTypes from "prop-types";
 
 const ItemsList = ({ selectedCategory }) => {
+  const itemsPerPage = 9; //items per page
   const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategoryState, setSelectedCategoryState] = useState(null);
+  const [hasMoreData, setHasMoreData] = useState(true); //tracking data availability
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/item?page=${currentPage}${
       selectedCategoryState ? `&category=${selectedCategoryState}` : ""
     }`,
     (response) => {
-      setItems(response.result);
+      const newItems = response.result;
+      setItems(newItems);
+      // Check if there are more items
+      setHasMoreData(newItems.length === itemsPerPage);
     }
   );
 
@@ -63,7 +68,9 @@ const ItemsList = ({ selectedCategory }) => {
           Previous
         </button>
         <span> Page {currentPage} </span>
-        <button onClick={handleNextPage}>Next</button>
+        <button onClick={handleNextPage} disabled={!hasMoreData}>
+          Next
+        </button>
       </div>
     </div>
   );
