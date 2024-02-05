@@ -10,7 +10,7 @@ const itemSchema = new mongoose.Schema({
   category: { type: String, required: true },
   imageURL: { type: String, required: true },
   price: { type: Number, required: true },
-  deposit: { type: Number },
+  deposit: { type: Number, default: 0 },
   active: { type: Boolean, default: true },
   renter_id: {
     type: mongoose.Schema.Types.ObjectId,
@@ -155,6 +155,7 @@ export const validateItem = (itemObject) => {
     "category",
     "imageURL",
     "price",
+    "deposit",
     "renter_id",
     "category_id",
   ];
@@ -177,10 +178,8 @@ export const validateItem = (itemObject) => {
     errorList.push("imageURL is a required field");
   }
 
-  if (itemObject.price == null) {
-    errorList.push("price is a required field");
-  } else if (isNaN(itemObject.price) || itemObject.price <= 0) {
-    errorList.push("price must be a positive number");
+  if (itemObject.price == null && itemObject.deposit == null) {
+    errorList.push("Either price or deposit is required");
   }
 
   if (itemObject.renter_id == null) {
