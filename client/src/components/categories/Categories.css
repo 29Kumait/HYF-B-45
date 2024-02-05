@@ -32,3 +32,9 @@
 .list-categories li span {
   padding-left: 8px;
 }
+
+@media (max-width: 600px) {
+  .list-categories li {
+    flex: 0 0 calc(25% - 10px);
+  }
+}

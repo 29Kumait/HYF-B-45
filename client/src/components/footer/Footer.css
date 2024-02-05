@@ -47,3 +47,20 @@ footer {
 .phone:hover {
   color: pink;
 }
+
+@media (max-width: 600px) {
+  footer {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 0;
+    padding: 0 0;
+  }
+  .column {
+    margin: 1px 1px;
+    padding: 1px 1px;
+  }
+
+  .column svg {
+    margin: 0 0;
+  }
+}
