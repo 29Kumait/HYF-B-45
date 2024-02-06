@@ -130,9 +130,8 @@ const SignUp = () => {
           />
           {error && <div className="global-error">{error.errorMsg}</div>}
           {/* TODO: Add image Input*/}
-
-          <MotionButton text="Create" type="submit" disabled={isSubmitting} />
         </form>
+        <MotionButton text="Create" type="submit" disabled={isSubmitting} />
       </Modal>
     </div>
   );

@@ -9,8 +9,10 @@ const Modal = ({ isVisible, onClose, children }) => {
 
   return (
     <div className="modal-backdrop">
-      <div className="modal">{children}</div>
-      <MotionButton text={"🅧"} onClick={onClose} />
+      <div className="modal">
+        {children}
+        <MotionButton text={"🅧"} onClick={onClose} />
+      </div>
     </div>
   );
 };
