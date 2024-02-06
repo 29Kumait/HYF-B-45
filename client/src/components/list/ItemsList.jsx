@@ -6,19 +6,27 @@ import useFetch from "../../hooks/useFetch";
 import PropTypes from "prop-types";
 
 const ItemsList = ({ selectedCategory }) => {
+  const itemsPerPage = 9; //items per page
   const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategoryState, setSelectedCategoryState] = useState(null);
+  const [hasMoreData, setHasMoreData] = useState(true); //tracking data availability
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/item?page=${currentPage}`,
+    `/item?page=${currentPage}${
+      selectedCategoryState ? `&category=${selectedCategoryState}` : ""
+    }`,
     (response) => {
-      setItems(response.result);
+      const newItems = response.result;
+      setItems(newItems);
+      // Check if there are more items
+      setHasMoreData(newItems.length === itemsPerPage);
     }
   );
 
   useEffect(() => {
     performFetch();
     return cancelFetch;
-  }, [currentPage]);
+  }, [currentPage, selectedCategoryState]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -27,6 +35,12 @@ const ItemsList = ({ selectedCategory }) => {
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
+
+  useEffect(() => {
+    setSelectedCategoryState(selectedCategory);
+    // Reset page when category changes
+    setCurrentPage(1);
+  }, [selectedCategory]);
 
   if (isLoading) {
     return <div className="loading">Loading...</div>;
@@ -38,30 +52,26 @@ const ItemsList = ({ selectedCategory }) => {
 
   return (
     <div>
-      {selectedCategory ? (
-        <ul className="product-list">
-          {items
-            .filter((item) => item.category === selectedCategory)
-            .map((item) => (
-              <ItemElement key={item._id} item={item} />
-            ))}
-        </ul>
-      ) : (
-        <div>
-          <ul className="product-list">
-            {items.slice((currentPage - 1) * 9, currentPage * 9).map((item) => (
-              <ItemElement key={item._id} item={item} />
-            ))}
-          </ul>
-          <div className="pagination">
-            <button onClick={handlePrevPage} disabled={currentPage === 1}>
-              Previous
-            </button>
-            <span> Page {currentPage} </span>
-            <button onClick={handleNextPage}>Next</button>
-          </div>
-        </div>
-      )}
+      <ul className="product-list">
+        {items
+          .filter(
+            (item) =>
+              !selectedCategoryState || item.category === selectedCategoryState
+          )
+          .map((item) => (
+            <ItemElement key={item._id} item={item} />
+          ))}
+      </ul>
+
+      <div className="pagination">
+        <button onClick={handlePrevPage} disabled={currentPage === 1}>
+          Previous
+        </button>
+        <span> Page {currentPage} </span>
+        <button onClick={handleNextPage} disabled={!hasMoreData}>
+          Next
+        </button>
+      </div>
     </div>
   );
 };
