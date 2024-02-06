@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./PostItemForm.css";
+import UploadImages from "./UploadImages.jsx";
 import useFetch from "../../hooks/useFetch.js";
 
 const PostItemForm = () => {
@@ -92,7 +93,15 @@ const PostItemForm = () => {
   return (
     <div className="post-item-form-container">
       <h2>Add Item</h2>
-      <form onSubmit={handleSubmit} className="contaner">
+      <div className="form-group">
+        <label>
+          <span className="upload-text">
+            Upload your item image (up to 2MB)*
+          </span>
+          <UploadImages />
+        </label>
+      </div>
+      <form onSubmit={handleSubmit} className="container">
         <div className="form-group">
           <label>
             Title
@@ -170,6 +179,7 @@ const PostItemForm = () => {
             </label>
           </div>
         )}
+
         <div className="form-group">
           <button className="btn" type="submit" disabled={isLoading}>
             {isLoading ? "Adding..." : "Add Item"}
@@ -181,4 +191,5 @@ const PostItemForm = () => {
     </div>
   );
 };
+
 export default PostItemForm;
