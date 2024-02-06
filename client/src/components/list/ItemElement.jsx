@@ -23,7 +23,9 @@ const ItemElement = ({ item }) => {
         alt={item.title}
         className="product-item__image"
       />
-      <h2 className="product-item__name">{item.title}</h2>
+      <h2 className="product-item__name">
+        {item.title} <span> - {item.category} </span>
+      </h2>
       <div className="item-description">
         {" "}
         {shortenDescription(item.description, 7)}...
@@ -40,6 +42,7 @@ ItemElement.propTypes = {
     title: PropTypes.string.isRequired,
     imageURL: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
   }).isRequired,
 };

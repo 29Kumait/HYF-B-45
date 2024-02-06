@@ -32,6 +32,11 @@
   font-weight: 600;
   color: #333333;
 }
+.product-item__name span {
+  font-size: 12px;
+  font-weight: 400;
+  color: #7b7676;
+}
 
 .product-item__image {
   width: 100%;
