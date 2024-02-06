@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./PostItemForm.css";
-
 import CategorySelect from "./CategorySelect";
+import UploadImages from "./UploadImages";
 import PropTypes from "prop-types";
 
 const PostItemForm = ({ onSubmit, isLoading, error }) => {
@@ -61,6 +61,14 @@ const PostItemForm = ({ onSubmit, isLoading, error }) => {
   return (
     <div className="post-item-form-container">
       <h2>Add Item</h2>
+      <div className="form-group">
+        <label>
+          <span className="upload-text">
+            Upload your item image (up to 2MB)*
+          </span>
+          <UploadImages />
+        </label>
+      </div>
       <form onSubmit={handleSubmit} className="container">
         <div className="form-group">
           <label>
