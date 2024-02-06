@@ -1,0 +1,37 @@
+input.file-input {
+  border: solid 2px rgb(255, 127, 178);
+}
+
+form {
+  padding: 0 10px;
+  margin: 0 10px;
+}
+
+.upload-text {
+  margin-left: 20px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.upload-button {
+  color: white;
+  font-size: 14px;
+  background-color: var(--pink);
+  padding: 0.5em 0.8em;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.upload-button:hover {
+  background-color: var(--pink-hover);
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
