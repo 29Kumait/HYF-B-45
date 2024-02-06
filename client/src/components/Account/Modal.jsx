@@ -9,15 +9,14 @@ const Modal = ({ isVisible, onClose, children }) => {
 
   return (
     <div className="modal-backdrop">
-      <div className="modal">
-        {children}
-        <MotionButton text={"🅧"} onClick={onClose} />
-      </div>
+      <div className="modal">{children}</div>
+      <MotionButton text={"🅧"} onClick={onClose} />
     </div>
   );
 };
 
 Modal.propTypes = {
+  text: PropTypes.string.isRequired,
   isVisible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,

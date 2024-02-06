@@ -4,6 +4,8 @@ import { useForm } from "../../hooks/useForm";
 import useFetch from "../../hooks/useFetch";
 import Input from "../Input.jsx";
 import Modal from "./Modal.jsx";
+import "./Style.css";
+import MotionButton from "./MotionButton.jsx";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -52,9 +54,8 @@ const SignUp = () => {
 
   return (
     <div>
-      <button className={"button"} onClick={() => setModalVisible(true)}>
-        Register
-      </button>
+      <MotionButton onClick={() => setModalVisible(true)} />
+
       <Modal isVisible={isModalVisible} onClose={() => setModalVisible(false)}>
         <form onSubmit={handleSubmit}>
           <Input
@@ -130,9 +131,7 @@ const SignUp = () => {
           {error && <div className="global-error">{error.errorMsg}</div>}
           {/* TODO: Add image Input*/}
 
-          <button type="submit" disabled={isSubmitting || isLoading}>
-            Create
-          </button>
+          <MotionButton text="Create" type="submit" disabled={isSubmitting} />
         </form>
       </Modal>
     </div>

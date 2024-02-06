@@ -1,0 +1,86 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #00ff40ee;
+  transition: transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.modal {
+  padding: 29px;
+  border-radius: 19px;
+  background: #419872c4;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid #02231c;
+  transition: transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
+  padding-top: 29px;
+  margin: 0;
+  font-family: SF Pro Text, SF Pro Icons, Helvetica Neue, Helvetica, Arial,
+    sans-serif;
+  line-height: 2em;
+  color: #02231c;
+  background: #fbfbfd
+    url("https://www.apple.com/v/airpods-max/e/images/overview/audio_quality_spatial_figure_mask__bjqymmhjp876_medium_2x.png")
+    no-repeat;
+  background-size: cover;
+  /* background-position: ; */
+  text-align: center;
+  display: grid;
+}
+
+.button-glow {
+  border: none;
+  color: #02231c;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 15px#52bf90;
+  background-color: #161617;
+  padding: 29px 29px;
+  font-size: 29px;
+  border-radius: 8px;
+  transition: transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.button-glow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 255, 0, 0);
+}
+
+.modal input {
+  background: rgba(255, 255, 255, 0.1);
+  /* More transparent */
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  /* Slightly thicker, more noticeable border */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1),
+    /* Subtle inner shadow for depth */ 0 5px 15px rgba(0, 0, 0, 0.2);
+  /* Outer shadow for more pronounced depth */
+  padding: 12px 20px;
+  /* Internal spacing */
+  border-radius: 10px;
+  /* Rounded corners */
+  margin-bottom: 15px;
+  /* Space between fields */
+  color: #02231c;
+  font-size: 19px;
+  width: 100%;
+  height: 59px;
+  box-sizing: border-box;
+  transition: all 0.3s ease-in-out;
+  /*
+}
+
+.modal input:focus {
+  outline: none;
+  border-color: #fe6b40;
+  background: (82, 191, 144, 0.8);
+  /* Slightly less transparent on focus, maintaining the glass effect */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1),
+    0 0 8px rgba(255, 255, 255, 0.8),
+    /* Brighter glow effect on focus */ 0 8px 16px rgba(0, 0, 0, 0.3);
+  /* Increased depth with outer shadow */
+}
