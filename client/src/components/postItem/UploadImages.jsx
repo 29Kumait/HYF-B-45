@@ -4,6 +4,8 @@ import "./UploadImages.css";
 const UploadImages = () => {
   const [imageSrc, setImageSrc] = useState();
   const [uploadImage, setUploadImage] = useState();
+  const [isUploading, setIsUploading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleOnChange = (changeEvent) => {
     const file = changeEvent.target.files[0];
@@ -38,16 +40,28 @@ const UploadImages = () => {
     formData.append("file", fileInput.files[0]);
     formData.append("upload_preset", "user-uploads");
 
-    const response = await fetch(
-      "https://api.cloudinary.com/v1_1/dibnqoge8/image/upload",
-      {
-        method: "POST",
-        body: formData,
+    setIsUploading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/dibnqoge8/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to upload image. Please try again later.");
       }
-    );
-    const data = await response.json();
-    setImageSrc(data.secure_url);
-    setUploadImage(data);
+      const data = await response.json();
+      setImageSrc(data.secure_url);
+      setUploadImage(data);
+    } catch (error) {
+      setError(`Error uploading image: ${error.message}`);
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   return (
@@ -58,13 +72,15 @@ const UploadImages = () => {
       <div className="image-container">
         <img className="upload-image" src={imageSrc} />
       </div>
+      {isUploading && <p className="notification">Uploading image...</p>}
+      {error && <p className="notification">{error}</p>}
       {imageSrc && !uploadImage && (
         <p className="button-container">
           <button className="upload-button">Upload Image</button>
         </p>
       )}
-      {imageSrc && uploadImage && (
-        <p className="success-notification">Image uploaded successfully</p>
+      {imageSrc && uploadImage && !isUploading && (
+        <p className="notification">Image uploaded successfully</p>
       )}
     </form>
   );
