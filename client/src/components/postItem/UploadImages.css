@@ -1,5 +1,7 @@
 input.file-input {
   border: solid 2px rgb(255, 127, 178);
+  margin-top: -13px;
+  margin-bottom: -20px;
 }
 
 form {
@@ -34,6 +36,11 @@ form {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.notification {
+  text-align: center;
+  font-size: 12px;
 }
 
 .upload-image {
