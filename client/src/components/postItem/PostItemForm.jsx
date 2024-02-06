@@ -47,6 +47,14 @@ const PostItemForm = ({ onSubmit, isLoading, error }) => {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (formData.price < 0) {
+      alert("Price cannot be negative");
+      return; // Prevent form submission
+    }
+    if (formData.deposit < 0) {
+      alert("Deposit cannot be negative");
+      return; // Prevent form submission
+    }
     onSubmit(formData);
   };
 
