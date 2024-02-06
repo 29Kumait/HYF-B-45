@@ -13,7 +13,6 @@ function Landing() {
           <h1 className="landing-subtitle">
             Connect. Share. Thrive: Here is your Hub for Borrowing and Lending
           </h1>
-          <button className="landing-button">Join the community</button>
         </div>
         <img src={LandingImg} alt="Landing" className="landing-image" />
       </div>
