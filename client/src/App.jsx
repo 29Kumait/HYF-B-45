@@ -5,7 +5,7 @@ import "./App.css";
 import SignUp from "./pages/SignUp/SignUp";
 import SignIn from "./pages/SignIn/SignIn";
 import PostItem from "./pages/PostItem/PostItem";
-import Item from "./pages/Item/Item";
+import Item from "./components/item/Item.jsx";
 
 const App = () => {
   return (
