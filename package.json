@@ -56,7 +56,8 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "bcryptjs": "^2.4.3",
-    "cloudinary": "^2.0.0",
-    "concurrently": "^6.4.0"
-  }
+    "concurrently": "^6.4.0",
+    "jsonwebtoken": "^9.0.2",
+    "cloudinary": "^2.0.0"
+   }
 }
