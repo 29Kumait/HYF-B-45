@@ -1,0 +1,115 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #00ff40e7;
+  transition: transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.modal {
+  padding: 20px;
+  border-radius: 19px;
+  background: #419872c4;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid #02231c;
+  transition: transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
+  margin: 0;
+  font-family: SF Pro Text, SF Pro Icons, Helvetica Neue, Helvetica, Arial,
+    sans-serif;
+  line-height: 2em;
+  color: #02231c;
+  background: #fbfbfd
+    url("https://www.apple.com/v/airpods-max/e/images/overview/audio_quality_spatial_figure_mask__bjqymmhjp876_medium_2x.png")
+    no-repeat;
+  background-size: cover;
+  text-align: center;
+  display: flex;
+}
+
+.button-glow {
+  border: none;
+  color: #02231c;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 15px#52bf90;
+  background-color: #161617;
+  padding: 29px 29px;
+  font-size: 29px;
+  border-radius: 8px;
+  transition: transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
+  cursor: pointer;
+  outline: none;
+}
+
+.button-glow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 255, 0, 0);
+}
+
+.modal input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.2);
+  padding: 12px 20px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  color: #00ff40;
+  font-size: 17px;
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+  transition: all 0.3s ease-in-out;
+}
+
+.modal input:focus {
+  outline: none;
+  border-color: #00ff40;
+  background: (82, 191, 144, 0.8);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1),
+    0 0 8px rgba(255, 255, 255, 0.8), 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .modal-backdrop {
+    padding-top: 60px;
+    /* Adjust based on your header's height */
+  }
+
+  .modal {
+    margin-top: 20px;
+    width: 90%;
+    padding: 20px;
+  }
+
+  .modal input {
+    font-size: 16px;
+    /* Smaller font size for inputs on smaller screens */
+    padding: 10px 15px;
+    /* Adjust padding for inputs */
+    height: auto;
+    /* Adjust input height for better fit */
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-backdrop {
+    padding-top: 80px;
+    /* Further adjustment for very small screens */
+  }
+
+  .modal {
+    width: 95%;
+    /* Even wider relative width for smaller screens */
+    padding: 15px;
+  }
+
+  .modal input {
+    font-size: 14px;
+  }
+}
