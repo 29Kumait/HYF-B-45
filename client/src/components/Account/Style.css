@@ -42,6 +42,8 @@
   font-size: 29px;
   border-radius: 8px;
   transition: transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
+  cursor: pointer;
+  outline: none;
 }
 
 .button-glow:hover {
