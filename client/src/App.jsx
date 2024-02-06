@@ -5,6 +5,7 @@ import "./App.css";
 import SignUp from "./pages/SignUp/SignUp";
 import SignIn from "./pages/SignIn/SignIn";
 import PostItem from "./pages/PostItem/PostItem";
+import Item from "./pages/Item/Item";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/post-item" element={<PostItem />} />
+        <Route path="/item/:itemId" element={<Item />} />
       </Routes>
     </>
   );
