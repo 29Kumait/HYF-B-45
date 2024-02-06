@@ -4,10 +4,6 @@ import "./PostItemForm.css";
 import CategorySelect from "./CategorySelect";
 import PropTypes from "prop-types";
 
-
-import useFetch from "../../hooks/useFetch.js";
-
-
 const PostItemForm = ({ onSubmit, isLoading, error }) => {
   // State for form fields
   const [formData, setFormData] = useState({
@@ -57,17 +53,6 @@ const PostItemForm = ({ onSubmit, isLoading, error }) => {
   return (
     <div className="post-item-form-container">
       <h2>Add Item</h2>
-
-
-      <div className="form-group">
-        <label>
-          <span className="upload-text">
-            Upload your item image (up to 2MB)*
-          </span>
-          <UploadImages />
-        </label>
-      </div>
-
       <form onSubmit={handleSubmit} className="container">
         <div className="form-group">
           <label>
@@ -153,12 +138,10 @@ const PostItemForm = ({ onSubmit, isLoading, error }) => {
   );
 };
 
-
 PostItemForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   error: PropTypes.string,
 };
-
 
 export default PostItemForm;
