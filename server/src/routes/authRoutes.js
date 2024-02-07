@@ -4,7 +4,6 @@ import {
   findUserByCredentials,
   generateAuthToken,
 } from "../service/loginSignUp.js";
-import { logError } from "../util/logging.js";
 
 const router = express.Router();
 
