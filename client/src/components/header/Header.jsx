@@ -11,7 +11,7 @@ function Header() {
 
   const handleLogout = () => {
     // Handle logout logic
-    setIsAuthenticated(!isAuthenticated);
+    setIsAuthenticated((prevIsAuthenticated) => !prevIsAuthenticated);
   };
 
   return (
