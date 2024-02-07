@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import MoProfilePicture from "../../assets/mo.png";
+import FakeUserProfilePicture from "../../assets/fake-user.jpg";
 
 import "./ItemsList.css"; // Import the CSS file
 
@@ -15,8 +15,8 @@ const ItemElement = ({ item }) => {
   return (
     <li className="product-item">
       <div className="product-item__owner">
-        <img src={MoProfilePicture} alt="Owner" />
-        <span>Mohammed</span>
+        <img src={FakeUserProfilePicture} alt="Owner" />
+        <span>Emma</span>
       </div>
       <img
         src={item.imageURL}
