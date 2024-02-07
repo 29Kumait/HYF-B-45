@@ -72,8 +72,8 @@ function Item() {
         />
       </div>
       <div>
-        {/* <button onClick={handleRent}>Rent</button>
-        <button onClick={handleChat}>Chat</button> */}
+        <button className="button">Rent</button>
+        <button className="button">Chat</button>
       </div>
     </>
   );
