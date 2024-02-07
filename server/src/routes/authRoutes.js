@@ -19,7 +19,6 @@ const handleSignUp = async (req, res) => {
     const token = generateAuthToken(user._id);
     res.status(201).send({ token });
   } catch (err) {
-    logError(err);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -35,7 +34,6 @@ const handleLogin = async (req, res) => {
     const token = generateAuthToken(user._id);
     res.send({ token });
   } catch (err) {
-    logError(err);
     res.status(500).send("Internal Server Error");
   }
 };
