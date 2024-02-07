@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import "./PostItemForm.css";
+
 import CategorySelect from "./CategorySelect";
 import UploadImages from "./UploadImages";
 import PropTypes from "prop-types";
+import SuccessPopup from "./SuccessPopup";
 
 const PostItemForm = ({ onSubmit, isLoading, error }) => {
   // State for form fields
@@ -24,6 +26,8 @@ const PostItemForm = ({ onSubmit, isLoading, error }) => {
   };
 
   const [showDepositField, setShowDepositField] = useState(false);
+
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   // get the category id and name
   const handleCategorySelect = (categoryId, categoryName) => {
@@ -53,7 +57,7 @@ const PostItemForm = ({ onSubmit, isLoading, error }) => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.price < 0) {
       alert("Price cannot be negative");
@@ -63,7 +67,15 @@ const PostItemForm = ({ onSubmit, isLoading, error }) => {
       alert("Deposit cannot be negative");
       return; // Prevent form submission
     }
-    onSubmit(formData);
+    try {
+      await onSubmit(formData);
+      setShowSuccessMessage(true);
+    } catch (error) {
+      // Handle errors by updating the success message state with an error message
+      setShowSuccessMessage(
+        "There was an error submitting the form. Please try again."
+      );
+    }
   };
 
   return (
@@ -157,6 +169,9 @@ const PostItemForm = ({ onSubmit, isLoading, error }) => {
         </div>
 
         {error && <div>Error: {error}</div>}
+        {showSuccessMessage && (
+          <SuccessPopup onClose={() => setShowSuccessMessage(false)} />
+        )}
       </form>
     </div>
   );
