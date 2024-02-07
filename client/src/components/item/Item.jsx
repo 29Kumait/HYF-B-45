@@ -1,87 +1,79 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch.js";
-import { useAuth } from "./AuthProvider.jsx";
+// import { useAuth } from "./AuthProvider.jsx";
 import PropTypes from "prop-types";
 import "./Item.css";
+// import { logInfo } from "../../../../server/src/util/logging.js";
 
-function Item({ itemId }) {
-  const navigate = useNavigate();
+function Item() {
+  const { itemId } = useParams(); // Extract itemId from URL params using useParams
+  // const navigate = useNavigate();
   const [item, setItem] = useState(null);
-  const itemUrl = `/item/${itemId}`;
-  const { isSignedIn } = useAuth();
-
+  // const { isSignedIn } = useAuth();
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    itemUrl,
-    setItemData
-  );
-
-  function setItemData(data) {
-    if (data && data.success) {
-      setItem(data);
-    } else {
-      setItem(null);
+    `/item/${itemId}`,
+    (response) => {
+      const newItem = response.result; // Extract the item from the response
+      setItem(newItem); // Update the state with the received item
     }
-  }
+  );
 
   useEffect(() => {
     performFetch();
-    const cleanup = () => {
-      cancelFetch();
-    };
-    return cleanup;
-  }, [performFetch, cancelFetch]);
+    return cancelFetch;
+  }, [itemId]);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.toString()}</div>;
-  if (!item) return <div> not found </div>;
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-  const {
-    title,
-    category,
-    description,
-    price,
-    image,
-    deposit,
-    location,
-    available,
-    renterName,
-    renterImage,
-  } = item;
+  if (error) {
+    return <div>Error: {error.toString()}</div>;
+  }
 
-  const handleRent = () => {
-    if (isSignedIn) {
-      navigate(`/rent/${itemId}`);
-    } else {
-      alert("Auth required. Please sign in to rent this item.");
-    }
-  };
-  const handleChat = () => {
-    if (isSignedIn) {
-      navigate(`/chat/${itemId}`);
-    } else {
-      alert(" Members only. Please sign in to chat with the renter");
-    }
-  };
+  if (!item) {
+    return <div>No data found.</div>;
+  }
+
+  // const handleRent = () => {
+  //   if (isSignedIn) {
+  //     navigate(`/rent/${itemId}`);
+  //   } else {
+  //     alert("Auth required. Please sign in to rent this item.");
+  //   }
+  // };
+  // const handleChat = () => {
+  //   if (isSignedIn) {
+  //     navigate(`/chat/${itemId}`);
+  //   } else {
+  //     alert(" Members only. Please sign in to chat with the renter");
+  //   }
+  // };
 
   return (
     <>
-      <div>
-        <h2>{title}</h2>
-        <img src={image} alt={title} />
-        <p>Category: {category}</p>
-        <p>Description: {description}</p>
-        <p>Price: ${price}</p>
-        <p>Deposit: ${deposit}</p>
-        <p>Location: {location}</p>
-        <p>Available: {available ? "Yes" : "No"}</p>
-        <p>Renter: {renterName}</p>
-        <img src={renterImage} alt={`Renter ${renterName}`} />
+      <div className="item">
+        <h2 className="item_title">{item.title}</h2>
+        <img className="item_image" src={item.imageURL} alt={item.title} />
+        <p className="item_category">Category: {item.category}</p>
+        <p className="item_description">Description: {item.description}</p>
+        <p>Price: ${item.price}</p>
+        <p className="item_deposit">Deposit: ${item.deposit}</p>
+        <p className="item_location">Location: {item.user.city}</p>
+        {/* <p>Available: {available ? "Yes" : "No"}</p> */}
+        <p className="tem_renter-name">
+          Renter: {item.user.firstName} {item.user.lastName}
+        </p>
+        <img
+          className="item_renter-image"
+          src={item.user.userImageURL}
+          alt={`Renter ${item.user.username}`}
+        />
       </div>
       <div>
-        <button onClick={handleRent}>Rent</button>
-        <button onClick={handleChat}>Chat</button>
+        {/* <button onClick={handleRent}>Rent</button>
+        <button onClick={handleChat}>Chat</button> */}
       </div>
     </>
   );
