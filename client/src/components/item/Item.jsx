@@ -1,10 +1,9 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import useFetch from "../hooks/useFetch";
+import useFetch from "../../hooks/useFetch.js";
 import { useAuth } from "./AuthProvider.jsx";
 import PropTypes from "prop-types";
-import { LogError } from "../utils/LogError";
 import "./Item.css";
 
 function Item({ itemId }) {
@@ -22,7 +21,7 @@ function Item({ itemId }) {
     if (data && data.success) {
       setItem(data);
     } else {
-      LogError.error("Failed to load item data", data);
+      setItem(null);
     }
   }
 
