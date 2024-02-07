@@ -4,7 +4,6 @@ import {
   findUserByCredentials,
   generateAuthToken,
 } from "../service/loginSignUp.js";
-import { logError } from "./util/logging.js";
 
 const router = express.Router();
 
@@ -19,7 +18,6 @@ const handleSignUp = async (req, res) => {
     const token = generateAuthToken(user._id);
     res.status(201).send({ token });
   } catch (err) {
-    logError(err);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -35,7 +33,6 @@ const handleLogin = async (req, res) => {
     const token = generateAuthToken(user._id);
     res.send({ token });
   } catch (err) {
-    logError(err);
     res.status(500).send("Internal Server Error");
   }
 };

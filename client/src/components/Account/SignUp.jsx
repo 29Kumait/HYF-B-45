@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useForm } from "../../hooks/useForm";
-import useFetch from "../../hooks/useFetch";
+import { useForm } from "../../hooks/useForm.js";
+import useFetch from "../../hooks/useFetch.js";
 import Input from "../Input.jsx";
 import Modal from "./Modal.jsx";
 import "./Style.css";
