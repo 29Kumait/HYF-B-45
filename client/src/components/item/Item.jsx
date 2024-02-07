@@ -88,7 +88,7 @@ function Item({ itemId }) {
 }
 
 Item.propTypes = {
-  itemId: [PropTypes.string, PropTypes.number].isRequired,
+  itemId: PropTypes.string,
 };
 
 export default Item;
