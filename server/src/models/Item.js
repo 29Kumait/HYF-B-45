@@ -111,14 +111,14 @@ const itemsData = [
     renter_id: new ObjectId("65b2efd6535266ef21d4942f"),
   },
   {
-    title: "table",
+    title: "test2",
     description: "Description for table",
     category: "Household",
     imageURL: "https://boughbikes.com/wp-content/uploads/2022/02/website1.jpg",
     price: 75,
     deposit: 15,
     active: true,
-    renter_id: new ObjectId("65b2efd6535266ef21d4942f"),
+    renter_id: new ObjectId("65c3613cf5554cd36b01fda8"),
   },
   {
     title: "tool-set",

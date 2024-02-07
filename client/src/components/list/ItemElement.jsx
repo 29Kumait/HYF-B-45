@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import FakeUserProfilePicture from "../../assets/fake-user.jpg";
-
+import { Link } from "react-router-dom";
 import "./ItemsList.css"; // Import the CSS file
 
 const ItemElement = ({ item }) => {
@@ -32,13 +32,17 @@ const ItemElement = ({ item }) => {
       </div>
       <div className="product-item__view">
         <span className="product-item__price">${item.price}/ per day</span>
-        <button className="product-item__view-button">View Details</button>
+        {/* Link to the DetailedPage with the itemId */}
+        <Link to={`/item/${item._id}`} className="product-item__view-button">
+          View Details
+        </Link>{" "}
       </div>
     </li>
   );
 };
 ItemElement.propTypes = {
   item: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     imageURL: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,

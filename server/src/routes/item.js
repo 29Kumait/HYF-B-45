@@ -1,5 +1,6 @@
 import express from "express";
 import { getItems, createItem } from "../controllers/item.js";
+import { getItemAndUserDataById } from "../controllers/getItemAndUserDataById.js";
 
 const itemRouter = express.Router();
 
@@ -8,5 +9,8 @@ itemRouter.get("/", getItems);
 
 // Handle POST requests to create a new item
 itemRouter.post("/", createItem);
+
+// Handle GET requests to retrieve a single item by its ID
+itemRouter.get("/:itemId", getItemAndUserDataById);
 
 export default itemRouter;
