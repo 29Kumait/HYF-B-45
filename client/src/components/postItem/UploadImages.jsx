@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./UploadImages.css";
+import PropTypes from "prop-types";
 
-const UploadImages = () => {
+const UploadImages = ({ handleImageUpload }) => {
   const [imageSrc, setImageSrc] = useState();
   const [uploadImage, setUploadImage] = useState();
   const [isUploading, setIsUploading] = useState(false);
@@ -57,6 +58,7 @@ const UploadImages = () => {
       const data = await response.json();
       setImageSrc(data.secure_url);
       setUploadImage(data);
+      handleImageUpload(data.secure_url);
     } catch (error) {
       setError(`Error uploading image: ${error.message}`);
     } finally {
@@ -84,6 +86,10 @@ const UploadImages = () => {
       )}
     </form>
   );
+};
+
+UploadImages.propTypes = {
+  handleImageUpload: PropTypes.func.isRequired,
 };
 
 export default UploadImages;

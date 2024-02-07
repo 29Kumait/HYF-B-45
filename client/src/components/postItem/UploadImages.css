@@ -44,5 +44,6 @@ form {
 }
 
 .upload-image {
-  max-width: 100%;
+  max-width: 60%;
+  max-height: 60%;
 }

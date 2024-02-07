@@ -20,8 +20,8 @@ const PostItem = () => {
   const handleSubmit = (formData) => {
     // Add additional fields to the form data
     const additionalFields = {
-      imageURL:
-        "https://boughbikes.com/wp-content/uploads/2022/02/website1.jpg", // This logic will be changed after hosting images service is ready
+      // imageURL:
+      //"https://boughbikes.com/wp-content/uploads/2022/02/website1.jpg", // This logic will be changed after hosting images service is ready
       renter_id: "65b2efd6535266ef21d4942f", // This logic will be changed after hosting log in feature is ready
     };
 

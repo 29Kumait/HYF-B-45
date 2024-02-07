@@ -13,17 +13,25 @@ const PostItemForm = ({ onSubmit, isLoading, error }) => {
     description: "",
     price: "",
     deposit: "",
+    imageURL: "",
   });
+
+  const handleImageUpload = (imageURL) => {
+    setFormData({
+      ...formData,
+      imageURL,
+    });
+  };
 
   const [showDepositField, setShowDepositField] = useState(false);
 
   // get the category id and name
   const handleCategorySelect = (categoryId, categoryName) => {
-    setFormData({
-      ...formData,
+    setFormData((prevData) => ({
+      ...prevData,
       category: categoryName,
       category_id: categoryId,
-    });
+    }));
   };
 
   // Handle form field changes
@@ -66,7 +74,7 @@ const PostItemForm = ({ onSubmit, isLoading, error }) => {
           <span className="upload-text">
             Upload your item image (up to 2MB)*
           </span>
-          <UploadImages />
+          <UploadImages handleImageUpload={handleImageUpload} />
         </label>
       </div>
       <form onSubmit={handleSubmit} className="container">
