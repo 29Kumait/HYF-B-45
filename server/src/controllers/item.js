@@ -58,3 +58,26 @@ export const createItem = async (req, res) => {
     });
   }
 };
+
+export const searchItems = async (req, res) => {
+  try {
+    const { title } = req.query;
+
+    if (!title) {
+      return res.status(400).json({
+        success: false,
+        msg: "Title parameter is required for search.",
+      });
+    }
+
+    const items = await Item.find({ title: new RegExp(title, "i") });
+
+    res.status(200).json({ success: true, result: items });
+  } catch (error) {
+    logError(error);
+    res.status(500).json({
+      success: false,
+      msg: "Unable to perform item search, try again later",
+    });
+  }
+};
