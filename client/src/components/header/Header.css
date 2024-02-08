@@ -51,8 +51,7 @@
 }
 
 /* Button styling */
-.login-button,
-.get-started-button {
+.login-button {
   border: 1px solid transparent;
   padding: 8px 20px;
   border-radius: 20px;
@@ -62,8 +61,7 @@
   transition: all 0.3s ease;
 }
 
-.login-button:hover,
-.get-started-button:hover {
+.login-button:hover {
   border-color: #000000;
   background-color: #000000;
   color: #ffffff;

@@ -35,10 +35,14 @@ function Header() {
             <ProfileDropdown onLogout={handleLogout} />
           </>
         ) : (
-          <span className="button-text">
-            <SignUp />
-            <Login />
-          </span>
+          <>
+            <div>
+              <SignUp />
+            </div>
+            <div>
+              <Login />
+            </div>
+          </>
         )}
       </div>
     </header>
