@@ -18,7 +18,6 @@ const Modal = ({ isVisible, onClose, children }) => {
 };
 
 Modal.propTypes = {
-  text: PropTypes.string.isRequired,
   isVisible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
