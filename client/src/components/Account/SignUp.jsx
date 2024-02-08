@@ -1,24 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm.js";
-import useFetch from "../../hooks/useFetch.js";
 import Input from "../Input.jsx";
 import Modal from "./Modal.jsx";
-import "./Style.css";
-import MotionButton from "./MotionButton.jsx";
+import "./style.css";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [isModalVisible, setModalVisible] = useState(false);
-  const { isLoading, error, performFetch } = useFetch(
-    "/auth/sign-up",
-    (data) => {
-      if (data.success) {
-        setModalVisible(false);
-        navigate("/login");
-      }
-    }
-  );
+  const [error, setError] = useState(null);
 
   const initialValues = {
     firstName: "",
@@ -30,15 +21,29 @@ const SignUp = () => {
     city: "",
   };
 
-  const handleRegister = (values) => {
-    // No direct try/catch needed here. Error handling is managed by useFetch's internal state.
-    performFetch({
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    });
+  const handleRegister = async (values) => {
+    try {
+      const response = await fetch(
+        `${process.env.BASE_SERVER_URL}/api/auth/signup`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        }
+      );
+
+      const data = await response.json();
+      if (response.ok) {
+        setModalVisible(false);
+        navigate("/login");
+      } else {
+        setError(data.message || "Registration failed");
+      }
+    } catch (error) {
+      setError(`An error occurred while registering: ${error.message}`);
+    }
   };
 
   const { values, handleChange, handleSubmit, errors, isSubmitting } = useForm(
@@ -47,15 +52,18 @@ const SignUp = () => {
   );
 
   useEffect(() => {
-    document.title = isModalVisible ? "Sign Up" : "Home";
+    if (isModalVisible) {
+      document.title = "Sign Up";
+    } else {
+      document.title = "Home";
+    }
   }, [isModalVisible]);
-
-  if (isLoading) return <p>Loading...</p>;
 
   return (
     <div>
-      <MotionButton onClick={() => setModalVisible(true)} />
-
+      <button className={"button"} onClick={() => setModalVisible(true)}>
+        Sign Up
+      </button>
       <Modal isVisible={isModalVisible} onClose={() => setModalVisible(false)}>
         <form onSubmit={handleSubmit}>
           <Input
@@ -128,10 +136,15 @@ const SignUp = () => {
             placeholder="City"
             required
           />
-          {error && <div className="global-error">{error.errorMsg}</div>}
-          {/* TODO: Add image Input*/}
+          {error && <div className="global-error">{error}</div>}
+
+          <button
+            className={"button"}
+            type="submit"
+            disabled={isSubmitting}
+            onClick={handleSubmit}
+          />
         </form>
-        <MotionButton text="Create" type="submit" disabled={isSubmitting} />
       </Modal>
     </div>
   );

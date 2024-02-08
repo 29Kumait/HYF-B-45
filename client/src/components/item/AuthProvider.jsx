@@ -27,7 +27,7 @@ export function AuthProvider({ children }) {
       if (!response.ok) {
         // Convert non-2xx HTTP responses into user-friendly messages
         setAuthError(
-          "Login failed. Please check your credentials and try again."
+          "Login.jsx failed. Please check your credentials and try again."
         );
         return;
       }
@@ -42,7 +42,7 @@ export function AuthProvider({ children }) {
         setAuthError(null);
       } else {
         setAuthError(
-          "Login failed. Please check your credentials and try again."
+          "Login.jsx failed. Please check your credentials and try again."
         );
       }
     } catch (error) {

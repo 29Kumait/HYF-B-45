@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
+import SignUp from "../Account/SignUp";
+import Login from "../Account/Login";
 import SearchIcon from "../../assets/search-icon.svg";
 import Logo from "../../assets/logo-color.svg";
+import AddItemButton from "./AddItemButton";
+import ProfileDropdown from "./ProfileDropdown";
 import "./Header.css";
-import { Link } from "react-router-dom";
 
 function Header() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const handleLogout = () => {
+    // Handle logout logic
+    setIsAuthenticated((prevIsAuthenticated) => !prevIsAuthenticated);
+  };
+
   return (
     <header className="header">
-      <div className="logo">
+      <div className="logo" onClick={handleLogout}>
         <img src={Logo} alt="Logo" className="logo-image" />
       </div>
       <div className="header-content">
@@ -19,12 +29,17 @@ function Header() {
             className="search-input"
           />
         </div>
-        <Link to="/sign-in">
-          <button className="login-button">Sign In</button>
-        </Link>
-        <Link to="/sign-up">
-          <button className="get-started-button">Sign Up</button>
-        </Link>
+        {isAuthenticated ? (
+          <>
+            <AddItemButton />
+            <ProfileDropdown onLogout={handleLogout} />
+          </>
+        ) : (
+          <span className="button-text">
+            <SignUp />
+            <Login />
+          </span>
+        )}
       </div>
     </header>
   );
