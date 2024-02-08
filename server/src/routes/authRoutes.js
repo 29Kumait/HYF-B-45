@@ -22,7 +22,7 @@ const handleSignUp = async (req, res) => {
   }
 };
 
-// Login Handler
+// Login.jsx Handler
 const handleLogin = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -38,7 +38,6 @@ const handleLogin = async (req, res) => {
 };
 
 // Routes
-router.post("/sign-up", handleSignUp);
+router.post("/signup", handleSignUp);
 router.post("/login", handleLogin);
-
 export default router;

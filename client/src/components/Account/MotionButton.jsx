@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "./Style.css";
+import "./style.css";
 
 const MotionButton = ({ text, onClick }) => {
   return (
