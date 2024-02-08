@@ -1,58 +1,98 @@
 .item {
   max-width: 800px;
-  margin: 40px auto;
+  margin: 20px auto;
   padding: 20px;
-  background: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: var(--emerald-bg);
+  box-shadow: 0 4px 8px rgba(0, 128, 128, 0.3);
   border-radius: 10px;
   font-family: "Roboto", sans-serif;
-  color: #333;
+  color: var(--teal);
+}
+
+.item_image {
+  width: 70%;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+  border-radius: 10px;
+  margin-bottom: 50px;
+}
+
+.item_renter-image {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.item_renter-info {
+  padding-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  border-bottom: 2px solid var(--teal);
 }
 
 .item_title {
-  color: #2a2a2a;
-  font-size: 24px;
+  color: var(--teal-bg);
+  background-color: var(--teal);
+  font-size: 3vw;
+  padding: 10px;
+  padding-left: 20px;
   margin-bottom: 20px;
+  border-radius: 1vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.item_description,
-.item_category,
-.item_price,
-.item_deposit,
-.item_location,
-.item_availability,
-.item_renter-name {
-  margin-bottom: 12px;
-  line-height: 1.6;
+.item_detail {
+  color: var(--teal);
 }
 
-.item_image,
-.item_renter-image {
-  width: 100%;
-  height: auto;
+.item_label {
+  font-weight: bold;
+  background-color: var(--pink-bg);
+  padding: 5px;
+  border-bottom: 1px solid var(--pink);
   border-radius: 5px;
-  margin-bottom: 15px;
 }
 
-/* Styling for Buttons */
-.button {
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: 500;
-  color: #fff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Align buttons to the right */
+  border-top: 2px solid var(--pink);
+  padding-top: 20px;
+  margin-top: 20px; /* Move margin-top here if you want to consolidate it */
+}
+
+/* Button styling */
+.go-back,
+.rent,
+.chat {
+  color: var(--teal-bg);
+  border: 1px solid transparent;
+  padding: 8px 30px;
+  border-radius: 20px;
+  margin-left: 10px;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  transition: all 0.2s ease;
+  background-color: var(--pink);
 }
 
-.button:hover {
-  background-color: #0056b3;
+.go-back:hover,
+.rent:hover,
+.chat:hover {
+  background-color: var(--teal);
+  color: var(--teal-bg);
 }
 
-.button:active {
-  transform: translateY(2px);
+.go-back:hover,
+.rent:hover,
+.chat:hover {
+  transform: translateY(3px);
 }
 
 /* Interactive Effects & Feedback */
