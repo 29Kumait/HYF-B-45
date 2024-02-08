@@ -25,8 +25,7 @@ const SignUp = () => {
   const handleRegister = async (values) => {
     try {
       const response = await fetch(
-        //`${process.env.BASE_SERVER_URL}/api/auth/signup`,
-        "http://localhost:5000/api/auth/signup",
+        `${process.env.BASE_SERVER_URL}/api/auth/signup`,
         {
           method: "POST",
           headers: {
