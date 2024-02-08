@@ -21,13 +21,16 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      });
+      const response = await fetch(
+        `${process.env.BASE_SERVER_URL}/api/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, password }),
+        }
+      );
 
       if (!response.ok) {
         setError("Network response was not ok");
@@ -52,7 +55,7 @@ const Login = () => {
 
   return (
     <>
-      <button className={"btn"} onClick={toggleInputVisibility}>
+      <button className="login-button" onClick={toggleInputVisibility}>
         {isInputVisible ? "Out" : "Login"}
       </button>
 

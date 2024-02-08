@@ -7,18 +7,18 @@ import {
 
 const router = express.Router();
 
-// Sing-Up Handler
+//Sign-Up Handler
 const handleSignUp = async (req, res) => {
   try {
     const userData = req.body;
     const user = await createUser(userData);
     if (!user) {
-      return res.status(400).send("Failed to create user");
+      return res.status(400).json({ message: "Failed to create user" });
     }
     const token = generateAuthToken(user._id);
     res.status(201).send({ token });
   } catch (err) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 

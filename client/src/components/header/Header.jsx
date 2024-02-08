@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import SignUp from "../Account/SignUp";
 import Login from "../Account/Login";
 import SearchIcon from "../../assets/search-icon.svg";
@@ -35,10 +35,14 @@ function Header() {
             <ProfileDropdown onLogout={handleLogout} />
           </>
         ) : (
-        <span className="button-text">
-        <SignUp />
-        <Login />
-        </span>
+          <>
+            <div>
+              <SignUp />
+            </div>
+            <div>
+              <Login />
+            </div>
+          </>
         )}
       </div>
     </header>
