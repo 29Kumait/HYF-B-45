@@ -37,7 +37,6 @@ export const createUser = async (req, res) => {
         .json({ success: false, msg: validationErrorMessage(errorList) });
     } else {
       const newUser = await User.create(user);
-
       res.status(201).json({ success: true, user: newUser });
     }
   } catch (error) {

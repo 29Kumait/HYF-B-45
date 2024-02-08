@@ -5,6 +5,7 @@ import { useForm } from "../../hooks/useForm.js";
 import Input from "../Input.jsx";
 import Modal from "./Modal.jsx";
 import "./style.css";
+import { logError, logInfo } from "../../../../server/src/util/logging.js";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ const SignUp = () => {
       );
 
       const data = await response.json();
+      logInfo(data);
       if (response.ok) {
         setModalVisible(false);
         navigate("/login");
@@ -42,6 +44,7 @@ const SignUp = () => {
         setError(data.message || "Registration failed");
       }
     } catch (error) {
+      logError(error);
       setError(`An error occurred while registering: ${error.message}`);
     }
   };
@@ -61,7 +64,10 @@ const SignUp = () => {
 
   return (
     <div>
-      <button className={"button"} onClick={() => setModalVisible(true)}>
+      <button
+        className="get-started-button"
+        onClick={() => setModalVisible(true)}
+      >
         Sign Up
       </button>
       <Modal isVisible={isModalVisible} onClose={() => setModalVisible(false)}>
@@ -139,11 +145,13 @@ const SignUp = () => {
           {error && <div className="global-error">{error}</div>}
 
           <button
-            className={"button"}
+            className="submit-button"
             type="submit"
             disabled={isSubmitting}
             onClick={handleSubmit}
-          />
+          >
+            Submit
+          </button>
         </form>
       </Modal>
     </div>
