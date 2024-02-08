@@ -3,25 +3,42 @@ import SignUp from "../Account/SignUp";
 import Login from "../Account/Login";
 import SearchIcon from "../../assets/search-icon.svg";
 import Logo from "../../assets/logo-color.svg";
-import "./Header.css";
+import AddItemButton from "./AddItemButton";
+import ProfileDropdown from "./ProfileDropdown";
 
 function Header() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const handleLogout = () => {
+    // Handle logout logic
+    setIsAuthenticated((prevIsAuthenticated) => !prevIsAuthenticated);
+  };
+
   return (
     <header className="header">
-      <span className="button-text">
-        <SignUp />
-        <Login />
-      </span>
-      <div className="logo">
+      <div className="logo" onClick={handleLogout}>
         <img src={Logo} alt="Logo" className="logo-image" />
       </div>
-      <div className="search-container">
-        <img src={SearchIcon} alt="Search Icon" className="search-icon" />
-        <input
-          type="text"
-          placeholder="Bike, laptop, stroller..."
-          className="search-input"
-        />
+      <div className="header-content">
+        <div className="search-container">
+          <img src={SearchIcon} alt="Search Icon" className="search-icon" />
+          <input
+            type="text"
+            placeholder="Bike, laptop, stroller..."
+            className="search-input"
+          />
+        </div>
+        {isAuthenticated ? (
+          <>
+            <AddItemButton />
+            <ProfileDropdown onLogout={handleLogout} />
+          </>
+        ) : (
+        <span className="button-text">
+        <SignUp />
+        <Login />
+        </span>
+        )}
       </div>
     </header>
   );
