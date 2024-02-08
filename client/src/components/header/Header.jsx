@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useState} from "react";
 import SignUp from "../Account/SignUp";
 import Login from "../Account/Login";
 import SearchIcon from "../../assets/search-icon.svg";
 import Logo from "../../assets/logo-color.svg";
 import AddItemButton from "./AddItemButton";
 import ProfileDropdown from "./ProfileDropdown";
+import "./Header.css";
 
 function Header() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
