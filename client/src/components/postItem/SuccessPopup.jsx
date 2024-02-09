@@ -1,9 +1,9 @@
-// SuccessPopup.jsx
 import React from "react";
-import "./SuccessPopup.css";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import "./SuccessPopup.css";
 
-const SuccessPopup = ({ onClose }) => {
+const SuccessPopup = ({ itemId }) => {
   return (
     <div className="success-popup">
       <p>
@@ -12,12 +12,17 @@ const SuccessPopup = ({ onClose }) => {
         </span>{" "}
         Item added successfully!
       </p>
-      <button onClick={onClose}>Close</button>
+      {itemId && (
+        <Link to={`/item/${itemId}`}>
+          <button className="btn">View Item</button>
+        </Link>
+      )}
     </div>
   );
 };
 
 SuccessPopup.propTypes = {
+  itemId: PropTypes.string,
   onClose: PropTypes.func.isRequired,
 };
 
