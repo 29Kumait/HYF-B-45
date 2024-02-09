@@ -5,6 +5,7 @@ import itemRouter from "./routes/item.js";
 import userRouter from "./routes/user.js";
 import categoryRouter from "./routes/category.js";
 import router from "./routes/authRoutes.js";
+import userInfoRouter from "./routes/userRoute.js";
 
 // Create an express server
 const app = express();
@@ -23,5 +24,6 @@ app.use("/api/user", userRouter);
 app.use("/api/auth", router);
 app.use("/api/category", categoryRouter);
 app.use("/api/item", itemRouter);
+app.use("/api/user", userInfoRouter);
 
 export default app;
