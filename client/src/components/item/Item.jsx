@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch.js";
-// import { useAuth } from "./AuthProvider.jsx";
+import { useAuth } from "./AuthProvider.jsx";
 import PropTypes from "prop-types";
 import "./Item.css";
-// import { logInfo } from "../../../../server/src/util/logging.js";
 import { Link } from "react-router-dom";
-
+import Popup from "../popUp/Popup.jsx";
 function Item() {
   const { itemId } = useParams(); // Extract itemId from URL params using useParams
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [showPopup, setShowPopup] = useState(false);
   const [item, setItem] = useState(null);
-  // const { isSignedIn } = useAuth();
+  const { isSignedIn } = useAuth();
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/item/${itemId}`,
     (response) => {
@@ -37,20 +37,23 @@ function Item() {
     return <div>No data found.</div>;
   }
 
-  // const handleRent = () => {
-  //   if (isSignedIn) {
-  //     navigate(`/rent/${itemId}`);
-  //   } else {
-  //     alert("Auth required. Please sign in to rent this item.");
-  //   }
-  // };
-  // const handleChat = () => {
-  //   if (isSignedIn) {
-  //     navigate(`/chat/${itemId}`);
-  //   } else {
-  //     alert(" Members only. Please sign in to chat with the renter");
-  //   }
-  // };
+  const handleRent = () => {
+    handleNavigate(`/rent/${itemId}`);
+  };
+  const handleChat = () => {
+    handleNavigate(`/chat/${itemId}`);
+  };
+
+  const handleNavigate = (path) => {
+    if (isSignedIn) {
+      navigate(path);
+    } else {
+      setShowPopup(true); // Show the popup if the user is not signed in
+    }
+  };
+  const handleClosePopup = () => {
+    setShowPopup(false);
+  };
 
   return (
     <>
@@ -88,10 +91,21 @@ function Item() {
           </p>
         </div>
         <div className="buttons">
-          <button className="rent">Rent</button>
-          <button className="chat">Chat</button>
+          <button className="rent" onClick={handleRent}>
+            Rent
+          </button>
+          <button className="chat" onClick={handleChat}>
+            Chat
+          </button>
         </div>
       </div>
+      {showPopup && (
+        <Popup
+          message="Please sign in to access this feature!"
+          buttonText="Close"
+          onClose={handleClosePopup}
+        />
+      )}
     </>
   );
 }

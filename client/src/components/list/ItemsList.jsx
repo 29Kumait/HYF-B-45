@@ -1,4 +1,3 @@
-// ItemsList.js
 import React, { useEffect, useState } from "react";
 import ItemElement from "./ItemElement";
 import "./ItemsList.css";
@@ -6,11 +5,11 @@ import useFetch from "../../hooks/useFetch";
 import PropTypes from "prop-types";
 
 const ItemsList = ({ selectedCategory }) => {
-  const itemsPerPage = 9; //items per page
+  const itemsPerPage = 9; // items per page
   const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategoryState, setSelectedCategoryState] = useState(null);
-  const [hasMoreData, setHasMoreData] = useState(true); //tracking data availability
+  const [hasMoreData, setHasMoreData] = useState(true); // tracking data availability
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/item?page=${currentPage}${
       selectedCategoryState ? `&category=${selectedCategoryState}` : ""
@@ -19,7 +18,10 @@ const ItemsList = ({ selectedCategory }) => {
       const newItems = response.result;
       setItems(newItems);
       // Check if there are more items
-      setHasMoreData(newItems.length === itemsPerPage);
+      setHasMoreData(
+        newItems.length === itemsPerPage &&
+          response.totalItems > currentPage * itemsPerPage
+      );
     }
   );
 
@@ -68,7 +70,10 @@ const ItemsList = ({ selectedCategory }) => {
           Previous
         </button>
         <span> Page {currentPage} </span>
-        <button onClick={handleNextPage} disabled={!hasMoreData}>
+        <button
+          onClick={handleNextPage}
+          disabled={!hasMoreData || items.length < itemsPerPage}
+        >
           Next
         </button>
       </div>
