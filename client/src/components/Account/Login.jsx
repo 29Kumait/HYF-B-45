@@ -56,7 +56,7 @@ const Login = () => {
   return (
     <>
       <button className="login-button" onClick={toggleInputVisibility}>
-        {isInputVisible ? "Out" : "Login"}
+        {isInputVisible ? "Out" : "Sign In"}
       </button>
 
       <div className={"container"}>
@@ -80,7 +80,7 @@ const Login = () => {
                     placeholder="Password"
                   />
                   <button className={"btn"} type="submit" disabled={isLoading}>
-                    {isLoading ? "in" : "Login"}
+                    {isLoading ? "in" : "Sign In"}
                   </button>
                 </div>
               </form>

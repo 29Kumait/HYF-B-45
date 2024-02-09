@@ -17,6 +17,10 @@ export const useForm = (initialValues, onSubmit) => {
     setValues({ ...values, [name]: value });
   };
 
+  const handleImageUpload = (userImageURL) => {
+    setValues({ ...values, userImageURL });
+  };
+
   const validate = useCallback(() => {
     let errors = {};
 
@@ -70,5 +74,12 @@ export const useForm = (initialValues, onSubmit) => {
     }
   };
 
-  return { values, handleChange, handleSubmit, errors, isSubmitting };
+  return {
+    values,
+    handleChange,
+    handleSubmit,
+    handleImageUpload,
+    errors,
+    isSubmitting,
+  };
 };

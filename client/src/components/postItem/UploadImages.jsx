@@ -89,7 +89,7 @@ const UploadImages = ({ handleImageUpload }) => {
 };
 
 UploadImages.propTypes = {
-  handleImageUpload: PropTypes.func.isRequired,
+  handleImageUpload: PropTypes.func,
 };
 
 export default UploadImages;
