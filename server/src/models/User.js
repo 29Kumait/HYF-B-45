@@ -3,8 +3,8 @@ import bcrypt from "bcryptjs"; // Sanaz install bcrypt for password hashing
 import validateAllowedFields from "../util/validateAllowedFields.js";
 
 const userSchema = new mongoose.Schema({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  firstName: { type: String },
+  lastName: { type: String },
   username: { type: String, required: true, unique: true },
   password: {
     type: String,

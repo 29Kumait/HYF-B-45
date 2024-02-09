@@ -6,6 +6,7 @@ import Input from "../Input.jsx";
 import Modal from "./Modal.jsx";
 import "./style.css";
 import { logError, logInfo } from "../../../../server/src/util/logging.js";
+import UploadImages from "../postItem/UploadImages.jsx";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const SignUp = () => {
     password: "",
     confirmPassword: "",
     city: "",
+    userImageURL: "",
   };
 
   const handleRegister = async (values) => {
@@ -49,10 +51,14 @@ const SignUp = () => {
     }
   };
 
-  const { values, handleChange, handleSubmit, errors, isSubmitting } = useForm(
-    initialValues,
-    handleRegister
-  );
+  const {
+    values,
+    handleChange,
+    handleSubmit,
+    handleImageUpload,
+    errors,
+    isSubmitting,
+  } = useForm(initialValues, handleRegister);
 
   useEffect(() => {
     if (isModalVisible) {
@@ -71,13 +77,14 @@ const SignUp = () => {
         Sign Up
       </button>
       <Modal isVisible={isModalVisible} onClose={() => setModalVisible(false)}>
+        <UploadImages handleImageUpload={handleImageUpload} />
         <form onSubmit={handleSubmit}>
           <Input
             className="custom-input"
             name="username"
             value={values.username}
             onChange={handleChange}
-            placeholder="Username"
+            placeholder="Username*"
             required
           />
           {errors.username && <p className="error">{errors.username}</p>}
@@ -105,7 +112,7 @@ const SignUp = () => {
             name="password"
             value={values.password}
             onChange={handleChange}
-            placeholder="Password"
+            placeholder="Password*"
             required
           />
           {errors.password && <p className="error">{errors.password}</p>}
@@ -115,7 +122,7 @@ const SignUp = () => {
             name="confirmPassword"
             value={values.confirmPassword}
             onChange={handleChange}
-            placeholder="Confirm Password"
+            placeholder="Confirm Password*"
             required
           />
           {errors.confirmPassword && (
@@ -129,7 +136,7 @@ const SignUp = () => {
             name="email"
             value={values.email}
             onChange={handleChange}
-            placeholder="Email"
+            placeholder="Email*"
             required
           />
           {errors.email && <p className="error">{errors.email}</p>}
@@ -139,7 +146,7 @@ const SignUp = () => {
             name="city"
             value={values.city}
             onChange={handleChange}
-            placeholder="City"
+            placeholder="City*"
             required
           />
           {error && <div className="global-error">{error}</div>}
