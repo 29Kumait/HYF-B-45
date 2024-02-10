@@ -6,13 +6,21 @@ import Logo from "../../assets/logo-color.svg";
 import AddItemButton from "./AddItemButton";
 import ProfileDropdown from "./ProfileDropdown";
 import "./Header.css";
+import Modal from "../Account/Modal.jsx";
 
 function Header() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isSignInVisible, setIsSignInVisible] = useState(false);
+  const [isSignUpVisible, setIsSignUpVisible] = useState(false);
 
   const handleLogout = () => {
     // Handle logout logic
     setIsAuthenticated((prevIsAuthenticated) => !prevIsAuthenticated);
+  };
+
+  const toggleModals = (signIn, signUp) => {
+    setIsSignUpVisible(signUp);
+    setIsSignInVisible(signIn);
   };
 
   return (
@@ -37,10 +45,22 @@ function Header() {
         ) : (
           <>
             <div>
-              <SignUp />
+              <SignUp onSignUpSuccess={() => toggleModals(true, false)} />
+              <Modal
+                isVisible={isSignUpVisible}
+                onClose={() => toggleModals(false, false)}
+              >
+                <SignUp />
+              </Modal>
             </div>
             <div>
               <Login />
+              <Modal
+                isVisible={isSignInVisible}
+                onClose={() => toggleModals(false, false)}
+              >
+                <Login />
+              </Modal>
             </div>
           </>
         )}

@@ -1,6 +1,9 @@
 import React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Modal from "./Modal.jsx";
 import "./style.css";
+
 const Login = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
@@ -8,6 +11,8 @@ const Login = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isInputVisible, setInputVisible] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -32,21 +37,30 @@ const Login = () => {
         }
       );
 
+      const data = await response.json();
+
       if (!response.ok) {
-        setError("Network response was not ok");
+        if (response.status === 401) {
+          setError(data.message);
+        } else {
+          setError("Error occurred during login");
+        }
         setIsLoading(false); // Stop loading
         return;
       }
 
-      const data = await response.json();
-
       setIsLoggedIn(true);
       localStorage.setItem("token", data.token); // Store the token
-      // TODO:: Redirect page
+      navigate("/");
     } catch (error) {
       setError(`An error occurred while registering: ${error.message}`);
     }
     setIsLoading(false);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    localStorage.removeItem("token");
   };
 
   const toggleInputVisibility = () => {
@@ -55,14 +69,20 @@ const Login = () => {
 
   return (
     <>
-      <button className="login-button" onClick={toggleInputVisibility}>
-        {isInputVisible ? "Out" : "Sign In"}
-      </button>
+      {isLoggedIn ? (
+        <button className="login-button" onClick={handleLogout}>
+          Sign Out
+        </button>
+      ) : (
+        <button className="login-button" onClick={toggleInputVisibility}>
+          Sign In
+        </button>
+      )}
 
       <div className={"container"}>
         {!isLoggedIn && (
           <div>
-            {isInputVisible && (
+            <Modal isVisible={isInputVisible} onClose={toggleInputVisibility}>
               <form onSubmit={handleLogin}>
                 <div className={"input-field"}>
                   <input
@@ -80,16 +100,20 @@ const Login = () => {
                     placeholder="Password"
                   />
                   <button className={"btn"} type="submit" disabled={isLoading}>
-                    {isLoading ? "in" : "Sign In"}
+                    {isLoading ? "Signing in..." : "Sign In"}
                   </button>
                 </div>
               </form>
-            )}
-
+            </Modal>
             {error && <p>{error}</p>}
           </div>
         )}
-        {isLoggedIn && <div>Hi, {username}.</div>}
+        {isLoggedIn && (
+          <div>
+            Hi,
+            {username}.
+          </div>
+        )}
       </div>
     </>
   );
