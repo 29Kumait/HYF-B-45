@@ -35,7 +35,9 @@ const handleLogin = async (req, res) => {
     const { username, password } = req.body;
     const user = await findUserByCredentials(username, password);
     if (!user) {
-      return res.status(401).send("Invalid credentials");
+      return res
+        .status(401)
+        .json({ message: "Incorrect username or password" });
     }
     const token = generateAuthToken(user._id);
     res.send({ token });

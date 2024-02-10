@@ -1,15 +1,14 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm.js";
 import Input from "../Input.jsx";
 import Modal from "./Modal.jsx";
 import "./style.css";
 import { logError } from "../../../../server/src/util/logging.js";
 import UploadImages from "../postItem/UploadImages.jsx";
+import PropTypes from "prop-types";
 
-const SignUp = () => {
-  const navigate = useNavigate();
+const SignUp = ({ onSignUpSuccess }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [error, setError] = useState(null);
 
@@ -39,7 +38,7 @@ const SignUp = () => {
 
       if (response.ok) {
         setModalVisible(false);
-        navigate("/login");
+        onSignUpSuccess();
       } else {
         const data = await response.json();
         if (
@@ -160,6 +159,7 @@ const SignUp = () => {
             placeholder="City*"
             required
           />
+          {errors.city && <p className="error">{errors.city}</p>}
           {error && <div className="global-error">{error}</div>}
 
           <button
@@ -175,4 +175,9 @@ const SignUp = () => {
     </div>
   );
 };
+
+SignUp.propTypes = {
+  onSignUpSuccess: PropTypes.func.isRequired,
+};
+
 export default SignUp;
