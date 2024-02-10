@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
-import { logError, logInfo } from "../util/logging.js";
+import { logError } from "../util/logging.js";
 
 const createUser = async (userData) => {
   try {
@@ -8,9 +8,16 @@ const createUser = async (userData) => {
     const existingUser = await User.findOne({ email: userData.email });
 
     if (existingUser) {
-      logInfo("User with this email already exists:", existingUser);
-
       throw new Error("User with this email already exists");
+    }
+
+    // Check if a user with the same username already exists
+    const existingUsername = await User.findOne({
+      username: userData.username,
+    });
+
+    if (existingUsername) {
+      throw new Error("User with this username already exists");
     }
 
     // No duplicate email, proceed to create a new user
@@ -18,7 +25,9 @@ const createUser = async (userData) => {
     await user.save();
     return user;
   } catch (error) {
-    logError("Error creating user:", error);
+    logError(
+      `Error creating user ${userData.username} with email ${userData.email}: ${error.message}`
+    );
     throw error;
   }
 };

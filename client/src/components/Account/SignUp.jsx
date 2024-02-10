@@ -5,7 +5,7 @@ import { useForm } from "../../hooks/useForm.js";
 import Input from "../Input.jsx";
 import Modal from "./Modal.jsx";
 import "./style.css";
-import { logError, logInfo } from "../../../../server/src/util/logging.js";
+import { logError } from "../../../../server/src/util/logging.js";
 import UploadImages from "../postItem/UploadImages.jsx";
 
 const SignUp = () => {
@@ -37,13 +37,19 @@ const SignUp = () => {
         }
       );
 
-      const data = await response.json();
-      logInfo(data);
       if (response.ok) {
         setModalVisible(false);
         navigate("/login");
       } else {
-        setError(data.message || "Registration failed");
+        const data = await response.json();
+        if (
+          (response.status === 400 &&
+            data.message === "This username is already taken") ||
+          (response.status === 400 &&
+            data.message === "This email already exists")
+        ) {
+          setError(data.message || "Registration failed");
+        }
       }
     } catch (error) {
       logError(error);
@@ -77,7 +83,12 @@ const SignUp = () => {
         Sign Up
       </button>
       <Modal isVisible={isModalVisible} onClose={() => setModalVisible(false)}>
-        <UploadImages handleImageUpload={handleImageUpload} />
+        <div className="upload-container ">
+          <span className="upload-text">
+            Upload your profile picture (up to 2MB)
+          </span>
+          <UploadImages handleImageUpload={handleImageUpload} />
+        </div>
         <form onSubmit={handleSubmit}>
           <Input
             className="custom-input"
