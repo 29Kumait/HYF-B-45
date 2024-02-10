@@ -119,6 +119,7 @@
   height: 30px;
   font-weight: bold;
   font-size: 15px;
+  cursor: pointer;
 }
 
 .get-started-button {
@@ -139,4 +140,15 @@
 
 .login-button {
   margin-top: 40px;
+}
+
+.upload-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.upload-text {
+  margin-right: 80px;
+  padding-top: 3px;
 }

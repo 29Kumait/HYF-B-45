@@ -18,6 +18,13 @@ const handleSignUp = async (req, res) => {
     const token = generateAuthToken(user._id);
     res.status(201).send({ token });
   } catch (err) {
+    if (err.message === "User with this email already exists") {
+      return res.status(400).json({ message: "This email already exists" });
+    } else if (err.message === "User with this username already exists") {
+      return res
+        .status(400)
+        .json({ message: "This username is already taken" });
+    }
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
