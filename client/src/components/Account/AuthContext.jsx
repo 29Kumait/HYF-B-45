@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState(null);
 
+
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
     if (storedUserData) {
@@ -23,6 +24,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("userData", JSON.stringify(userData));
     }
   }, [userData]);
+
 
   // Method to handle user login
   const login = async (username, password) => {
@@ -65,6 +67,9 @@ export const AuthProvider = ({ children }) => {
     // Clear authentication status and user data
     setIsAuthenticated(false);
     setUserData(null);
+
+    // Clear token from localStorage
+    localStorage.removeItem("token");
   };
 
   // Method to fetch user data from the server using the token

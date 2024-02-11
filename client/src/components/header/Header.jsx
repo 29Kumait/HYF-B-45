@@ -9,13 +9,9 @@ import ProfileDropdown from "./ProfileDropdown";
 import "./Header.css";
 
 function Header() {
-  const { isAuthenticated, userData } = useAuth();
+  const { isAuthenticated, userData, logout } = useAuth();
   // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isSignInVisible, setIsSignInVisible] = useState(false);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-  };
 
   const handleSignUpSuccess = () => {
     setIsSignInVisible(true);
@@ -39,7 +35,7 @@ function Header() {
           <>
             <AddItemButton />
             <ProfileDropdown
-              onLogout={handleLogout}
+              onLogout={logout}
               profilePicture={userData?.user.userImageURL}
             />
           </>
