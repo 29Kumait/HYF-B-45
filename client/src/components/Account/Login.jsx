@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal.jsx";
+// import { AuthContext } from "../contexts/AuthContext"; // Import the AuthContext
+import { useAuth } from "./AuthContext"; // Import the AuthContext
 import "./style.css";
 import PropTypes from "prop-types";
 
-const Login = ({ isInputVisible, setIsInputVisible, onLoginSuccess }) => {
+const Login = ({ isInputVisible, setIsInputVisible }) => {
+  const { login } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
   const navigate = useNavigate();
 
   const handleLogin = async (event) => {
@@ -24,35 +26,12 @@ const Login = ({ isInputVisible, setIsInputVisible, onLoginSuccess }) => {
     }
 
     try {
-      const response = await fetch(
-        `${process.env.BASE_SERVER_URL}/api/auth/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username, password }),
-        }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          setError(data.message);
-        } else {
-          setError("Error occurred during login");
-        }
-        setIsLoading(false); // Stop loading
-        return;
-      }
-
-      localStorage.setItem("token", data.token); // Store the token
+      // Call the login function from the context with username and password
+      await login(username, password);
       setIsInputVisible(false);
-      onLoginSuccess();
       navigate("/");
     } catch (error) {
-      setError(`An error occurred while registering: ${error.message}`);
+      setError(`An error occurred while logging in: ${error.message}`);
     }
     setIsLoading(false);
   };
@@ -101,7 +80,6 @@ const Login = ({ isInputVisible, setIsInputVisible, onLoginSuccess }) => {
 Login.propTypes = {
   isInputVisible: PropTypes.bool.isRequired,
   setIsInputVisible: PropTypes.func.isRequired,
-  onLoginSuccess: PropTypes.func.isRequired,
 };
 
 export default Login;

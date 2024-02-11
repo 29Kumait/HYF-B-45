@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useAuth } from "../Account/AuthContext";
 import SignUp from "../Account/SignUp";
 import Login from "../Account/Login";
 import SearchIcon from "../../assets/search-icon.svg";
@@ -8,20 +9,16 @@ import ProfileDropdown from "./ProfileDropdown";
 import "./Header.css";
 
 function Header() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated } = useAuth();
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isSignInVisible, setIsSignInVisible] = useState(false);
 
   const handleLogout = () => {
-    setIsAuthenticated(false);
     localStorage.removeItem("token");
   };
 
   const handleSignUpSuccess = () => {
     setIsSignInVisible(true);
-  };
-
-  const handleLoginSuccess = () => {
-    setIsAuthenticated(true);
   };
 
   return (
@@ -49,7 +46,6 @@ function Header() {
             <Login
               isInputVisible={isSignInVisible}
               setIsInputVisible={setIsSignInVisible}
-              onLoginSuccess={handleLoginSuccess}
             />
           </>
         )}
