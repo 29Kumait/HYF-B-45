@@ -3,7 +3,7 @@ import "./ProfileDropdown.css";
 import ProfilePic from "../../assets/fake-user.jpg";
 import PropTypes from "prop-types";
 
-const ProfileDropdown = ({ onLogout }) => {
+const ProfileDropdown = ({ onLogout, profilePicture }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -21,7 +21,7 @@ const ProfileDropdown = ({ onLogout }) => {
   return (
     <div className="dropdown">
       <div className="profile-picture" onClick={toggleDropdown}>
-        <img src={ProfilePic} alt="Profile" />
+        <img src={profilePicture || ProfilePic} alt="Profile" />
       </div>
       {isOpen && (
         <ul className="dropdown-menu">
@@ -36,6 +36,7 @@ const ProfileDropdown = ({ onLogout }) => {
 
 ProfileDropdown.propTypes = {
   onLogout: PropTypes.func.isRequired,
+  profilePicture: PropTypes.string,
 };
 
 export default ProfileDropdown;

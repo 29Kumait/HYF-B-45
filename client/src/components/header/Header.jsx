@@ -9,7 +9,7 @@ import ProfileDropdown from "./ProfileDropdown";
 import "./Header.css";
 
 function Header() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, userData } = useAuth();
   // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isSignInVisible, setIsSignInVisible] = useState(false);
 
@@ -38,7 +38,10 @@ function Header() {
         {isAuthenticated ? (
           <>
             <AddItemButton />
-            <ProfileDropdown onLogout={handleLogout} />
+            <ProfileDropdown
+              onLogout={handleLogout}
+              profilePicture={userData?.user.userImageURL}
+            />
           </>
         ) : (
           <>
