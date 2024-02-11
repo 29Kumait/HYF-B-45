@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { logInfo, logError } from "../../../../server/src/util/logging.js";
 
@@ -10,6 +10,16 @@ export const AuthProvider = ({ children }) => {
   // State to hold authentication status and user data
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState(null);
+
+  // Method to check authentication status and retrieve user data on application startup
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsAuthenticated(true);
+      // const savedUserData = fetchUserData(token);
+      // setUserData(savedUserData);
+    }
+  }, []);
 
   // Method to handle user login
   const login = async (username, password) => {
@@ -52,6 +62,9 @@ export const AuthProvider = ({ children }) => {
     // Clear authentication status and user data
     setIsAuthenticated(false);
     setUserData(null);
+
+    // Clear token from localStorage
+    localStorage.removeItem("token");
   };
 
   // Method to fetch user data from the server using the token
