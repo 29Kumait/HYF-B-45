@@ -16,11 +16,12 @@ function Header() {
   const handleLogout = () => {
     // Handle logout logic
     setIsAuthenticated((prevIsAuthenticated) => !prevIsAuthenticated);
+    localStorage.removeItem("token");
   };
 
-  const toggleModals = (signIn, signUp) => {
-    setIsSignUpVisible(signUp);
-    setIsSignInVisible(signIn);
+  const handleSignUpSuccess = () => {
+    setIsSignUpVisible(false);
+    setIsSignInVisible(true);
   };
 
   return (
@@ -45,21 +46,29 @@ function Header() {
         ) : (
           <>
             <div>
-              <SignUp onSignUpSuccess={() => toggleModals(true, false)} />
+              <SignUp onSignUpSuccess={handleSignUpSuccess} />
               <Modal
                 isVisible={isSignUpVisible}
-                onClose={() => toggleModals(false, false)}
+                onClose={() => setIsSignUpVisible(false)}
               >
                 <SignUp />
               </Modal>
             </div>
             <div>
-              <Login />
+              <button
+                className="login-button"
+                onClick={() => setIsSignInVisible(true)}
+              >
+                Sign In
+              </button>
               <Modal
                 isVisible={isSignInVisible}
-                onClose={() => toggleModals(false, false)}
+                onClose={() => setIsSignInVisible(false)}
               >
-                <Login />
+                <Login
+                  isInputVisible={isSignInVisible}
+                  setIsInputVisible={setIsSignInVisible}
+                />
               </Modal>
             </div>
           </>
