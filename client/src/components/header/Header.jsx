@@ -6,27 +6,27 @@ import Logo from "../../assets/logo-color.svg";
 import AddItemButton from "./AddItemButton";
 import ProfileDropdown from "./ProfileDropdown";
 import "./Header.css";
-import Modal from "../Account/Modal.jsx";
 
 function Header() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isSignInVisible, setIsSignInVisible] = useState(false);
-  const [isSignUpVisible, setIsSignUpVisible] = useState(false);
 
   const handleLogout = () => {
-    // Handle logout logic
-    setIsAuthenticated((prevIsAuthenticated) => !prevIsAuthenticated);
+    setIsAuthenticated(false);
     localStorage.removeItem("token");
   };
 
   const handleSignUpSuccess = () => {
-    setIsSignUpVisible(false);
     setIsSignInVisible(true);
+  };
+
+  const handleLoginSuccess = () => {
+    setIsAuthenticated(true);
   };
 
   return (
     <header className="header">
-      <div className="logo" onClick={handleLogout}>
+      <div className="logo">
         <img src={Logo} alt="Logo" className="logo-image" />
       </div>
       <div className="header-content">
@@ -45,32 +45,12 @@ function Header() {
           </>
         ) : (
           <>
-            <div>
-              <SignUp onSignUpSuccess={handleSignUpSuccess} />
-              <Modal
-                isVisible={isSignUpVisible}
-                onClose={() => setIsSignUpVisible(false)}
-              >
-                <SignUp />
-              </Modal>
-            </div>
-            <div>
-              <button
-                className="login-button"
-                onClick={() => setIsSignInVisible(true)}
-              >
-                Sign In
-              </button>
-              <Modal
-                isVisible={isSignInVisible}
-                onClose={() => setIsSignInVisible(false)}
-              >
-                <Login
-                  isInputVisible={isSignInVisible}
-                  setIsInputVisible={setIsSignInVisible}
-                />
-              </Modal>
-            </div>
+            <SignUp onSignUpSuccess={handleSignUpSuccess} />
+            <Login
+              isInputVisible={isSignInVisible}
+              setIsInputVisible={setIsSignInVisible}
+              onLoginSuccess={handleLoginSuccess}
+            />
           </>
         )}
       </div>

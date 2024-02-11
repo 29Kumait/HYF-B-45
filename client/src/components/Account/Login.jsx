@@ -1,11 +1,10 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal.jsx";
 import "./style.css";
 import PropTypes from "prop-types";
 
-const Login = ({ isInputVisible, setIsInputVisible }) => {
+const Login = ({ isInputVisible, setIsInputVisible, onLoginSuccess }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -50,6 +49,7 @@ const Login = ({ isInputVisible, setIsInputVisible }) => {
 
       localStorage.setItem("token", data.token); // Store the token
       setIsInputVisible(false);
+      onLoginSuccess();
       navigate("/");
     } catch (error) {
       setError(`An error occurred while registering: ${error.message}`);
@@ -60,35 +60,39 @@ const Login = ({ isInputVisible, setIsInputVisible }) => {
   return (
     <>
       <div className={"container"}>
-        <div>
-          <Modal
-            isVisible={isInputVisible}
-            onClose={() => setIsInputVisible(false)}
-          >
-            <form onSubmit={handleLogin}>
-              <div className={"input-field"}>
-                <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Username"
-                />
-              </div>
-              <div>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Password"
-                />
-                <button className={"btn"} type="submit" disabled={isLoading}>
-                  {isLoading ? "Signing in..." : "Sign In"}
-                </button>
-              </div>
-            </form>
-          </Modal>
-          {error && <p>{error}</p>}
-        </div>
+        <button
+          className="login-button"
+          onClick={() => setIsInputVisible(true)}
+        >
+          Sign In
+        </button>
+        <Modal
+          isVisible={isInputVisible}
+          onClose={() => setIsInputVisible(false)}
+        >
+          <form onSubmit={handleLogin}>
+            <div className={"input-field"}>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Username"
+              />
+            </div>
+            <div>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+              />
+              {error && <p>{error}</p>}
+              <button className={"btn"} type="submit" disabled={isLoading}>
+                {isLoading ? "Signing in..." : "Sign In"}
+              </button>
+            </div>
+          </form>
+        </Modal>
       </div>
     </>
   );
@@ -97,6 +101,7 @@ const Login = ({ isInputVisible, setIsInputVisible }) => {
 Login.propTypes = {
   isInputVisible: PropTypes.bool.isRequired,
   setIsInputVisible: PropTypes.func.isRequired,
+  onLoginSuccess: PropTypes.func.isRequired,
 };
 
 export default Login;
