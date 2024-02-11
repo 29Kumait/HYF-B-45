@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { logInfo, logError } from "../../../../server/src/util/logging.js";
 
@@ -10,6 +10,19 @@ export const AuthProvider = ({ children }) => {
   // State to hold authentication status and user data
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("userData");
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userData) {
+      localStorage.setItem("userData", JSON.stringify(userData));
+    }
+  }, [userData]);
 
   // Method to handle user login
   const login = async (username, password) => {
