@@ -1,8 +1,8 @@
 import React from "react";
-import "./Landing.css"; // Importing the CSS file
+import "./Hero.css"; // Importing the CSS file
 import LandingImg from "../../assets/landing.png";
 
-function Landing() {
+function Hero() {
   return (
     <>
       <div className="landing-container">
@@ -20,4 +20,4 @@ function Landing() {
   );
 }
 
-export default Landing;
+export default Hero;

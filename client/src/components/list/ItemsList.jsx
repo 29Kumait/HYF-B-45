@@ -5,7 +5,7 @@ import useFetch from "../../hooks/useFetch";
 import PropTypes from "prop-types";
 
 const ItemsList = ({ selectedCategory }) => {
-  const itemsPerPage = 9; // items per page
+  const itemsPerPage = 12; // items per page
   const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategoryState, setSelectedCategoryState] = useState(null);
@@ -17,10 +17,11 @@ const ItemsList = ({ selectedCategory }) => {
     (response) => {
       const newItems = response.result;
       setItems(newItems);
+      const totalItems = response.totalItems;
       // Check if there are more items
       setHasMoreData(
         newItems.length === itemsPerPage &&
-          response.totalItems > currentPage * itemsPerPage
+          totalItems > currentPage * itemsPerPage
       );
     }
   );

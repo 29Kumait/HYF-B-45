@@ -1,25 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
-import MotionButton from "./MotionButton.jsx";
 
-const Modal = ({ isVisible, onClose, children }) => {
+const Modal = ({ isVisible, children }) => {
   if (!isVisible) {
     return null;
   }
 
   return (
     <div className="modal-backdrop">
-      <div className="modal">
-        {children}
-        <MotionButton text={"🅧"} onClick={onClose} />
-      </div>
+      <div className="modal">{children}</div>
     </div>
   );
 };
 
 Modal.propTypes = {
   isVisible: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
 };
 

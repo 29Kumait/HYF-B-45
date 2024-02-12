@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal.jsx";
-// import { AuthContext } from "../contexts/AuthContext"; // Import the AuthContext
-import { useAuth } from "./AuthContext"; // Import the AuthContext
+import { useAuth } from "./AuthContext";
 import "./style.css";
 import PropTypes from "prop-types";
 
@@ -13,27 +12,48 @@ const Login = ({ isInputVisible, setIsInputVisible }) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const isComponentMounted = useRef(true);
+
+  useEffect(() => {
+    isComponentMounted.current = true;
+    return () => {
+      isComponentMounted.current = false;
+    };
+  }, []);
 
   const handleLogin = async (event) => {
     event.preventDefault();
     setError(null);
-    setIsLoading(true); // Start loading
+    setIsLoading(true);
 
     if (!username || !password) {
-      setError("Please enter a username and password.");
-      setIsLoading(false); // Stop loading
+      if (isComponentMounted.current) {
+        setError("Please enter a username and password.");
+        setIsLoading(false);
+      }
       return;
     }
 
     try {
-      // Call the login function from the context with username and password
       await login(username, password);
-      setIsInputVisible(false);
-      navigate("/");
+      if (isComponentMounted.current) {
+        setIsInputVisible(false);
+        navigate("/");
+      }
     } catch (error) {
-      setError(`An error occurred while logging in: ${error.message}`);
+      if (isComponentMounted.current) {
+        setError(`An error occurred while logging in: ${error.message}`);
+        setIsLoading(false);
+      }
+    } finally {
+      if (isComponentMounted.current) {
+        setIsLoading(false);
+      }
     }
-    setIsLoading(false);
+  };
+
+  const handleCloseAndReset = () => {
+    setIsInputVisible(false);
   };
 
   return (
@@ -66,9 +86,19 @@ const Login = ({ isInputVisible, setIsInputVisible }) => {
                 placeholder="Password"
               />
               {error && <p>{error}</p>}
-              <button className={"btn"} type="submit" disabled={isLoading}>
-                {isLoading ? "Signing in..." : "Sign In"}
-              </button>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <button className={"btn"} type="submit" disabled={isLoading}>
+                  {isLoading ? "Signing in..." : "Sign In"}
+                </button>
+
+                <button
+                  className={"btn"}
+                  type="button"
+                  onClick={handleCloseAndReset}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           </form>
         </Modal>
