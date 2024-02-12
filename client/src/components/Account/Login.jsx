@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal.jsx";
-import { useAuth } from "./AuthContext"; // Import the AuthContext
+import { useAuth } from "./AuthContext";
 import "./style.css";
 import PropTypes from "prop-types";
 
@@ -13,23 +13,37 @@ const Login = ({ isInputVisible, setIsInputVisible }) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  const [isComponentMounted, setIsComponentMounted] = useState(true);
+
+  useEffect(() => {
+    setIsComponentMounted(true);
+    return () => setIsComponentMounted(false);
+  }, []);
+
   const handleLogin = async (event) => {
     event.preventDefault();
     setError(null);
     setIsLoading(true); // Start loading
 
     if (!username || !password) {
-      setError("Please enter a username and password.");
-      setIsLoading(false); // Stop loading
+      if (isComponentMounted) {
+        setError("Please enter a username and password.");
+        setIsLoading(false); // Stop loading
+      }
       return;
     }
 
     try {
       await login(username, password);
-      setIsInputVisible(false);
-      navigate("/");
+      if (isComponentMounted) {
+        setIsInputVisible(false);
+        navigate("/");
+      }
     } catch (error) {
-      setError(`An error occurred while logging in: ${error.message}`);
+      if (isComponentMounted) {
+        setError(`An error occurred while logging in: ${error.message}`);
+        setIsLoading(false); // Stop loading
+      }
     }
     setIsLoading(false);
   };
@@ -72,6 +86,7 @@ const Login = ({ isInputVisible, setIsInputVisible }) => {
                 <button className={"btn"} type="submit" disabled={isLoading}>
                   {isLoading ? "Signing in..." : "Sign In"}
                 </button>
+
                 <button
                   className={"btn"}
                   type="button"
