@@ -178,7 +178,7 @@ export const validateItem = (itemObject) => {
     errorList.push("imageURL is a required field");
   }
 
-  if (itemObject.price == null && itemObject.deposit == null) {
+  if (itemObject.price == null || itemObject.deposit == null) {
     errorList.push("Either price or deposit is required");
   }
 
