@@ -61,9 +61,15 @@ const SignUp = ({ onSignUpSuccess }) => {
     handleChange,
     handleSubmit,
     handleImageUpload,
+    handleReset,
     errors,
     isSubmitting,
   } = useForm(initialValues, handleRegister);
+
+  const handleCloseAndReset = () => {
+    handleReset(); // Reset the form values and errors
+    setModalVisible(false);
+  };
 
   useEffect(() => {
     if (isModalVisible) {
@@ -119,6 +125,7 @@ const SignUp = ({ onSignUpSuccess }) => {
 
           <Input
             className="custom-input"
+            type="password"
             name="password"
             value={values.password}
             onChange={handleChange}
@@ -130,6 +137,7 @@ const SignUp = ({ onSignUpSuccess }) => {
           <Input
             className="custom-input"
             name="confirmPassword"
+            type="password"
             value={values.confirmPassword}
             onChange={handleChange}
             placeholder="Confirm Password*"
@@ -169,6 +177,14 @@ const SignUp = ({ onSignUpSuccess }) => {
             onClick={handleSubmit}
           >
             Submit
+          </button>
+
+          <button
+            className="close-button"
+            type="button"
+            onClick={handleCloseAndReset}
+          >
+            Cancel
           </button>
         </form>
       </Modal>

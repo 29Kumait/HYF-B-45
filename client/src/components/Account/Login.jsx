@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal.jsx";
-// import { AuthContext } from "../contexts/AuthContext"; // Import the AuthContext
 import { useAuth } from "./AuthContext"; // Import the AuthContext
 import "./style.css";
 import PropTypes from "prop-types";
@@ -26,7 +25,6 @@ const Login = ({ isInputVisible, setIsInputVisible }) => {
     }
 
     try {
-      // Call the login function from the context with username and password
       await login(username, password);
       setIsInputVisible(false);
       navigate("/");
@@ -34,6 +32,10 @@ const Login = ({ isInputVisible, setIsInputVisible }) => {
       setError(`An error occurred while logging in: ${error.message}`);
     }
     setIsLoading(false);
+  };
+
+  const handleCloseAndReset = () => {
+    setIsInputVisible(false);
   };
 
   return (
@@ -66,9 +68,18 @@ const Login = ({ isInputVisible, setIsInputVisible }) => {
                 placeholder="Password"
               />
               {error && <p>{error}</p>}
-              <button className={"btn"} type="submit" disabled={isLoading}>
-                {isLoading ? "Signing in..." : "Sign In"}
-              </button>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <button className={"btn"} type="submit" disabled={isLoading}>
+                  {isLoading ? "Signing in..." : "Sign In"}
+                </button>
+                <button
+                  className={"btn"}
+                  type="button"
+                  onClick={handleCloseAndReset}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           </form>
         </Modal>
