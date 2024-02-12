@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../components/header/Header";
 import { Footer } from "../../components/footer/Footer";
 import PostItemForm from "../../components/postItem/PostItemForm";
@@ -16,12 +16,21 @@ const PostItem = () => {
     }
   });
 
+  const [userData, setUserData] = useState(null); // State to hold user data
   const [success, setSuccess] = useState(false); // State to track success
   const [itemId, setItemId] = useState(null); // State to store the item ID
 
+  useEffect(() => {
+    // Retrieve user data from local storage
+    const storedUserData = localStorage.getItem("userData");
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
+  }, []); // This effect runs only once on component mount
+
   const handleSubmit = (formData) => {
     const additionalFields = {
-      renter_id: "65c3613cf5554cd36b01fda8",
+      renter_id: userData.user._id,
     };
     const postData = { ...formData, ...additionalFields };
 

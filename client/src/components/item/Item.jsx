@@ -64,7 +64,13 @@ function Item() {
             alt={`Renter ${item.user.username}`}
           />
           <span>
-            {item.user.firstName} {item.user.lastName}
+            {item.user.firstName && item.user.lastName ? (
+              <>
+                {item.user.firstName} {item.user.lastName}
+              </>
+            ) : (
+              item.user.username
+            )}
           </span>
         </div>
         <h2 className="item_title">{item.title}</h2>
