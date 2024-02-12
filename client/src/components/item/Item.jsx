@@ -4,7 +4,6 @@ import useFetch from "../../hooks/useFetch.js";
 import { useAuth } from "./AuthProvider.jsx";
 import PropTypes from "prop-types";
 import "./Item.css";
-import { Link } from "react-router-dom";
 import Popup from "../popUp/Popup.jsx";
 function Item() {
   const { itemId } = useParams(); // Extract itemId from URL params using useParams
@@ -67,9 +66,6 @@ function Item() {
           <span>
             {item.user.firstName} {item.user.lastName}
           </span>
-          <Link to="/">
-            <button className="go-back">Go back</button>
-          </Link>
         </div>
         <h2 className="item_title">{item.title}</h2>
         <img className="item_image" src={item.imageURL} alt={item.title} />

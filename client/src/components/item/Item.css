@@ -68,7 +68,6 @@
 }
 
 /* Button styling */
-.go-back,
 .rent,
 .chat {
   color: var(--teal-bg);
@@ -82,14 +81,12 @@
   background-color: var(--pink);
 }
 
-.go-back:hover,
 .rent:hover,
 .chat:hover {
   background-color: var(--teal);
   color: var(--teal-bg);
 }
 
-.go-back:hover,
 .rent:hover,
 .chat:hover {
   transform: translateY(3px);
