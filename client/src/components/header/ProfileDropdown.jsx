@@ -26,8 +26,6 @@ const ProfileDropdown = ({ onLogout, profilePicture }) => {
       {isOpen && (
         <ul className="dropdown-menu">
           <li onClick={handleLogout}>Logout</li>
-          <li>We can add other options</li>
-          <li>And more options</li>
         </ul>
       )}
     </div>
