@@ -23,7 +23,7 @@ const SuccessPopup = ({ itemId }) => {
 
 SuccessPopup.propTypes = {
   itemId: PropTypes.string,
-  onClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func,
 };
 
 export default SuccessPopup;

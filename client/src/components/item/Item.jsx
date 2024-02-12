@@ -83,11 +83,18 @@ function Item() {
             <span className="item_label">Description:</span> {item.description}
           </p>
           <p className="item_detail">
-            <span className="item_label">Price:</span> ${item.price}
+            <span className="item_label">
+              {item.price === null ? "Free to rent" : "Price:"}
+            </span>
+            {item.price === null ? "" : ` $${item.price}`}
           </p>
-          <p className="item_detail">
-            <span className="item_label">Deposit:</span> ${item.deposit}
-          </p>
+          {item.deposit === null ? (
+            ""
+          ) : (
+            <p className="item_detail">
+              <span className="item_label">Deposit:</span> ${item.deposit}
+            </p>
+          )}
           <p className="item_detail">
             <span className="item_label">Location:</span> {item.user.city}
           </p>
