@@ -6,7 +6,9 @@ const Renter = ({ userId }) => {
   useEffect(() => {
     const fetchUserById = async () => {
       try {
-        const response = await fetch(`${process.env.BASE_SERVER_URL}/api/user/${userId}`);
+        const response = await fetch(
+          `${process.env.BASE_SERVER_URL}/api/user/${userId}`
+        );
         const data = await response.json();
         if (data.success) {
           setUserData(data.result);
@@ -23,7 +25,7 @@ const Renter = ({ userId }) => {
     <div className="product-item__owner">
       {userData ? (
         <>
-           <img
+          <img
             src={userData.userImageURL || FakeUserProfilePicture}
             alt="Renter"
           />

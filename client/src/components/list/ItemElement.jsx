@@ -16,7 +16,7 @@ const ItemElement = ({ item }) => {
   return (
     <li className="product-item">
       <div className="product-item__owner">
-        <Renter userId={item.renter_id}/>
+        <Renter userId={item.renter_id} />
       </div>
       <img
         src={item.imageURL}
