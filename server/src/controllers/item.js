@@ -5,7 +5,7 @@ export const getItems = async (req, res) => {
   try {
     // Get the page number from query parameters
     const page = parseInt(req.query.page) || 1;
-    const pageSize = 9;
+    const pageSize = 12;
 
     //Calculate the skip value based on the page number
     const skip = (page - 1) * pageSize;
@@ -13,7 +13,11 @@ export const getItems = async (req, res) => {
     //Fetch items for the specified page with a limit of 9
     const items = await Item.find().skip(skip).limit(pageSize);
 
-    res.status(200).json({ success: true, result: items });
+    const totalCount = await Item.countDocuments();
+
+    res
+      .status(200)
+      .json({ success: true, result: items, totalItems: totalCount });
   } catch (error) {
     logError(error);
     res.status(500).json({

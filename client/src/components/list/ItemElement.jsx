@@ -32,7 +32,9 @@ const ItemElement = ({ item }) => {
       </div>
       <div className="product-item__view">
         <span className="product-item__price">
-          {item.price === null ? "Free to rent" : `$${item.price}/per day`}
+          {item.price === null || item.price === 0
+            ? "Free to rent"
+            : `$${item.price}/per day`}
         </span>
         {/* Link to the DetailedPage with the itemId */}
         <Link to={`/item/${item._id}`} className="product-item__view-button">

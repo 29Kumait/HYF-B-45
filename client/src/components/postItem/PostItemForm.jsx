@@ -68,6 +68,13 @@ const PostItemForm = ({ onSubmit, isLoading, error }) => {
       alert("Deposit cannot be negative");
       return; // Prevent form submission
     }
+    if (
+      (formData.price === 0 || formData.price === null) &&
+      (formData.deposit === 0 || formData.deposit === null)
+    ) {
+      alert("Either price or deposit is required");
+      return; // Prevent form submission
+    }
     try {
       await onSubmit(formData);
     } catch (error) {
@@ -130,7 +137,7 @@ const PostItemForm = ({ onSubmit, isLoading, error }) => {
               name="price"
               value={formData.price}
               onChange={handleInputChange}
-              required={!formData.deposit}
+              required={!formData.deposit || formData.deposit === 0}
             />
           </label>
         </div>
@@ -140,14 +147,16 @@ const PostItemForm = ({ onSubmit, isLoading, error }) => {
             <input
               type="checkbox"
               name="containsDeposit"
-              checked={showDepositField}
+              checked={
+                formData.price === 0 ? !showDepositField : showDepositField
+              }
               onChange={handleCheckboxChange}
             />
             Contains Deposit
           </label>
         </div>
 
-        {showDepositField && (
+        {showDepositField || formData.price === 0 ? (
           <div className="form-group">
             <label>
               Deposit Amount:
@@ -157,11 +166,11 @@ const PostItemForm = ({ onSubmit, isLoading, error }) => {
                 value={formData.deposit}
                 onChange={handleInputChange}
                 max={formData.price ? formData.price * 0.5 : ""}
-                required={!formData.price}
+                required={!formData.price || formData.price === 0}
               />
             </label>
           </div>
-        )}
+        ) : null}
 
         <div className="form-group">
           <button className="btn" type="submit" disabled={isLoading}>

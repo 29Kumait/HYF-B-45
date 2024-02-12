@@ -48,7 +48,7 @@
   box-shadow: 0 6px 20px rgba(0, 255, 0, 0);
 }
 
-.modal input[type="password"] {
+.modal input[type="text"] {
   background: rgba(255, 255, 255, 0.1);
   border: 2px solid rgba(255, 255, 255, 0.2);
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.2);
