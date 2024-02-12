@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import FakeUserProfilePicture from "../../assets/fake-user.jpg";
+//import FakeUserProfilePicture from "../../assets/fake-user.jpg";
 import { Link } from "react-router-dom";
 import "./ItemsList.css"; // Import the CSS file
+import Renter from "./Renter";
 
 const ItemElement = ({ item }) => {
   // Function to shorten the description to the first 5 words
@@ -15,8 +16,7 @@ const ItemElement = ({ item }) => {
   return (
     <li className="product-item">
       <div className="product-item__owner">
-        <img src={FakeUserProfilePicture} alt="Owner" />
-        <span>Emma</span>
+        <Renter userId={item.renter_id}/>
       </div>
       <img
         src={item.imageURL}
@@ -48,6 +48,7 @@ ItemElement.propTypes = {
     description: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
+    renter_id: PropTypes.string.isRequired,
   }).isRequired,
 };
 

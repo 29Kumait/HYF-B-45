@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
     match: [/\S+@\S+\.\S+/, "is invalid"], // Regex to validate email format
   },
   city: { type: String, required: true },
-  userImageURL: { type: String },
+  userImageURL: { type: String, default: "" },
 });
 
 // Hashing passwords pre-save
