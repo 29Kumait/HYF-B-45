@@ -111,6 +111,7 @@
   }
 }
 
+.close-button,
 .submit-button {
   background-color: pink;
   border: none;
