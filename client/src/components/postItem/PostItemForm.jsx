@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 const PostItemForm = ({ onSubmit, isLoading, error }) => {
   // State for form fields
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     title: "",
     category: "",
     category_id: "",
@@ -14,7 +14,10 @@ const PostItemForm = ({ onSubmit, isLoading, error }) => {
     price: "",
     deposit: "",
     imageURL: "",
-  });
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
+  const [showDepositField, setShowDepositField] = useState(false);
 
   const handleImageUpload = (imageURL) => {
     setFormData({
@@ -22,8 +25,6 @@ const PostItemForm = ({ onSubmit, isLoading, error }) => {
       imageURL,
     });
   };
-
-  const [showDepositField, setShowDepositField] = useState(false);
 
   // get the category id and name
   const handleCategorySelect = (categoryId, categoryName) => {
@@ -55,6 +56,10 @@ const PostItemForm = ({ onSubmit, isLoading, error }) => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.imageURL) {
+      alert("Please upload the image");
+      return; // Prevent form submission
+    }
     if (formData.price < 0) {
       alert("Price cannot be negative");
       return; // Prevent form submission
@@ -68,6 +73,10 @@ const PostItemForm = ({ onSubmit, isLoading, error }) => {
     } catch (error) {
       // Handle errors by updating the success message state with an error message
     }
+  };
+
+  const handleClick = () => {
+    setFormData(initialFormData);
   };
 
   return (
@@ -157,6 +166,9 @@ const PostItemForm = ({ onSubmit, isLoading, error }) => {
         <div className="form-group">
           <button className="btn" type="submit" disabled={isLoading}>
             {isLoading ? "Adding..." : "Add Item"}
+          </button>
+          <button className="btn" type="reset" onClick={handleClick}>
+            Cancel
           </button>
         </div>
 
