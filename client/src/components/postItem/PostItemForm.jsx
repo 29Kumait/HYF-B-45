@@ -130,7 +130,7 @@ const PostItemForm = ({ onSubmit, isLoading, error }) => {
               name="price"
               value={formData.price}
               onChange={handleInputChange}
-              required
+              required={!formData.deposit}
             />
           </label>
         </div>
@@ -156,8 +156,8 @@ const PostItemForm = ({ onSubmit, isLoading, error }) => {
                 name="deposit"
                 value={formData.deposit}
                 onChange={handleInputChange}
-                max={formData.price * 0.5}
-                required
+                max={formData.price ? formData.price * 0.5 : ""}
+                required={!formData.price}
               />
             </label>
           </div>

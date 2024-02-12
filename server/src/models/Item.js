@@ -9,7 +9,7 @@ const itemSchema = new mongoose.Schema({
   description: { type: String },
   category: { type: String, required: true },
   imageURL: { type: String, required: true },
-  price: { type: Number, required: true },
+  price: { type: Number, default: 0 },
   deposit: { type: Number, default: 0 },
   active: { type: Boolean, default: true },
   renter_id: {
