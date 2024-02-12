@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState } from "react";
 import PropTypes from "prop-types";
 import { logInfo, logError } from "../../../../server/src/util/logging.js";
 
@@ -8,21 +8,12 @@ export const AuthContext = createContext();
 // Create the authentication provider component
 export const AuthProvider = ({ children }) => {
   // State to hold authentication status and user data
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userData, setUserData] = useState(null);
-
-  useEffect(() => {
-    const storedUserData = localStorage.getItem("userData");
-    if (storedUserData) {
-      setUserData(JSON.parse(storedUserData));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (userData) {
-      localStorage.setItem("userData", JSON.stringify(userData));
-    }
-  }, [userData]);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    () => localStorage.getItem("isAuthenticated") === "true"
+  );
+  const [userData, setUserData] = useState(
+    () => JSON.parse(localStorage.getItem("userData")) || null
+  );
 
   // Method to handle user login
   const login = async (username, password) => {
@@ -49,9 +40,10 @@ export const AuthProvider = ({ children }) => {
       }
 
       localStorage.setItem("token", data.token);
+      localStorage.setItem("isAuthenticated", "true");
       setIsAuthenticated(true);
       const userDataResponse = await fetchUserData(data.token);
-      setUserData(userDataResponse);
+      setUserData(userDataResponse); // Set user data from server response
       logInfo("userDataResponse", userDataResponse);
     } catch (error) {
       logError("Login error:", error);
@@ -66,8 +58,10 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
     setUserData(null);
 
-    // Clear token from localStorage
+    // Clear token and authentication state from localStorage
     localStorage.removeItem("token");
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("userData");
   };
 
   // Method to fetch user data from the server using the token
@@ -88,6 +82,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       const userDataResponse = await response.json();
+      localStorage.setItem("userData", JSON.stringify(userDataResponse)); // Set user data to local storage
       return userDataResponse;
     } catch (error) {
       logError("Error fetching user data:", error);

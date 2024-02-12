@@ -65,7 +65,13 @@ function Item() {
             alt={`Renter ${item.user.username}`}
           />
           <span>
-            {item.user.firstName} {item.user.lastName}
+            {item.user.firstName && item.user.lastName ? (
+              <>
+                {item.user.firstName} {item.user.lastName}
+              </>
+            ) : (
+              item.user.username
+            )}
           </span>
           <Link to="/">
             <button className="go-back">Go back</button>
