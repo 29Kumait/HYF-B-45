@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal.jsx";
 import { useAuth } from "./AuthContext";
@@ -12,40 +12,44 @@ const Login = ({ isInputVisible, setIsInputVisible }) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
-  const [isComponentMounted, setIsComponentMounted] = useState(true);
+  const isComponentMounted = useRef(true);
 
   useEffect(() => {
-    setIsComponentMounted(true);
-    return () => setIsComponentMounted(false);
+    isComponentMounted.current = true;
+    return () => {
+      isComponentMounted.current = false;
+    };
   }, []);
 
   const handleLogin = async (event) => {
     event.preventDefault();
     setError(null);
-    setIsLoading(true); // Start loading
+    setIsLoading(true);
 
     if (!username || !password) {
-      if (isComponentMounted) {
+      if (isComponentMounted.current) {
         setError("Please enter a username and password.");
-        setIsLoading(false); // Stop loading
+        setIsLoading(false);
       }
       return;
     }
 
     try {
       await login(username, password);
-      if (isComponentMounted) {
+      if (isComponentMounted.current) {
         setIsInputVisible(false);
         navigate("/");
       }
     } catch (error) {
-      if (isComponentMounted) {
+      if (isComponentMounted.current) {
         setError(`An error occurred while logging in: ${error.message}`);
-        setIsLoading(false); // Stop loading
+        setIsLoading(false);
+      }
+    } finally {
+      if (isComponentMounted.current) {
+        setIsLoading(false);
       }
     }
-    setIsLoading(false);
   };
 
   const handleCloseAndReset = () => {
