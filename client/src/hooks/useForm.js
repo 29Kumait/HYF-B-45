@@ -1,16 +1,22 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 
-export const useForm = (initialValues, onSubmit) => {
+export const useForm = (initialValues, onSubmit, onReset) => {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setSubmitting] = useState(false);
   const isMounted = useRef(true);
+  const initialValuesRef = useRef(initialValues); 
+
 
   useEffect(() => {
     return () => {
       isMounted.current = false;
     };
   }, []);
+
+  useEffect(() => { 
+    initialValuesRef.current = initialValues;
+  }, [initialValues]); // latest initialValues.
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -68,9 +74,18 @@ export const useForm = (initialValues, onSubmit) => {
         await onSubmit(values);
       } finally {
         if (isMounted.current) {
-          setSubmitting(false); // Only update if the component is mounted
+          setSubmitting(false);
         }
       }
+    }
+  };
+
+  const handleReset = () => {
+    setValues(initialValuesRef.current); // reset the form to the latest initialValues.
+    setErrors({});
+    setSubmitting(false);
+    if (typeof onReset === 'function') {
+      onReset();
     }
   };
 
@@ -79,6 +94,7 @@ export const useForm = (initialValues, onSubmit) => {
     handleChange,
     handleSubmit,
     handleImageUpload,
+    handleReset,
     errors,
     isSubmitting,
   };
