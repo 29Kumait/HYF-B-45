@@ -5,8 +5,7 @@ export const useForm = (initialValues, onSubmit, onReset) => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setSubmitting] = useState(false);
   const isMounted = useRef(true);
-  const initialValuesRef = useRef(initialValues); 
-
+  const initialValuesRef = useRef(initialValues);
 
   useEffect(() => {
     return () => {
@@ -14,7 +13,7 @@ export const useForm = (initialValues, onSubmit, onReset) => {
     };
   }, []);
 
-  useEffect(() => { 
+  useEffect(() => {
     initialValuesRef.current = initialValues;
   }, [initialValues]); // latest initialValues.
 
@@ -84,7 +83,7 @@ export const useForm = (initialValues, onSubmit, onReset) => {
     setValues(initialValuesRef.current); // reset the form to the latest initialValues.
     setErrors({});
     setSubmitting(false);
-    if (typeof onReset === 'function') {
+    if (typeof onReset === "function") {
       onReset();
     }
   };
