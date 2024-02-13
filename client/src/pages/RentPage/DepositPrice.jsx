@@ -9,7 +9,9 @@ const DepositPrice = ({ itemId }) => {
   useEffect(() => {
     const fetchRentalInfo = async () => {
       try {
-        const response = await axios.get(`/rentPage/${itemId}`);
+        const response = await axios.get(
+          `http://localhost:5000/api/expense/rentPage/${itemId}`
+        );
         setRentalInfo(response.data);
       } catch (err) {
         setError("Unable to fetch rental details. Please try again later.");
