@@ -29,5 +29,4 @@ app.use("/api", userInfoRouter);
 app.use("/api/user", userInfoRouter);
 app.use("/api/expense", expenseRouter);
 
-
 export default app;

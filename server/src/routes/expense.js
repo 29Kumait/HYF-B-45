@@ -17,10 +17,10 @@ expenseRouter.get("/rentPage/:itemId", async (req, res) => {
     const depositRequired = item.deposit > 0;
 
     //  total cost would be the item's price plus deposit if required
-    const totalPrice = item.price + (depositRequired ? item.deposit : 0);
+    const price = item.price;
 
     const response = {
-      totalPrice: `€${totalPrice.toFixed(2)}`, // total expense as string with Euro symbol
+      Price: `€${price.toFixed(2)}`, // total expense as string with Euro symbol
       depositRequired,
       depositAmount: depositRequired
         ? `€${item.deposit.toFixed(2)}`
