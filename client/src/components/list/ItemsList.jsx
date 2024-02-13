@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ItemElement from "./ItemElement";
 import "./ItemsList.css";
 import useFetch from "../../hooks/useFetch";
 import PropTypes from "prop-types";
+import { SearchContext } from "../header/SearchContext";
 
 const ItemsList = ({ selectedCategory }) => {
   const itemsPerPage = 12; // items per page
@@ -10,8 +11,15 @@ const ItemsList = ({ selectedCategory }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategoryState, setSelectedCategoryState] = useState(null);
   const [hasMoreData, setHasMoreData] = useState(true); // tracking data availability
+  const [searchedTitle, setSearchedTitle] = useState(null);
+
+  const { state } = useContext(SearchContext);
+  const { searchValue } = state;
+
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/item?page=${currentPage}${
+      searchedTitle ? `&title=${searchedTitle}` : ""
+    }${
       selectedCategoryState
         ? `&category=${encodeURIComponent(selectedCategoryState)}`
         : ""
@@ -31,7 +39,7 @@ const ItemsList = ({ selectedCategory }) => {
   useEffect(() => {
     performFetch();
     return cancelFetch;
-  }, [currentPage, selectedCategoryState]);
+  }, []);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -43,9 +51,10 @@ const ItemsList = ({ selectedCategory }) => {
 
   useEffect(() => {
     setSelectedCategoryState(selectedCategory);
+    setSearchedTitle(searchValue);
     // Reset page when category changes
     setCurrentPage(1);
-  }, [selectedCategory]);
+  }, [selectedCategory, searchValue]);
 
   if (isLoading) {
     return <div className="loading">Loading...</div>;
@@ -58,14 +67,9 @@ const ItemsList = ({ selectedCategory }) => {
   return (
     <div>
       <ul className="product-list">
-        {items
-          .filter(
-            (item) =>
-              !selectedCategoryState || item.category === selectedCategoryState
-          )
-          .map((item) => (
-            <ItemElement key={item._id} item={item} />
-          ))}
+        {items.map((item) => (
+          <ItemElement key={item._id} item={item} />
+        ))}
       </ul>
 
       <div className="pagination">

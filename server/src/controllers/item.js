@@ -7,12 +7,19 @@ export const getItems = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const pageSize = 12;
     const category = req.query.category;
+    const title = req.query.title;
 
     //Calculate the skip value based on the page number
     const skip = (page - 1) * pageSize;
 
     // Define a filter object if category is chosen
-    const filter = category ? { category: category } : {};
+    const filter = {};
+    if (category) {
+      filter.category = category;
+    }
+    if (title) {
+      filter.title = { $regex: title, $options: "i" };
+    }
 
     //Fetch items for the specified page with a limit of 9
     const items = await Item.find(filter).skip(skip).limit(pageSize);
