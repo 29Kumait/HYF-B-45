@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
   const fetchUserData = async (token) => {
     try {
       const response = await fetch(
-        `${process.env.BASE_SERVER_URL}/api/user/userInfo`,
+        `${process.env.BASE_SERVER_URL}/api/userInfo`,
         {
           method: "GET",
           headers: {
