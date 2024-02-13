@@ -24,6 +24,6 @@ app.use("/api/user", userRouter);
 app.use("/api/auth", router);
 app.use("/api/category", categoryRouter);
 app.use("/api/item", itemRouter);
-app.use("/api/user", userInfoRouter);
+app.use("/api", userInfoRouter);
 
 export default app;
