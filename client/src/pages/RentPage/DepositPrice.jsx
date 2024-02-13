@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
+import "./rentStyle.css";
 const DepositPrice = ({ itemId }) => {
   const [rentalInfo, setRentalInfo] = useState(null);
   const [loading, setLoading] = useState(true);
