@@ -38,10 +38,10 @@ function Item() {
     return <div>No data found.</div>;
   }
 
-  const handleRent = () => {
+  const handleRent = (itemId) => {
     handleNavigate(`/rent/${itemId}`);
   };
-  const handleChat = () => {
+  const handleChat = (itemId) => {
     handleNavigate(`/chat/${itemId}`);
   };
 
@@ -113,10 +113,10 @@ function Item() {
           </p>
         </div>
         <div className="buttons">
-          <button className="rent" onClick={handleRent}>
+          <button className="rent" onClick={() => handleRent(itemId)}>
             Rent
           </button>
-          <button className="chat" onClick={handleChat}>
+          <button className="chat" onClick={() => handleChat(itemId)}>
             Chat
           </button>
         </div>
