@@ -76,7 +76,7 @@ const ItemsList = ({ selectedCategory }) => {
     <div>
       <ul className="product-list">
         {items.map((item) => (
-          <ItemElement key={item._id} item={item} userLocale={userLocale}/>
+          <ItemElement key={item._id} item={item} userLocale={userLocale} />
         ))}
       </ul>
 
