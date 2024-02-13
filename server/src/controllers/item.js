@@ -6,14 +6,18 @@ export const getItems = async (req, res) => {
     // Get the page number from query parameters
     const page = parseInt(req.query.page) || 1;
     const pageSize = 12;
+    const category = req.query.category;
 
     //Calculate the skip value based on the page number
     const skip = (page - 1) * pageSize;
 
-    //Fetch items for the specified page with a limit of 9
-    const items = await Item.find().skip(skip).limit(pageSize);
+    // Define a filter object if category is chosen
+    const filter = category ? { category: category } : {};
 
-    const totalCount = await Item.countDocuments();
+    //Fetch items for the specified page with a limit of 9
+    const items = await Item.find(filter).skip(skip).limit(pageSize);
+
+    const totalCount = await Item.countDocuments(filter);
 
     res
       .status(200)

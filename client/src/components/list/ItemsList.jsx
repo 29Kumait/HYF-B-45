@@ -12,7 +12,9 @@ const ItemsList = ({ selectedCategory }) => {
   const [hasMoreData, setHasMoreData] = useState(true); // tracking data availability
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/item?page=${currentPage}${
-      selectedCategoryState ? `&category=${selectedCategoryState}` : ""
+      selectedCategoryState
+        ? `&category=${encodeURIComponent(selectedCategoryState)}`
+        : ""
     }`,
     (response) => {
       const newItems = response.result;

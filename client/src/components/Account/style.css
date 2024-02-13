@@ -151,3 +151,8 @@
   font-size: 14px;
   margin-bottom: -5px;
 }
+
+.upload-container {
+  max-width: 40%;
+  max-height: 40%;
+}
