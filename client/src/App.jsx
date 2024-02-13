@@ -15,7 +15,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/post-item" element={<PostItem />} />
           <Route path="/item/:itemId" element={<Item />} />
-          <Route path="/rentPage" element={<RentPage />} />
+          <Route path="/rentPage/:itemId" element={<RentPage />} />
         </Routes>
       </AuthProvider>
     </>
