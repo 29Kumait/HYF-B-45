@@ -4,6 +4,7 @@ import Home from "./pages/Home/Home";
 import "./App.css";
 import PostItem from "./pages/PostItem/PostItem";
 import Item from "./pages/Item/Item.jsx";
+import RentPage from "./pages/RentPage/RentPage";
 import { AuthProvider } from "./components/Account/AuthContext";
 
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/post-item" element={<PostItem />} />
           <Route path="/item/:itemId" element={<Item />} />
+          <Route path="/rentPage/:itemId" element={<RentPage />} />
         </Routes>
       </AuthProvider>
     </>
