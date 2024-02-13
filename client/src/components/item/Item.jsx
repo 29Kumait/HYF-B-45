@@ -93,7 +93,7 @@ function Item() {
               ? ""
               : new Intl.NumberFormat(userLocale, {
                   style: "currency",
-                  currency: "USD",
+                  currency: "EUR",
                 }).format(item.price)}
           </p>
           {item.deposit === null || item.deposit === 0 ? (
@@ -103,7 +103,7 @@ function Item() {
               <span className="item_label">Deposit:</span>{" "}
               {new Intl.NumberFormat(userLocale, {
                 style: "currency",
-                currency: "USD",
+                currency: "EUR",
               }).format(item.deposit)}
             </p>
           )}

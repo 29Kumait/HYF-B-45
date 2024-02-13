@@ -34,7 +34,7 @@ const ItemElement = ({ item, userLocale }) => {
             ? "Free to rent"
             : new Intl.NumberFormat(userLocale, {
                 style: "currency",
-                currency: "USD",
+                currency: "EUR",
               }).format(item.price) + "/per day"}
         </span>
         {/* Link to the DetailedPage with the itemId */}
