@@ -7,7 +7,6 @@ import Item from "./pages/Item/Item.jsx";
 import RentPage from "./pages/RentPage/RentPage";
 import { AuthProvider } from "./components/Account/AuthContext";
 
-
 const App = () => {
   return (
     <>
