@@ -55,7 +55,7 @@ function Item() {
   const handleClosePopup = () => {
     setShowPopup(false);
   };
-
+  const userLocale = navigator.language;
   return (
     <>
       <div className="item">
@@ -90,13 +90,22 @@ function Item() {
                 ? "Free to rent"
                 : "Price:"}
             </span>
-            {item.price === null || item.price === 0 ? "" : ` $${item.price}`}
+            {item.price === null || item.price === 0
+              ? ""
+              : new Intl.NumberFormat(userLocale, {
+                  style: "currency",
+                  currency: "EUR",
+                }).format(item.price)}
           </p>
           {item.deposit === null || item.deposit === 0 ? (
             ""
           ) : (
             <p className="item_detail">
-              <span className="item_label">Deposit:</span> ${item.deposit}
+              <span className="item_label">Deposit:</span>{" "}
+              {new Intl.NumberFormat(userLocale, {
+                style: "currency",
+                currency: "EUR",
+              }).format(item.deposit)}
             </p>
           )}
           <p className="item_detail">

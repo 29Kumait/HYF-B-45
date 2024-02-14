@@ -69,12 +69,14 @@ const ItemsList = ({ selectedCategory }) => {
   if (error) {
     return <div className="error">Error: {error.toString()}</div>;
   }
+  // Get user's locale
+  const userLocale = navigator.language;
 
   return (
     <div>
       <ul className="product-list">
         {items.map((item) => (
-          <ItemElement key={item._id} item={item} />
+          <ItemElement key={item._id} item={item} userLocale={userLocale}/>
         ))}
       </ul>
 
