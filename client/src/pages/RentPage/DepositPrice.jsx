@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import "./rentStyle.css";
+import { logError } from "../../../../server/src/util/logging";
 
 const DepositPrice = ({ itemId, setRenterId, setTotalPrice }) => {
   const [rentalInfo, setRentalInfo] = useState(null);
@@ -19,6 +20,7 @@ const DepositPrice = ({ itemId, setRenterId, setTotalPrice }) => {
         setTotalPrice(response.data.price);
       } catch (err) {
         setError("Unable to fetch rental details. Please try again later.");
+        logError("Error fetching rental details:", err);
       } finally {
         setLoading(false);
       }
@@ -33,7 +35,7 @@ const DepositPrice = ({ itemId, setRenterId, setTotalPrice }) => {
 
   return (
     <div>
-      <p>Rental Price: {rentalInfo.Price}</p>
+      <p>Rental Price: {rentalInfo.price}</p>{" "}
       <p>
         Deposit Amount:{" "}
         {rentalInfo.depositRequired
