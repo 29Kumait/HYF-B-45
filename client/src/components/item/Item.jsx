@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import "./Item.css";
 import Popup from "../popUp/Popup.jsx";
 import { AuthContext } from "../Account/AuthContext.jsx";
+import ProfilePic from "../../assets/fake-user.jpg";
 function Item() {
   const { itemId } = useParams(); // Extract itemId from URL params using useParams
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ function Item() {
         <div className="item_renter-info">
           <img
             className="item_renter-image"
-            src={item.user.userImageURL}
+            src={item.user.userImageURL || ProfilePic}
             alt={`Renter ${item.user.username}`}
           />
           <span>
