@@ -4,7 +4,7 @@ import DepositPrice from "./DepositPrice";
 import InputDate from "./InputDate";
 import "./rentStyle.css";
 import useFetch from "../../hooks/useFetch";
-import { logError, logInfo } from "../../../../server/src/util/logging";
+import { logError } from "../../../../server/src/util/logging";
 
 function RentPage() {
   const { itemId } = useParams();
@@ -47,6 +47,13 @@ function RentPage() {
       setError("Please select both start and end dates.");
       return;
     }
+    // Validate that end date is after start date
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    if (end <= start) {
+      setError("End date must be after start date.");
+      return;
+    }
     try {
       await performFetch({
         method: "POST",
@@ -58,11 +65,6 @@ function RentPage() {
           renterId,
         }),
       });
-      logInfo(startDate);
-      logInfo(endDate);
-      logInfo(price);
-      logInfo(itemId);
-      logInfo(renterId);
     } catch (error) {
       setError("Error renting item. Please try again later.");
       logError("Error renting item:", error);
