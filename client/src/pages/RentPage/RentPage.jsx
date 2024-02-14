@@ -12,7 +12,7 @@ function RentPage() {
   const [error, setError] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [Price, setPrice] = useState("");
+  const [price, setPrice] = useState("");
   const [renterId, setRenterId] = useState("");
   const [days, setDays] = useState(1); // Default value is 1 day
 
@@ -53,14 +53,14 @@ function RentPage() {
         body: JSON.stringify({
           startDate,
           endDate,
-          Price,
+          price,
           itemId,
           renterId,
         }),
       });
       logInfo(startDate);
       logInfo(endDate);
-      logInfo(Price);
+      logInfo(price);
       logInfo(itemId);
       logInfo(renterId);
     } catch (error) {

@@ -1,10 +1,11 @@
 import Transaction from "../models/Transaction.js";
-import { logError } from "../util/logging.js";
+import { logError, logInfo } from "../util/logging.js";
 
 export const createTransaction = async (req, res) => {
   try {
-    const { startDate, endDate, totalPrice, renterId } = req.body;
+    const { startDate, endDate, price, renterId } = req.body;
     const { itemId } = req.params;
+    logInfo(req.body);
 
     // Static borrower ID
     const STATIC_BORROWER_ID = "65c8aeb7f95558392ef74d9b";
@@ -12,14 +13,13 @@ export const createTransaction = async (req, res) => {
     const transaction = new Transaction({
       startDate,
       endDate,
-      totalPrice,
+      totalPrice: price,
       item_id: itemId,
       renter_id: renterId,
       borrower_id: STATIC_BORROWER_ID,
     });
 
     await transaction.save();
-
     res.status(201).json(transaction);
   } catch (error) {
     logError("Error creating transaction:", error);
