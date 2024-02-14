@@ -12,8 +12,9 @@ function RentPage() {
   const [error, setError] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [totalPrice, setTotalPrice] = useState("");
+  const [Price, setPrice] = useState("");
   const [renterId, setRenterId] = useState("");
+  const [days, setDays] = useState(1); // Default value is 1 day
 
   const { isLoading, performFetch } = useFetch(
     `/transactions/rentPage/${itemId}`,
@@ -33,6 +34,12 @@ function RentPage() {
 
   const handleEndDateChange = (selectedEndDate) => {
     setEndDate(selectedEndDate);
+    // Calculate number of days between start and end dates
+    const start = new Date(startDate);
+    const end = new Date(selectedEndDate);
+    const diffTime = Math.abs(end - start);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    setDays(diffDays);
   };
 
   const handleRentItem = async () => {
@@ -46,14 +53,14 @@ function RentPage() {
         body: JSON.stringify({
           startDate,
           endDate,
-          totalPrice,
+          Price,
           itemId,
-          renterId, // include renterId in the request body
+          renterId,
         }),
       });
       logInfo(startDate);
       logInfo(endDate);
-      logInfo(totalPrice);
+      logInfo(Price);
       logInfo(itemId);
       logInfo(renterId);
     } catch (error) {
@@ -71,7 +78,8 @@ function RentPage() {
       <DepositPrice
         itemId={itemId}
         setRenterId={setRenterId}
-        setTotalPrice={setTotalPrice}
+        setTotalPrice={setPrice}
+        days={days}
       />
       <button onClick={handleRentItem}>Rent Item</button>
       <p>{rentalStatus}</p>

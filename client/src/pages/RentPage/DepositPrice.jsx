@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import "./rentStyle.css";
 import { logError } from "../../../../server/src/util/logging";
 
-const DepositPrice = ({ itemId, setRenterId, setTotalPrice }) => {
+const DepositPrice = ({ itemId, setRenterId, setTotalPrice, days }) => {
   const [rentalInfo, setRentalInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -17,7 +17,7 @@ const DepositPrice = ({ itemId, setRenterId, setTotalPrice }) => {
         );
         setRentalInfo(response.data);
         setRenterId(response.data.renterId);
-        setTotalPrice(response.data.price);
+        setTotalPrice((response.data.price * days).toFixed(2));
       } catch (err) {
         setError("Unable to fetch rental details. Please try again later.");
         logError("Error fetching rental details:", err);
@@ -27,7 +27,7 @@ const DepositPrice = ({ itemId, setRenterId, setTotalPrice }) => {
     };
 
     fetchRentalInfo();
-  }, [itemId, setRenterId]);
+  }, [itemId, setRenterId, setTotalPrice, days]);
 
   if (loading) return <div>Loading rental details...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -35,7 +35,7 @@ const DepositPrice = ({ itemId, setRenterId, setTotalPrice }) => {
 
   return (
     <div>
-      <p>Rental Price: {rentalInfo.price}</p>{" "}
+      <p>Total Price: {(rentalInfo.price * days).toFixed(2)}</p>{" "}
       <p>
         Deposit Amount:{" "}
         {rentalInfo.depositRequired
@@ -50,6 +50,7 @@ DepositPrice.propTypes = {
   itemId: PropTypes.string.isRequired,
   setRenterId: PropTypes.func.isRequired,
   setTotalPrice: PropTypes.func.isRequired,
+  days: PropTypes.number.isRequired,
 };
 
 export default DepositPrice;
