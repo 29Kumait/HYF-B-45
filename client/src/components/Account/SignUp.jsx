@@ -88,7 +88,7 @@ const SignUp = ({ onSignUpSuccess }) => {
         Sign Up
       </button>
       <Modal isVisible={isModalVisible} onClose={() => setModalVisible(false)}>
-        <div className="upload-container ">
+        <div className="upload-container">
           <span className="upload-text">
             Upload your profile picture (up to 2MB)
           </span>

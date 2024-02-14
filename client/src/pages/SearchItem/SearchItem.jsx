@@ -1,21 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Header from "../../components/header/Header";
-import Hero from "../../components/header/Hero";
-import TEST_ID from "./Home.testid";
 import { Footer } from "../../components/footer/Footer";
 import { ParentCategoriesItemsList } from "../../components/ParentCategoriesItemsList";
+import TEST_ID from "../Home/Home.testid";
 
-const Home = () => {
+const SearchItem = () => {
   return (
     <div data-testid={TEST_ID.container}>
       <Header />
-      <Hero />
       <ParentCategoriesItemsList />
-      <Link to="/rentPage/">Go to Rent Page</Link>
       <Footer />
     </div>
   );
 };
 
-export default Home;
+export default SearchItem;

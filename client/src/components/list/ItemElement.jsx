@@ -49,7 +49,7 @@ ItemElement.propTypes = {
     imageURL: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
+    price: PropTypes.number,
     renter_id: PropTypes.string.isRequired,
   }).isRequired,
 };
