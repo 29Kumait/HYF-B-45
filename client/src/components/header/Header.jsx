@@ -7,7 +7,9 @@ import Logo from "../../assets/logo-color.svg";
 import AddItemButton from "./AddItemButton";
 import ProfileDropdown from "./ProfileDropdown";
 import "./Header.css";
+import { Link } from "react-router-dom";
 import { SearchContext } from "./SearchContext";
+
 
 function Header() {
   const { isAuthenticated, userData, logout } = useAuth();
@@ -31,7 +33,9 @@ function Header() {
   return (
     <header className="header">
       <div className="logo">
-        <img src={Logo} alt="Logo" className="logo-image" />
+        <Link to="/">
+          <img src={Logo} alt="Logo" className="logo-image" />
+        </Link>{" "}
       </div>
       <div className="header-content">
         <div className="search-container">
