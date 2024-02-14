@@ -18,6 +18,7 @@ expenseRouter.get("/rentPage/:itemId", async (req, res) => {
 
     //  total cost would be the item's price plus deposit if required
     const price = item.price;
+    const renterId = item.renter_id;
 
     const response = {
       Price: `€${price.toFixed(2)}`, // total expense as string with Euro symbol
@@ -25,6 +26,7 @@ expenseRouter.get("/rentPage/:itemId", async (req, res) => {
       depositAmount: depositRequired
         ? `€${item.deposit.toFixed(2)}`
         : "No deposit required",
+      renterId: renterId,
     };
 
     res.status(200).json(response);
