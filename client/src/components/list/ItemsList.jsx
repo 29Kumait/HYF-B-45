@@ -13,14 +13,14 @@ const ItemsList = ({ selectedCategory }) => {
   const [hasMoreData, setHasMoreData] = useState(true); // tracking data availability
   const [searchedTitle, setSearchedTitle] = useState(null);
 
-  const { state } = useContext(SearchContext);
-  const { searchValue } = state;
+  const { state, dispatch } = useContext(SearchContext);
+  const { title: searchValue } = state;
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/item?page=${currentPage}${
-      searchedTitle ? `&title=${searchedTitle}` : ""
+      searchedTitle && !selectedCategoryState ? `&title=${searchedTitle}` : ""
     }${
-      selectedCategoryState
+      selectedCategoryState && !searchedTitle
         ? `&category=${encodeURIComponent(selectedCategoryState)}`
         : ""
     }`,
@@ -39,7 +39,20 @@ const ItemsList = ({ selectedCategory }) => {
   useEffect(() => {
     performFetch();
     return cancelFetch;
-  }, []);
+  }, [currentPage, searchedTitle, selectedCategoryState]);
+
+  useEffect(() => {
+    setSelectedCategoryState(selectedCategory);
+    setSearchedTitle(searchValue);
+    // Reset page when category changes
+    setCurrentPage(1);
+  }, [selectedCategory, searchValue]);
+
+  useEffect(() => {}, [searchedTitle]);
+
+  useEffect(() => {
+    dispatch({ type: "SEARCH_CATEGORY", payload: selectedCategoryState });
+  }, [selectedCategoryState]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -48,13 +61,6 @@ const ItemsList = ({ selectedCategory }) => {
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
-
-  useEffect(() => {
-    setSelectedCategoryState(selectedCategory);
-    setSearchedTitle(searchValue);
-    // Reset page when category changes
-    setCurrentPage(1);
-  }, [selectedCategory, searchValue]);
 
   if (isLoading) {
     return <div className="loading">Loading...</div>;

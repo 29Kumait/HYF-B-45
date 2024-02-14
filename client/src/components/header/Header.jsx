@@ -23,6 +23,11 @@ function Header() {
     setSearchValue(e.target.value);
   };
 
+  const handleSearch = () => {
+    // Dispatch the search action here
+    dispatch({ type: "SEARCH_TITLE", payload: searchValue });
+  };
+
   return (
     <header className="header">
       <div className="logo">
@@ -34,9 +39,7 @@ function Header() {
             src={SearchIcon}
             alt="Search Icon"
             className="search-icon"
-            onClick={() =>
-              dispatch({ type: "SEARCH_TITLE", payload: searchValue })
-            }
+            onClick={handleSearch}
           />
           <input
             type="text"
