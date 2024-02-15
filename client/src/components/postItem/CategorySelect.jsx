@@ -18,7 +18,7 @@ const CategorySelect = ({ onSelectCategory }) => {
       onChange={(e) =>
         onSelectCategory(
           e.target.value,
-          e.target.options[e.target.selectedIndex].text
+          e.target.options[e.target.selectedIndex].text,
         )
       }
       required

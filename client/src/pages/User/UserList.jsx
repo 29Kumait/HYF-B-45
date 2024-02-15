@@ -10,7 +10,7 @@ const UserList = () => {
     "/user",
     (response) => {
       setUsers(response.result);
-    }
+    },
   );
 
   useEffect(() => {

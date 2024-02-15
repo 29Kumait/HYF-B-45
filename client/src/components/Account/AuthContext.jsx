@@ -9,10 +9,10 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   // State to hold authentication status and user data
   const [isAuthenticated, setIsAuthenticated] = useState(
-    () => localStorage.getItem("isAuthenticated") === "true"
+    () => localStorage.getItem("isAuthenticated") === "true",
   );
   const [userData, setUserData] = useState(
-    () => JSON.parse(localStorage.getItem("userData")) || null
+    () => JSON.parse(localStorage.getItem("userData")) || null,
   );
 
   // Method to handle user login
@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ username, password }),
-        }
+        },
       );
 
       const data = await response.json();
@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }) => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       if (!response.ok) {

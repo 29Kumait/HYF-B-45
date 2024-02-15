@@ -7,7 +7,7 @@ const Renter = ({ userId }) => {
     const fetchUserById = async () => {
       try {
         const response = await fetch(
-          `${process.env.BASE_SERVER_URL}/api/user/${userId}`
+          `${process.env.BASE_SERVER_URL}/api/user/${userId}`,
         );
         const data = await response.json();
         if (data.success) {

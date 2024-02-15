@@ -34,7 +34,7 @@ const UploadImages = ({ handleImageUpload }) => {
     e.preventDefault();
     const form = e.currentTarget;
     const fileInput = Array.from(form.elements).find(
-      ({ name }) => name === "file"
+      ({ name }) => name === "file",
     );
 
     const formData = new FormData();
@@ -50,7 +50,7 @@ const UploadImages = ({ handleImageUpload }) => {
         {
           method: "POST",
           body: formData,
-        }
+        },
       );
       if (!response.ok) {
         throw new Error("Failed to upload image. Please try again later.");

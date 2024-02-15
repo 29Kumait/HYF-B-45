@@ -5,18 +5,18 @@ const TEST_ID = {
   loadingContainer: `${createTestIdFilePath(
     "pages",
     "User",
-    "UserList"
+    "UserList",
   )}-loadingContainer`,
   errorContainer: `${createTestIdFilePath(
     "pages",
     "User",
-    "UserList"
+    "UserList",
   )}-errorContainer`,
   userList: `${createTestIdFilePath("pages", "User", "UserList")}-userList`,
   createUserButton: `${createTestIdFilePath(
     "pages",
     "User",
-    "UserList"
+    "UserList",
   )}-createUserButton`,
 };
 

@@ -27,15 +27,15 @@ describe("UserList", () => {
     render(
       <MemoryRouter>
         <UserList />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     // Wait until data is loaded
     await waitFor(() =>
       expect(screen.getByTestId(TEST_ID_USER_LIST.userList)).toHaveAttribute(
         "data-loaded",
-        "true"
-      )
+        "true",
+      ),
     );
 
     // Check that the page has rendered
@@ -48,20 +48,20 @@ describe("UserList", () => {
 
     // Mock our fetch with a user
     fetch.mockResponseOnce(
-      getUsersSuccessMock([{ _id: "u---1", name: testName, email: testEmail }])
+      getUsersSuccessMock([{ _id: "u---1", name: testName, email: testEmail }]),
     );
     render(
       <MemoryRouter>
         <UserList />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     // Wait until data is loaded
     await waitFor(() =>
       expect(screen.getByTestId(TEST_ID_USER_LIST.userList)).toHaveAttribute(
         "data-loaded",
-        "true"
-      )
+        "true",
+      ),
     );
 
     // Check the information is on the page. We only check that the name is somewhere on the page, so {exact: false}
@@ -76,16 +76,16 @@ describe("UserList", () => {
     render(
       <MemoryRouter>
         <UserList />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     expect(
-      screen.getByTestId(TEST_ID_USER_LIST.loadingContainer)
+      screen.getByTestId(TEST_ID_USER_LIST.loadingContainer),
     ).toBeInTheDocument();
 
     // Loading div should be removed after the load is complete
     await waitForElementToBeRemoved(() =>
-      screen.getByTestId(TEST_ID_USER_LIST.loadingContainer)
+      screen.getByTestId(TEST_ID_USER_LIST.loadingContainer),
     );
   });
 
@@ -96,18 +96,18 @@ describe("UserList", () => {
     render(
       <MemoryRouter>
         <UserList />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     expect(
-      screen.queryByTestId(TEST_ID_USER_LIST.errorContainer)
+      screen.queryByTestId(TEST_ID_USER_LIST.errorContainer),
     ).not.toBeInTheDocument();
 
     // Wait to see that the error container is being shown
     await waitFor(() =>
       expect(
-        screen.getByTestId(TEST_ID_USER_LIST.errorContainer)
-      ).toBeInTheDocument()
+        screen.getByTestId(TEST_ID_USER_LIST.errorContainer),
+      ).toBeInTheDocument(),
     );
   });
 });

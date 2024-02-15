@@ -23,9 +23,9 @@ const ItemsList = ({ selectedCategory }) => {
       // Check if there are more items
       setHasMoreData(
         newItems.length === itemsPerPage &&
-          totalItems > currentPage * itemsPerPage
+          totalItems > currentPage * itemsPerPage,
       );
-    }
+    },
   );
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const ItemsList = ({ selectedCategory }) => {
         {items
           .filter(
             (item) =>
-              !selectedCategoryState || item.category === selectedCategoryState
+              !selectedCategoryState || item.category === selectedCategoryState,
           )
           .map((item) => (
             <ItemElement key={item._id} item={item} />
