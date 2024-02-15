@@ -5,6 +5,8 @@ import InputDate from "./InputDate";
 import "./rentStyle.css";
 import useFetch from "../../hooks/useFetch";
 import { logError } from "../../../../server/src/util/logging";
+import Header from "../../components/header/Header";
+import { Footer } from "../../components/footer/Footer";
 
 function RentPage() {
   const { itemId } = useParams();
@@ -72,22 +74,27 @@ function RentPage() {
   };
 
   return (
-    <div className="pricey">
-      <InputDate
-        handleStartDateChange={handleStartDateChange}
-        handleEndDateChange={handleEndDateChange}
-      />
-      <DepositPrice
-        itemId={itemId}
-        setRenterId={setRenterId}
-        setTotalPrice={setPrice}
-        days={days}
-      />
-      <button onClick={handleRentItem}>Rent Item</button>
-      <p>{rentalStatus}</p>
-      {error && <p>{error}</p>}
-      {isLoading && <p>Loading...</p>}
-    </div>
+    <>
+      {" "}
+      <Header />
+      <div className="pricey">
+        <InputDate
+          handleStartDateChange={handleStartDateChange}
+          handleEndDateChange={handleEndDateChange}
+        />
+        <DepositPrice
+          itemId={itemId}
+          setRenterId={setRenterId}
+          setTotalPrice={setPrice}
+          days={days}
+        />
+        <button onClick={handleRentItem}>Rent Item</button>
+        <p>{rentalStatus}</p>
+        {error && <p>{error}</p>}
+        {isLoading && <p>Loading...</p>}
+      </div>
+      <Footer />
+    </>
   );
 }
 
