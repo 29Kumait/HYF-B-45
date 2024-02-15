@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch.js";
 import PropTypes from "prop-types";
 import "./Item.css";
 import Popup from "../popUp/Popup.jsx";
-import { AuthContext } from "../Account/AuthContext.jsx";
+// import { AuthContext } from "../Account/AuthContext.jsx";
 import ProfilePic from "../../assets/fake-user.jpg";
 function Item() {
   const { itemId } = useParams(); // Extract itemId from URL params using useParams
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const [item, setItem] = useState(null);
-  const { isAuthenticated } = useContext(AuthContext);
+  // const { isAuthenticated } = useContext(AuthContext);
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/item/${itemId}`,
@@ -38,24 +38,24 @@ function Item() {
     return <div>No data found.</div>;
   }
 
-  const handleRent = () => {
-    handleNavigate(`/rent/${itemId}`);
+  const handleRent = (itemId) => {
+    handleNavigate(`/rentPage/${itemId}`);
   };
-  const handleChat = () => {
-    handleNavigate(`/chat/${itemId}`);
+  const handleChat = (itemId) => {
+    handleNavigate(`/chatPage/${itemId}`);
   };
 
   const handleNavigate = (path) => {
-    if (isAuthenticated) {
-      navigate(path);
-    } else {
-      setShowPopup(true); // Show the popup if the user is not signed in
-    }
+    // if (isAuthenticated) {
+    navigate(path);
+    // } else {
+    // setShowPopup(true); // Show the popup if the user is not signed in
+    // }
   };
   const handleClosePopup = () => {
     setShowPopup(false);
   };
-
+  const userLocale = navigator.language;
   return (
     <>
       <div className="item">
@@ -90,13 +90,22 @@ function Item() {
                 ? "Free to rent"
                 : "Price:"}
             </span>
-            {item.price === null || item.price === 0 ? "" : ` $${item.price}`}
+            {item.price === null || item.price === 0
+              ? ""
+              : new Intl.NumberFormat(userLocale, {
+                  style: "currency",
+                  currency: "EUR",
+                }).format(item.price)}
           </p>
           {item.deposit === null || item.deposit === 0 ? (
             ""
           ) : (
             <p className="item_detail">
-              <span className="item_label">Deposit:</span> ${item.deposit}
+              <span className="item_label">Deposit:</span>{" "}
+              {new Intl.NumberFormat(userLocale, {
+                style: "currency",
+                currency: "EUR",
+              }).format(item.deposit)}
             </p>
           )}
           <p className="item_detail">
@@ -104,10 +113,10 @@ function Item() {
           </p>
         </div>
         <div className="buttons">
-          <button className="rent" onClick={handleRent}>
+          <button className="rent" onClick={() => handleRent(itemId)}>
             Rent
           </button>
-          <button className="chat" onClick={handleChat}>
+          <button className="chat" onClick={() => handleChat(itemId)}>
             Chat
           </button>
         </div>

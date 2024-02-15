@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useAuth } from "../Account/AuthContext";
 import SignUp from "../Account/SignUp";
 import Login from "../Account/Login";
@@ -7,28 +7,49 @@ import Logo from "../../assets/logo-color.svg";
 import AddItemButton from "./AddItemButton";
 import ProfileDropdown from "./ProfileDropdown";
 import "./Header.css";
+import { Link } from "react-router-dom";
+import { SearchContext } from "./SearchContext";
 
 function Header() {
   const { isAuthenticated, userData, logout } = useAuth();
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isSignInVisible, setIsSignInVisible] = useState(false);
+  const { dispatch } = useContext(SearchContext);
+  const [searchValue, setSearchValue] = useState("");
 
   const handleSignUpSuccess = () => {
     setIsSignInVisible(true);
   };
 
+  const handleSearchInputChange = (e) => {
+    setSearchValue(e.target.value);
+  };
+
+  const handleSearch = () => {
+    // Dispatch the search action here
+    dispatch({ type: "SEARCH_TITLE", payload: searchValue });
+  };
+
   return (
     <header className="header">
       <div className="logo">
-        <img src={Logo} alt="Logo" className="logo-image" />
+        <Link to="/">
+          <img src={Logo} alt="Logo" className="logo-image" />
+        </Link>{" "}
       </div>
       <div className="header-content">
         <div className="search-container">
-          <img src={SearchIcon} alt="Search Icon" className="search-icon" />
+          <img
+            src={SearchIcon}
+            alt="Search Icon"
+            className="search-icon"
+            onClick={handleSearch}
+          />
           <input
             type="text"
             placeholder="Bike, laptop, stroller..."
             className="search-input"
+            value={searchValue}
+            onChange={handleSearchInputChange}
           />
         </div>
         {isAuthenticated ? (

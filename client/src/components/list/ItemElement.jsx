@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import "./ItemsList.css"; // Import the CSS file
 import Renter from "./Renter";
 
-const ItemElement = ({ item }) => {
+const ItemElement = ({ item, userLocale }) => {
   // Function to shorten the description to the first 5 words
   const shortenDescription = (text, words) => {
     const textWords = text.split(" ");
@@ -32,7 +32,10 @@ const ItemElement = ({ item }) => {
         <span className="product-item__price">
           {item.price === null || item.price === 0
             ? "Free to rent"
-            : `$${item.price}/per day`}
+            : new Intl.NumberFormat(userLocale, {
+                style: "currency",
+                currency: "EUR",
+              }).format(item.price) + "/per day"}
         </span>
         {/* Link to the DetailedPage with the itemId */}
         <Link to={`/item/${item._id}`} className="product-item__view-button">
@@ -52,6 +55,7 @@ ItemElement.propTypes = {
     price: PropTypes.number,
     renter_id: PropTypes.string.isRequired,
   }).isRequired,
+  userLocale: PropTypes.string.isRequired,
 };
 
 export default ItemElement;
