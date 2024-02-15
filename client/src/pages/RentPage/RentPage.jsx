@@ -78,6 +78,7 @@ function RentPage() {
       <Header />
       <div className="pricey">
         <InputDate
+          itemId={itemId}
           handleStartDateChange={handleStartDateChange}
           handleEndDateChange={handleEndDateChange}
         />
