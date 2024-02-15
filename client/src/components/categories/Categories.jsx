@@ -9,7 +9,7 @@ function Categories({ handleClick, selectedCategory }) {
     "/category",
     (response) => {
       setCategories(response.result);
-    },
+    }
   );
 
   useEffect(() => {

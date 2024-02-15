@@ -11,7 +11,7 @@ const DepositPrice = ({ itemId }) => {
     const fetchRentalInfo = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/expense/rentPage/${itemId}`,
+          `http://localhost:5000/api/expense/rentPage/${itemId}`
         );
         setRentalInfo(response.data);
       } catch (err) {

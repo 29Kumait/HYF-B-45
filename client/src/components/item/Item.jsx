@@ -18,7 +18,7 @@ function Item() {
     (response) => {
       const newItem = response.result; // Extract the item from the response
       setItem(newItem); // Update the state with the received item
-    },
+    }
   );
 
   useEffect(() => {

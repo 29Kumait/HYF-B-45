@@ -23,7 +23,7 @@ describe("CreateUser", () => {
     render(<CreateUser />);
 
     expect(
-      screen.getByTestId(TEST_ID_CREATE_USER.container),
+      screen.getByTestId(TEST_ID_CREATE_USER.container)
     ).toBeInTheDocument();
   });
 
@@ -36,7 +36,7 @@ describe("CreateUser", () => {
     // Check initially fields are empty
     expect(screen.getByTestId(TEST_ID_CREATE_USER.nameInput).value).toEqual("");
     expect(screen.getByTestId(TEST_ID_CREATE_USER.emailInput).value).toEqual(
-      "",
+      ""
     );
 
     // Change fields
@@ -49,10 +49,10 @@ describe("CreateUser", () => {
 
     // Check fields have changed value
     expect(screen.getByTestId(TEST_ID_CREATE_USER.nameInput).value).toEqual(
-      testName,
+      testName
     );
     expect(screen.getByTestId(TEST_ID_CREATE_USER.emailInput).value).toEqual(
-      testEmail,
+      testEmail
     );
   });
 
@@ -78,7 +78,7 @@ describe("CreateUser", () => {
 
     // Check that there is no loading indicator initially
     expect(
-      await screen.queryByTestId(TEST_ID_CREATE_USER.loadingContainer),
+      await screen.queryByTestId(TEST_ID_CREATE_USER.loadingContainer)
     ).not.toBeInTheDocument();
 
     // Click submit
@@ -86,12 +86,12 @@ describe("CreateUser", () => {
 
     // Wait for the loading to be shown
     expect(
-      screen.getByTestId(TEST_ID_CREATE_USER.loadingContainer),
+      screen.getByTestId(TEST_ID_CREATE_USER.loadingContainer)
     ).toBeInTheDocument();
 
     // Wait for the loading state to be removed
     await waitForElementToBeRemoved(
-      screen.getByTestId(TEST_ID_CREATE_USER.loadingContainer),
+      screen.getByTestId(TEST_ID_CREATE_USER.loadingContainer)
     );
 
     // Check that the right endpoint was called
@@ -101,13 +101,13 @@ describe("CreateUser", () => {
       // We need to stringify as we send the information as a string
       JSON.stringify({
         user: { name: testName, email: testEmail },
-      }),
+      })
     );
 
     // Check to see that the fields were cleared after a successful submit after everything has settled
     expect(screen.getByTestId(TEST_ID_CREATE_USER.nameInput).value).toEqual("");
     expect(screen.getByTestId(TEST_ID_CREATE_USER.emailInput).value).toEqual(
-      "",
+      ""
     );
   });
 
@@ -130,7 +130,7 @@ describe("CreateUser", () => {
 
     // Check that there is no error indicator initially
     expect(
-      screen.queryByTestId(TEST_ID_CREATE_USER.errorContainer),
+      screen.queryByTestId(TEST_ID_CREATE_USER.errorContainer)
     ).not.toBeInTheDocument();
 
     // Click submit
@@ -139,16 +139,16 @@ describe("CreateUser", () => {
     // Wait to see the error component
     waitFor(() =>
       expect(
-        screen.findByTestId(TEST_ID_CREATE_USER.errorContainer),
-      ).toBeInTheDocument(),
+        screen.findByTestId(TEST_ID_CREATE_USER.errorContainer)
+      ).toBeInTheDocument()
     );
 
     // Check to see that the fields are still filled in
     expect(screen.getByTestId(TEST_ID_CREATE_USER.nameInput).value).toEqual(
-      testName,
+      testName
     );
     expect(screen.getByTestId(TEST_ID_CREATE_USER.emailInput).value).toEqual(
-      testEmail,
+      testEmail
     );
   });
 });

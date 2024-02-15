@@ -23,17 +23,17 @@ describe("Navigation", () => {
     render(
       <MemoryRouter history={history} initialEntries={["/user"]}>
         <App />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
     expect(
-      screen.queryByTestId(TEST_ID_HOME.container),
+      screen.queryByTestId(TEST_ID_HOME.container)
     ).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByTestId(TEST_ID_NAV.linkToHome));
 
     await waitFor(() =>
-      expect(screen.getByTestId(TEST_ID_HOME.container)).toBeInTheDocument(),
+      expect(screen.getByTestId(TEST_ID_HOME.container)).toBeInTheDocument()
     );
   });
 
@@ -43,27 +43,27 @@ describe("Navigation", () => {
     render(
       <MemoryRouter history={history} initialEntries={["/"]}>
         <App />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
     expect(
-      screen.queryByTestId(TEST_ID_USER_LIST.container),
+      screen.queryByTestId(TEST_ID_USER_LIST.container)
     ).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByTestId(TEST_ID_NAV.linkToUsers));
 
     await waitFor(() =>
       expect(
-        screen.getByTestId(TEST_ID_USER_LIST.container),
-      ).toBeInTheDocument(),
+        screen.getByTestId(TEST_ID_USER_LIST.container)
+      ).toBeInTheDocument()
     );
 
     // Wait until data is loaded
     await waitFor(() =>
       expect(screen.getByTestId(TEST_ID_USER_LIST.userList)).toHaveAttribute(
         "data-loaded",
-        "true",
-      ),
+        "true"
+      )
     );
   });
 });

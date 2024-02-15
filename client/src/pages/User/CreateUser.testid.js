@@ -6,22 +6,22 @@ const TEST_ID = {
   emailInput: `${createTestIdFilePath(
     "pages",
     "User",
-    "CreateUser",
+    "CreateUser"
   )}-emailInput`,
   submitButton: `${createTestIdFilePath(
     "pages",
     "User",
-    "CreateUser",
+    "CreateUser"
   )}-submitButton`,
   loadingContainer: `${createTestIdFilePath(
     "pages",
     "User",
-    "CreateUser",
+    "CreateUser"
   )}-loadingContainer`,
   errorContainer: `${createTestIdFilePath(
     "pages",
     "User",
-    "CreateUser",
+    "CreateUser"
   )}-errorContainer`,
 };
 

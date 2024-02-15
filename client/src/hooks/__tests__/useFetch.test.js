@@ -16,7 +16,7 @@ describe("useFetch", () => {
     fetch.mockResponseOnce(getUsersSuccessMock());
     const mockSuccessFn = jest.fn(() => {});
     const { result, waitForNextUpdate } = renderHook(() =>
-      useFetch("/", mockSuccessFn),
+      useFetch("/", mockSuccessFn)
     );
 
     // Nothing is performed yet
@@ -45,7 +45,7 @@ describe("useFetch", () => {
     fetch.mockResponseOnce(getUsersFailedMock());
 
     const { result, waitForNextUpdate } = renderHook(() =>
-      useFetch("/", () => {}),
+      useFetch("/", () => {})
     );
 
     act(() => {
