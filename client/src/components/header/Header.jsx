@@ -10,7 +10,6 @@ import "./Header.css";
 import { Link } from "react-router-dom";
 import { SearchContext } from "./SearchContext";
 
-
 function Header() {
   const { isAuthenticated, userData, logout } = useAuth();
   const [isSignInVisible, setIsSignInVisible] = useState(false);

@@ -21,7 +21,7 @@ const App = () => {
             <Route path="/rentPage/:itemId" element={<RentPage />} />
             <Route path="/search" element={<SearchItem />} />
           </Routes>
-        </SearchProvider>       
+        </SearchProvider>
       </AuthProvider>
     </>
   );

@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Header from "../../components/header/Header";
 import Hero from "../../components/header/Hero";
 import TEST_ID from "./Home.testid";
@@ -12,7 +11,6 @@ const Home = () => {
       <Header />
       <Hero />
       <ParentCategoriesItemsList />
-      <Link to="/rentPage/">Go to Rent Page</Link>
       <Footer />
     </div>
   );

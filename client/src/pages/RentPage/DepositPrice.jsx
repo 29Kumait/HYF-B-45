@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import "./rentStyle.css";
-const DepositPrice = ({ itemId }) => {
+import { logError } from "../../../../server/src/util/logging";
+
+const DepositPrice = ({ itemId, setRenterId, setTotalPrice, days }) => {
   const [rentalInfo, setRentalInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -14,15 +16,18 @@ const DepositPrice = ({ itemId }) => {
           `http://localhost:5000/api/expense/rentPage/${itemId}`
         );
         setRentalInfo(response.data);
+        setRenterId(response.data.renterId);
+        setTotalPrice((response.data.price * days).toFixed(2));
       } catch (err) {
         setError("Unable to fetch rental details. Please try again later.");
+        logError("Error fetching rental details:", err);
       } finally {
         setLoading(false);
       }
     };
 
     fetchRentalInfo();
-  }, [itemId]);
+  }, [itemId, setRenterId, setTotalPrice, days]);
 
   if (loading) return <div>Loading rental details...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -30,7 +35,7 @@ const DepositPrice = ({ itemId }) => {
 
   return (
     <div>
-      <p>Rental Price: {rentalInfo.Price}</p>
+      <p>Total Price: {(rentalInfo.price * days).toFixed(2)}</p>{" "}
       <p>
         Deposit Amount:{" "}
         {rentalInfo.depositRequired
@@ -43,6 +48,9 @@ const DepositPrice = ({ itemId }) => {
 
 DepositPrice.propTypes = {
   itemId: PropTypes.string.isRequired,
+  setRenterId: PropTypes.func.isRequired,
+  setTotalPrice: PropTypes.func.isRequired,
+  days: PropTypes.number.isRequired,
 };
 
 export default DepositPrice;
