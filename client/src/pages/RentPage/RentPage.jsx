@@ -63,7 +63,6 @@ function RentPage() {
           startDate,
           endDate,
           price,
-          itemId,
           renterId,
         }),
       });
