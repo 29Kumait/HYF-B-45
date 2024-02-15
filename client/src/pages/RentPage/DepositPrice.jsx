@@ -13,7 +13,7 @@ const DepositPrice = ({ itemId, setRenterId, setTotalPrice, days }) => {
     const fetchRentalInfo = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/expense/rentPage/${itemId}`
+          `${process.env.BASE_SERVER_URL}/api/expense/rentPage/${itemId}`
         );
         setRentalInfo(response.data);
         setRenterId(response.data.renterId);
