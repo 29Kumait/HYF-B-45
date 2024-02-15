@@ -88,7 +88,9 @@ function RentPage() {
           setTotalPrice={setPrice}
           days={days}
         />
-        <button onClick={handleRentItem}>Rent Item</button>
+        <button className="rent" onClick={handleRentItem}>
+          Rent Item
+        </button>
         <p>{rentalStatus}</p>
         {error && <p>{error}</p>}
         {isLoading && <p>Loading...</p>}
