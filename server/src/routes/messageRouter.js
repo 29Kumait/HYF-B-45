@@ -88,4 +88,5 @@ messageRouter.get(
   getMessages
 );
 messageRouter.post("/", verifyToken, checkUsersExist, postMessage);
+
 export default messageRouter;
