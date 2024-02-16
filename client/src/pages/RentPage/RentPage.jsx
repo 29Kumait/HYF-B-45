@@ -8,6 +8,7 @@ import { logError } from "../../../../server/src/util/logging";
 import Header from "../../components/header/Header";
 import { Footer } from "../../components/footer/Footer";
 import { Checkout } from "../CheckoutPage/Checkout";
+import { useAuth } from "../../components/Account/AuthContext";
 
 function RentPage() {
   const { itemId } = useParams();
@@ -18,6 +19,7 @@ function RentPage() {
   const [price, setPrice] = useState("");
   const [renterId, setRenterId] = useState("");
   const [days, setDays] = useState(1); // Default value is 1 day
+  const { userData } = useAuth();
 
   const { isLoading, performFetch } = useFetch(
     `/transactions/rentPage/${itemId}`,
@@ -66,6 +68,7 @@ function RentPage() {
           price,
           itemId,
           renterId,
+          borrowerId: userData.user._id,
         }),
       });
     } catch (error) {
@@ -89,7 +92,9 @@ function RentPage() {
           setTotalPrice={setPrice}
           days={days}
         />
-        <button onClick={handleRentItem}>Rent Item</button>
+        <button className="rent" onClick={handleRentItem}>
+          Rent Item
+        </button>
         <Checkout />
         <p>{rentalStatus}</p>
         {error && <p>{error}</p>}
