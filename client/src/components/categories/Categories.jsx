@@ -64,7 +64,7 @@ function Categories() {
 }
 
 Categories.propTypes = {
-  handleClick: PropTypes.func.isRequired,
+  handleCategoryClick: PropTypes.func,
   selectedCategory: PropTypes.string,
 };
 
