@@ -3,12 +3,9 @@ import { logError, logInfo } from "../util/logging.js";
 
 export const createTransaction = async (req, res) => {
   try {
-    const { startDate, endDate, price, renterId } = req.body;
+    const { startDate, endDate, price, renterId, borrowerId } = req.body;
     const { itemId } = req.params;
     logInfo(req.body);
-
-    // Static borrower ID
-    const STATIC_BORROWER_ID = "65c8aeb7f95558392ef74d9b";
 
     const transaction = new Transaction({
       startDate,
@@ -16,7 +13,7 @@ export const createTransaction = async (req, res) => {
       totalPrice: price,
       item_id: itemId,
       renter_id: renterId,
-      borrower_id: STATIC_BORROWER_ID,
+      borrower_id: borrowerId,
     });
 
     await transaction.save();

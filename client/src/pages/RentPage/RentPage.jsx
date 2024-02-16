@@ -7,6 +7,8 @@ import useFetch from "../../hooks/useFetch";
 import { logError, logInfo } from "../../../../server/src/util/logging";
 import Header from "../../components/header/Header";
 import { Footer } from "../../components/footer/Footer";
+import { Checkout } from "../CheckoutPage/Checkout";
+import { useAuth } from "../../components/Account/AuthContext";
 
 const RentPage = () => {
   const { itemId } = useParams();
@@ -16,6 +18,8 @@ const RentPage = () => {
   const [renterId, setRenterId] = useState("");
   const [days, setDays] = useState(1); // Default value is 1 day
   const { isLoading, performFetch, error } = useFetch(
+  const { userData } = useAuth();
+
     `/transactions/rentPage/${itemId}`,
     (response) => {
       if (response.success) {
@@ -60,6 +64,7 @@ const RentPage = () => {
           endDate,
           price,
           renterId,
+          borrowerId: userData.user._id,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -87,7 +92,12 @@ const RentPage = () => {
           setTotalPrice={setPrice}
           days={days}
         />
-        <button onClick={handleRentItem}>Rent Item</button>
+        <button className="rent" onClick={handleRentItem}>
+          Rent Item
+        </button>
+        <Checkout />
+        <p>{rentalStatus}</p>
+
         {error && <p>{error}</p>}
         {isLoading && <p>Loading...</p>}
       </div>
