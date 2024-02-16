@@ -7,6 +7,7 @@ import useFetch from "../../hooks/useFetch";
 import { logError } from "../../../../server/src/util/logging";
 import Header from "../../components/header/Header";
 import { Footer } from "../../components/footer/Footer";
+import { Checkout } from "../CheckoutPage/Checkout";
 import { useAuth } from "../../components/Account/AuthContext";
 
 function RentPage() {
@@ -94,6 +95,7 @@ function RentPage() {
         <button className="rent" onClick={handleRentItem}>
           Rent Item
         </button>
+        <Checkout />
         <p>{rentalStatus}</p>
         {error && <p>{error}</p>}
         {isLoading && <p>Loading...</p>}
