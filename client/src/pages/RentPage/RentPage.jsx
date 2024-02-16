@@ -17,9 +17,8 @@ const RentPage = () => {
   const [price, setPrice] = useState("");
   const [renterId, setRenterId] = useState("");
   const [days, setDays] = useState(1); // Default value is 1 day
-  const { isLoading, performFetch, error } = useFetch(
   const { userData } = useAuth();
-
+  const { isLoading, performFetch, error } = useFetch(
     `/transactions/rentPage/${itemId}`,
     (response) => {
       if (response.success) {
@@ -96,7 +95,6 @@ const RentPage = () => {
           Rent Item
         </button>
         <Checkout />
-        <p>{rentalStatus}</p>
 
         {error && <p>{error}</p>}
         {isLoading && <p>Loading...</p>}
