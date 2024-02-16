@@ -6,7 +6,6 @@ export const getItemAndUserDataById = async (req, res) => {
   try {
     // Extract the item ID from the request parameters
     const itemId = req.params.itemId;
-
     // Add a check to ensure itemId is defined
     if (!itemId) {
       return res

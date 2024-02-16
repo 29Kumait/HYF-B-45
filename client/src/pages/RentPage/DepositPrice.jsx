@@ -15,9 +15,14 @@ const DepositPrice = ({ itemId, setRenterId, setTotalPrice, days }) => {
         const response = await axios.get(
           `${process.env.BASE_SERVER_URL}/api/expense/rentPage/${itemId}`
         );
+        if (response.data && response.data.depositAmount !== null) {
+          setTotalPrice(
+            parseFloat(response.data.price) * days +
+              parseFloat(response.data.depositAmount)
+          );
+        }
         setRentalInfo(response.data);
         setRenterId(response.data.renterId);
-        setTotalPrice((response.data.price * days).toFixed(2));
       } catch (err) {
         setError("Unable to fetch rental details. Please try again later.");
         logError("Error fetching rental details:", err);
