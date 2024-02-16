@@ -2,26 +2,34 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import useFetch from "../../hooks/useFetch";
 import { logInfo, logError } from "../../../../server/src/util/logging";
-const InputDate = ({ handleStartDateChange, handleEndDateChange, itemId }) => {
+const InputDate = ({
+  handleStartDateChange,
+  handleEndDateChange,
+  itemId,
+  rentPageLoading,
+}) => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [unavailableDates, setUnavailableDates] = useState([]);
+  const [isRentPageLoaded, setIsRentPageLoaded] = useState(false);
 
   const { error, performFetch, cancelFetch } = useFetch(
     `/transactions/rentPage/${itemId}`,
-    (result) => {
-      if (result.success) {
-        setUnavailableDates(result.unavailableDates);
-        logInfo("API Result:", unavailableDates);
+    (response) => {
+      logInfo("API Result:", response.result);
+      setIsRentPageLoaded(rentPageLoading);
+      if (response.success) {
+        logInfo(response.result);
       } else {
         logError("Error fetching unavailable dates:", error);
       }
     }
   );
   useEffect(() => {
-    performFetch();
+    if (isRentPageLoaded) {
+      performFetch();
+    }
     return cancelFetch;
-  }, []);
+  }, [isRentPageLoaded, performFetch, cancelFetch]);
 
   const handleStartDateInput = (e) => {
     const selectedStartDate = e.target.value;
@@ -52,5 +60,6 @@ InputDate.propTypes = {
   handleStartDateChange: PropTypes.func.isRequired,
   handleEndDateChange: PropTypes.func.isRequired,
   itemId: PropTypes.string.isRequired,
+  rentPageLoading: PropTypes.bool.isRequired,
 };
 export default InputDate;

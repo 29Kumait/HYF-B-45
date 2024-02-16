@@ -20,10 +20,10 @@ export const createTransaction = async (req, res) => {
     });
 
     await transaction.save();
-    res.status(201).json(transaction);
+    res.status(201).json({ success: true, result: transaction });
   } catch (error) {
     logError("Error creating transaction:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Internal server error", success: false });
   }
 };
 
@@ -48,10 +48,10 @@ export const getUnavailableDates = async (req, res) => {
         unavailableDates.push(endDate.toISOString().slice(0, 10));
       }
     });
-    res.status(200).json({ unavailableDates });
+    res.status(200).json({ success: true, result: unavailableDates });
   } catch (error) {
     logError("Error retrieving unavailable dates:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Internal server error", success: false });
   }
 };
 function getDatesBetween(startDate, endDate) {

@@ -4,28 +4,24 @@ import DepositPrice from "./DepositPrice";
 import InputDate from "./InputDate";
 import "./rentStyle.css";
 import useFetch from "../../hooks/useFetch";
-import { logError } from "../../../../server/src/util/logging";
+import { logError, logInfo } from "../../../../server/src/util/logging";
 import Header from "../../components/header/Header";
 import { Footer } from "../../components/footer/Footer";
 
-function RentPage() {
+const RentPage = () => {
   const { itemId } = useParams();
-  const [rentalStatus, setRentalStatus] = useState("");
-  const [error, setError] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [price, setPrice] = useState("");
   const [renterId, setRenterId] = useState("");
   const [days, setDays] = useState(1); // Default value is 1 day
-
-  const { isLoading, performFetch } = useFetch(
+  const { isLoading, performFetch, error } = useFetch(
     `/transactions/rentPage/${itemId}`,
-    (result) => {
-      if (result.success) {
-        setRentalStatus("Rental transaction successful");
+    (response) => {
+      if (response.success) {
+        logInfo("rental status is successful", response.success);
       } else {
-        setError("Error renting item. Please try again later.");
-        logError("Error renting item:", result.error);
+        logError("Error renting item:", error);
       }
     }
   );
@@ -44,20 +40,20 @@ function RentPage() {
     setDays(diffDays);
   };
 
-  const handleRentItem = async () => {
+  const handleRentItem = () => {
     if (!startDate || !endDate) {
-      setError("Please select both start and end dates.");
+      logError("Please select both start and end dates.");
       return;
     }
     // Validate that end date is after start date
     const start = new Date(startDate);
     const end = new Date(endDate);
     if (end <= start) {
-      setError("End date must be after start date.");
+      logError("End date must be after start date.");
       return;
     }
     try {
-      await performFetch({
+      performFetch({
         method: "POST",
         body: JSON.stringify({
           startDate,
@@ -65,10 +61,12 @@ function RentPage() {
           price,
           renterId,
         }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
     } catch (error) {
-      setError("Error renting item. Please try again later.");
-      logError("Error renting item:", error);
+      logError("Error renting item. Please try again later.");
     }
   };
 
@@ -78,6 +76,7 @@ function RentPage() {
       <Header />
       <div className="pricey">
         <InputDate
+          rentPageLoading={isLoading}
           itemId={itemId}
           handleStartDateChange={handleStartDateChange}
           handleEndDateChange={handleEndDateChange}
@@ -89,13 +88,12 @@ function RentPage() {
           days={days}
         />
         <button onClick={handleRentItem}>Rent Item</button>
-        <p>{rentalStatus}</p>
         {error && <p>{error}</p>}
         {isLoading && <p>Loading...</p>}
       </div>
       <Footer />
     </>
   );
-}
+};
 
 export default RentPage;
