@@ -4,14 +4,14 @@ import useFetch from "../../hooks/useFetch.js";
 import PropTypes from "prop-types";
 import "./Item.css";
 import Popup from "../popUp/Popup.jsx";
-// import { AuthContext } from "../Account/AuthContext.jsx";
+import { useAuth } from "../Account/AuthContext";
 import ProfilePic from "../../assets/fake-user.jpg";
 function Item() {
   const { itemId } = useParams(); // Extract itemId from URL params using useParams
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const [item, setItem] = useState(null);
-  // const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated } = useAuth();
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/item/${itemId}`,
@@ -46,11 +46,11 @@ function Item() {
   };
 
   const handleNavigate = (path) => {
-    // if (isAuthenticated) {
-    navigate(path);
-    // } else {
-    // setShowPopup(true); // Show the popup if the user is not signed in
-    // }
+    if (isAuthenticated) {
+      navigate(path);
+    } else {
+      setShowPopup(true); // Show the popup if the user is not signed in
+    }
   };
   const handleClosePopup = () => {
     setShowPopup(false);
