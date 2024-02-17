@@ -8,6 +8,7 @@ import RentPage from "./pages/RentPage/RentPage";
 import { AuthProvider } from "./components/Account/AuthContext";
 import SearchItem from "./pages/SearchItem/SearchItem.jsx";
 import { SearchProvider } from "./components/header/SearchContext.jsx";
+import User from "./pages/User/User";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
             <Route path="/item/:itemId" element={<Item />} />
             <Route path="/rentPage/:itemId" element={<RentPage />} />
             <Route path="/search" element={<SearchItem />} />
+            <Route path="/profile" element={<User />} />
           </Routes>
         </SearchProvider>
       </AuthProvider>
