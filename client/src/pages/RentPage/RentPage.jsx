@@ -7,7 +7,6 @@ import useFetch from "../../hooks/useFetch";
 import { logError, logInfo } from "../../../../server/src/util/logging";
 import Header from "../../components/header/Header";
 import { Footer } from "../../components/footer/Footer";
-import { Checkout } from "../CheckoutPage/Checkout";
 import { useAuth } from "../../components/Account/AuthContext";
 
 const RentPage = () => {
@@ -24,7 +23,7 @@ const RentPage = () => {
       if (response.success) {
         logInfo("rental status is successful", response.success);
       } else {
-        logError("Error renting item:", error);
+        logError("Error renting item:", response.error);
       }
     }
   );
@@ -43,7 +42,22 @@ const RentPage = () => {
     setDays(diffDays);
   };
 
-  const handleRentItem = () => {
+  const createCheckout = async (totalPrice, itemId) => {
+    const response = await fetch(
+      `${process.env.BASE_SERVER_URL}/api/checkout/create-checkout-session`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ totalPrice, itemId }),
+      }
+    );
+    const data = await response.json();
+    return data.checkoutUrl;
+  };
+
+  const handleRentItem = async () => {
     if (!startDate || !endDate) {
       logError("Please select both start and end dates.");
       return;
@@ -69,6 +83,8 @@ const RentPage = () => {
           "Content-Type": "application/json",
         },
       });
+      const checkoutUrl = await createCheckout(price, itemId);
+      window.location.href = checkoutUrl;
     } catch (error) {
       logError("Error renting item. Please try again later.");
     }
@@ -91,11 +107,9 @@ const RentPage = () => {
           setTotalPrice={setPrice}
           days={days}
         />
-        <button className="rent" onClick={handleRentItem}>
-          Rent Item
+        <button className="rent" type="submit" onClick={handleRentItem}>
+          PURCHASE
         </button>
-        <Checkout />
-
         {error && <p>{error}</p>}
         {isLoading && <p>Loading...</p>}
       </div>

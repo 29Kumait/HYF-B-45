@@ -21,6 +21,12 @@ const DepositPrice = ({ itemId, setRenterId, setTotalPrice, days }) => {
               parseFloat(response.data.depositAmount)
           );
         }
+        if (
+          response.data &&
+          response.data.depositAmount === "No deposit required"
+        ) {
+          setTotalPrice(response.data.price * days);
+        }
         setRentalInfo(response.data);
         setRenterId(response.data.renterId);
       } catch (err) {

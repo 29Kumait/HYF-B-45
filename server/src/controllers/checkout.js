@@ -1,4 +1,3 @@
-import Transaction from "../models/Transaction.js";
 import Stripe from "stripe";
 import { Item } from "../models/Item.js";
 import { logError } from "../util/logging.js";
@@ -12,7 +11,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 
 export const createCheckout = async (req, res) => {
   try {
-    const { itemId } = req.params;
+    const { itemId, totalPrice } = req.body;
+
     const item = await Item.findById(itemId);
 
     if (!item) {
@@ -23,15 +23,13 @@ export const createCheckout = async (req, res) => {
       name: item.title,
     });
 
-    const transaction = Transaction.findOne({ item_id: itemId });
-
     const customer = await stripe.customers.create({
       email: req.body.stripeEmail,
       source: req.body.stripeToken,
     });
 
     const price = await stripe.prices.create({
-      unit_amount: transaction.totalPrice * 100, // Amount in cents
+      unit_amount: totalPrice * 100, // Amount in cents
       currency: "eur",
       product: product.id,
     });
@@ -49,8 +47,7 @@ export const createCheckout = async (req, res) => {
       success_url: `${process.env.BASE_CLIENT_URL}?success=true`,
       cancel_url: `${process.env.BASE_CLIENT_URL}?canceled=true`,
     });
-
-    res.redirect(303, session.url);
+    res.status(200).json({ checkoutUrl: session.url });
   } catch (error) {
     logError(`Error creating a checkout session: ${error.message}`);
     res.status(500).send("Server error");
