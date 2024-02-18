@@ -9,12 +9,14 @@ import ProfileDropdown from "./ProfileDropdown";
 import "./Header.css";
 import { Link } from "react-router-dom";
 import { SearchContext } from "./SearchContext";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
   const { isAuthenticated, userData, logout } = useAuth();
   const [isSignInVisible, setIsSignInVisible] = useState(false);
   const { dispatch } = useContext(SearchContext);
   const [searchValue, setSearchValue] = useState("");
+  const navigate = useNavigate();
 
   const handleSignUpSuccess = () => {
     setIsSignInVisible(true);
@@ -27,6 +29,7 @@ function Header() {
   const handleSearch = () => {
     // Dispatch the search action here
     dispatch({ type: "SEARCH_TITLE", payload: searchValue });
+    navigate("/search");
   };
 
   return (
