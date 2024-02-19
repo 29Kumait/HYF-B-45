@@ -50,6 +50,6 @@ export const createCheckout = async (req, res) => {
     res.status(200).json({ checkoutUrl: session.url });
   } catch (error) {
     logError(`Error creating a checkout session: ${error.message}`);
-    res.status(500).send("Server error");
+    res.status(500).send(error.message);
   }
 };
