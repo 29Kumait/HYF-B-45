@@ -83,10 +83,17 @@ const RentPage = () => {
           "Content-Type": "application/json",
         },
       });
+    } catch (error) {
+      logError("Error renting item. Please try again later.");
+    }
+  };
+
+  const handlePurchase = async () => {
+    try {
       const checkoutUrl = await createCheckout(price, itemId);
       window.location.href = checkoutUrl;
     } catch (error) {
-      logError("Error renting item. Please try again later.");
+      logError("Error purchasing item. Please try again later.");
     }
   };
 
@@ -108,6 +115,9 @@ const RentPage = () => {
           days={days}
         />
         <button className="rent" type="submit" onClick={handleRentItem}>
+          CALCULATE PRICE
+        </button>
+        <button className="rent" type="submit" onClick={handlePurchase}>
           PURCHASE
         </button>
         {error && <p>{error}</p>}
