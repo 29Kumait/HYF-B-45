@@ -1,11 +1,11 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
 export const generateToken = (user) => {
   const payload = {
     id: user.id,
     username: user.username,
   };
-  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' });
+  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "24h" });
 };
 
 export const authenticateToken = (token) => {
