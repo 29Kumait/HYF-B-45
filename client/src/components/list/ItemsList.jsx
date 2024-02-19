@@ -4,6 +4,7 @@ import "./ItemsList.css";
 import useFetch from "../../hooks/useFetch";
 import PropTypes from "prop-types";
 import { SearchContext } from "../header/SearchContext";
+import { useLocation } from "react-router-dom";
 
 const ItemsList = () => {
   const itemsPerPage = 12; // items per page
@@ -15,13 +16,24 @@ const ItemsList = () => {
   const {
     state: { category },
   } = useContext(SearchContext);
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  // Extract search parameters from the URL
+  const searchParam = params.get("title");
+  const categoryParam = params.get("category");
+
+  // Set searchValue and category based on URL parameters or context state
+  const initialSearchValue = searchParam || searchValue || "";
+  const initialCategory = categoryParam || category || "";
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/item?page=${currentPage}${
-      searchValue && !category ? `&title=${searchValue}` : ""
+      initialSearchValue && !initialCategory
+        ? `&title=${initialSearchValue}`
+        : ""
     }${
-      category && !searchValue
-        ? `&category=${encodeURIComponent(category)}`
+      initialCategory && !initialSearchValue
+        ? `&category=${encodeURIComponent(initialCategory)}`
         : ""
     }`,
     (response) => {
@@ -39,12 +51,12 @@ const ItemsList = () => {
   useEffect(() => {
     performFetch();
     return cancelFetch;
-  }, [currentPage, searchValue, category]);
+  }, [currentPage, initialSearchValue, initialCategory]);
 
   useEffect(() => {
     // Reset page when category changes
     setCurrentPage(1);
-  }, [category, searchValue]);
+  }, [category, initialSearchValue]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);

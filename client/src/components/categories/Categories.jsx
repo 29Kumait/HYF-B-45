@@ -3,9 +3,10 @@ import "./Categories.css";
 import useFetch from "../../hooks/useFetch";
 import PropTypes from "prop-types";
 import { SearchContext } from "../header/SearchContext";
-
+import { useNavigate } from "react-router-dom";
 function Categories() {
   const [categories, setCategories] = useState(null);
+  const navigate = useNavigate();
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     "/category",
     (response) => {
@@ -27,6 +28,13 @@ function Categories() {
     // Toggle selected category
     const newSelectedCategory = category === categoryName ? null : categoryName;
     dispatch({ type: "SEARCH_CATEGORY", payload: newSelectedCategory });
+    navigate(
+      `/search?${
+        newSelectedCategory
+          ? `category=${encodeURIComponent(newSelectedCategory)}`
+          : ""
+      }`
+    );
   };
 
   let content = null;
