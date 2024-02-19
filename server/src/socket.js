@@ -1,7 +1,7 @@
 import { Server as SocketIOServer } from "socket.io";
 import { logInfo, logError } from "./util/logging.js";
 import { authenticateToken } from "./service/jwtChat.js";
-import User from "./models/User.js";
+import User from "./model/user.js";
 
 const initializeSocketIO = (server) => {
   const io = new SocketIOServer(server, {
