@@ -1,4 +1,5 @@
 import Transaction from "../models/Transaction.js";
+import { Item } from "../models/Item.js";
 import { logError, logInfo } from "../util/logging.js";
 
 export const createTransaction = async (req, res) => {
@@ -61,4 +62,40 @@ function getDatesBetween(startDate, endDate) {
   }
   return dates;
 }
-export default { createTransaction, getUnavailableDates };
+
+// Function to retrieve transactions associated with a specific user
+export const getUserBorrowerTransactions = async (req, res) => {
+  try {
+    // Extract the user ID from the request parameters
+    const { userId } = req.params;
+
+    // Find transactions where the user is the borrower
+    const userBorrowerTransactions = await Transaction.find({
+      borrower_id: userId,
+    });
+
+    // Extract item IDs from the user's borrower transactions
+    const itemIds = userBorrowerTransactions.map(
+      (transaction) => transaction.item_id
+    );
+
+    // Fetch the corresponding items from the database
+    const borrowerItems = await Item.find({ _id: { $in: itemIds } });
+
+    // Send the user's borrower transactions and associated items as a response
+    res.status(200).json({
+      success: true,
+      items: borrowerItems,
+    });
+  } catch (error) {
+    // Log and handle errors
+    logError("Error retrieving user borrower transactions and items:", error);
+    res.status(500).json({ error: "Internal server error", success: false });
+  }
+};
+
+export default {
+  createTransaction,
+  getUnavailableDates,
+  getUserBorrowerTransactions,
+};
