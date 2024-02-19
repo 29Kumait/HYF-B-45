@@ -15,6 +15,7 @@ const ProfileDropdown = ({ onLogout, profilePicture }) => {
   const handleLogout = () => {
     if (onLogout) {
       onLogout();
+      navigate("/");
     }
     // Close the dropdown after logout
     setIsOpen(false);

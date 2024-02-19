@@ -2,13 +2,13 @@ import express from "express";
 import {
   createTransaction,
   getUnavailableDates,
-  getUserBorrowerTransactions,
+  getUserTransactions,
 } from "../controllers/transaction.js";
 
 const transactionRouter = express.Router();
 
 transactionRouter.post("/rentPage/:itemId", createTransaction);
 transactionRouter.get("/rentPage/:itemId", getUnavailableDates);
-transactionRouter.get("/:userId", getUserBorrowerTransactions);
+transactionRouter.get("/:userId", getUserTransactions);
 
 export default transactionRouter;

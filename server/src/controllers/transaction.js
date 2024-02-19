@@ -64,32 +64,66 @@ function getDatesBetween(startDate, endDate) {
 }
 
 // Function to retrieve transactions associated with a specific user
-export const getUserBorrowerTransactions = async (req, res) => {
+export const getUserTransactions = async (req, res) => {
   try {
     // Extract the user ID from the request parameters
     const { userId } = req.params;
 
-    // Find transactions where the user is the borrower
-    const userBorrowerTransactions = await Transaction.find({
-      borrower_id: userId,
+    // Find transactions where the user is either the renter or borrower
+    const userTransactions = await Transaction.find({
+      $or: [{ renter_id: userId }, { borrower_id: userId }],
     });
 
-    // Extract item IDs from the user's borrower transactions
-    const itemIds = userBorrowerTransactions.map(
+    // Separate transactions into rented and borrowed items
+    const rentedItems = [];
+    const borrowedItems = [];
+    const listedItemIds = []; // Array to store IDs of items listed by the user
+
+    userTransactions.forEach((transaction) => {
+      if (transaction.renter_id === userId) {
+        rentedItems.push(transaction);
+      } else {
+        borrowedItems.push(transaction);
+      }
+    });
+
+    // Extract item IDs from rented and borrowed transactions
+    const rentedItemIds = rentedItems.map((transaction) => transaction.item_id);
+    const borrowedItemIds = borrowedItems.map(
       (transaction) => transaction.item_id
     );
 
-    // Fetch the corresponding items from the database
-    const borrowerItems = await Item.find({ _id: { $in: itemIds } });
+    // Fetch corresponding items from the database
+    const rentedItemsData = await Item.find({ _id: { $in: rentedItemIds } });
+    const borrowedItemsData = await Item.find({
+      _id: { $in: borrowedItemIds },
+    });
 
-    // Send the user's borrower transactions and associated items as a response
+    // Find all items listed by the user
+    const allUserItems = await Item.find({ renter_id: userId });
+    allUserItems.forEach((item) => {
+      // If the item ID is not in the rented or borrowed item IDs, add it to the listed items
+      if (
+        !rentedItemIds.includes(item._id) &&
+        !borrowedItemIds.includes(item._id)
+      ) {
+        listedItemIds.push(item._id);
+      }
+    });
+
+    // Fetch corresponding listed items from the database
+    const listedItemsData = await Item.find({ _id: { $in: listedItemIds } });
+
+    // Send the user's rented, borrowed, and listed items as separate arrays in the response
     res.status(200).json({
       success: true,
-      items: borrowerItems,
+      rentedItems: rentedItemsData,
+      borrowedItems: borrowedItemsData,
+      listedItems: listedItemsData,
     });
   } catch (error) {
     // Log and handle errors
-    logError("Error retrieving user borrower transactions and items:", error);
+    logError("Error retrieving user transactions:", error);
     res.status(500).json({ error: "Internal server error", success: false });
   }
 };
@@ -97,5 +131,5 @@ export const getUserBorrowerTransactions = async (req, res) => {
 export default {
   createTransaction,
   getUnavailableDates,
-  getUserBorrowerTransactions,
+  getUserTransactions,
 };

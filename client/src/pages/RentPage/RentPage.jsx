@@ -108,7 +108,7 @@ const RentPage = () => {
           days={days}
         />
         <button className="rent" type="submit" onClick={handleRentItem}>
-          PURCHASE FOR {price} EURO
+          PURCHASE
         </button>
         {error && <p>{error}</p>}
         {isLoading && <p>Loading...</p>}
