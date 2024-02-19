@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import ProfilePic from "../../assets/fake-user.jpg";
+import "./UserInfo.css";
 
 const UserProfile = ({ user }) => {
   const { firstName, lastName, username, city, email, userImageURL } = user;
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const query = new URLSearchParams(window.location.search);
+
+    if (query.get("success")) {
+      setMessage(
+        "Order placed successfully! The item has been rented out. You will receive a confirmation email shortly."
+      );
+    }
+
+    if (query.get("canceled")) {
+      setMessage(
+        "Unfortunately, order canceled - continue with purchase when you're ready."
+      );
+    }
+  }, []);
 
   return (
     <div className="user-profile-container">
@@ -21,6 +39,7 @@ const UserProfile = ({ user }) => {
         <p>Location: {city}</p>
         <p>Email: {email}</p>
       </div>
+      {message && <p className="payment-message">{message}</p>}
     </div>
   );
 };

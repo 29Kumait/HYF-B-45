@@ -44,8 +44,8 @@ export const createCheckout = async (req, res) => {
       ],
       mode: "payment",
       customer: customer.id,
-      success_url: `${process.env.BASE_CLIENT_URL}?success=true`,
-      cancel_url: `${process.env.BASE_CLIENT_URL}?canceled=true`,
+      success_url: `${process.env.BASE_CLIENT_URL}/profile?success=true`,
+      cancel_url: `${process.env.BASE_CLIENT_URL}/profile?canceled=true`,
     });
     res.status(200).json({ checkoutUrl: session.url });
   } catch (error) {

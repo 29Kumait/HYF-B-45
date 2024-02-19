@@ -12,7 +12,6 @@ const UserInfo = () => {
   const [borrowedItems, setBorrowedItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [message, setMessage] = useState("");
 
   const { performFetch, cancelFetch } = useFetch(
     `/transactions/${userData.user._id}`,
@@ -37,26 +36,9 @@ const UserInfo = () => {
   // Get user's locale
   const userLocale = navigator.language;
 
-  useEffect(() => {
-    const query = new URLSearchParams(window.location.search);
-
-    if (query.get("success")) {
-      setMessage(
-        "Order placed successfully! The item has been rented out. You will receive a confirmation email shortly."
-      );
-    }
-
-    if (query.get("canceled")) {
-      setMessage(
-        "Unfortunately, order canceled - continue with purchase when you're ready."
-      );
-    }
-  }, []);
-
   return (
     <div>
       <UserProfile user={userData.user} />
-      {message && <p className="message">{message}</p>}
       <div>
         {isLoading && <h3 className="loading-message">Loading...</h3>}
         {error && <h3 className="error-message">Error: {error.message}</h3>}

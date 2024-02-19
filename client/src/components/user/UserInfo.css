@@ -63,3 +63,11 @@
   color: var(--teal);
   margin: 0;
 }
+
+.payment-message {
+  color: darkred;
+  font-weight: bold;
+  margin-left: 20px;
+  font-size: 20px;
+  margin-top: -8px;
+}
