@@ -6,7 +6,7 @@ import User from "./models/User.js";
 const initializeSocketIO = (server) => {
   const io = new SocketIOServer(server, {
     cors: {
-      origin: process.env.ORIGIN,
+      origin: process.env.BASE_CLIENT_URL,
       methods: ["GET", "POST"],
     },
   });
