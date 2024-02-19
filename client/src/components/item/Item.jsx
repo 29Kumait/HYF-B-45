@@ -6,11 +6,14 @@ import "./Item.css";
 import Popup from "../popUp/Popup.jsx";
 // import { AuthContext } from "../Account/AuthContext.jsx";
 import ProfilePic from "../../assets/fake-user.jpg";
+import SideChat from "../chat/SideChat.jsx";
 function Item() {
   const { itemId } = useParams(); // Extract itemId from URL params using useParams
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const [item, setItem] = useState(null);
+  const [showSideChat, setShowSideChat] = useState(false);
+
   // const { isAuthenticated } = useContext(AuthContext);
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
@@ -41,8 +44,15 @@ function Item() {
   const handleRent = (itemId) => {
     handleNavigate(`/rentPage/${itemId}`);
   };
-  const handleChat = (itemId) => {
-    handleNavigate(`/chatPage/${itemId}`);
+  // const handleChat = (itemId) => {
+  //   handleNavigate(`/chatPage/${itemId}`);
+  // };
+
+  const handleChat = () => {
+    setShowSideChat((prevShowSideChat) => !prevShowSideChat);
+  };
+  const handleCloseSidebar = () => {
+    setShowSideChat(false);
   };
 
   const handleNavigate = (path) => {
@@ -116,9 +126,10 @@ function Item() {
           <button className="rent" onClick={() => handleRent(itemId)}>
             Rent
           </button>
-          <button className="chat" onClick={() => handleChat(itemId)}>
+          <button className="chat" onClick={handleChat}>
             Chat
           </button>
+          <SideChat open={showSideChat} onClose={handleCloseSidebar} />
         </div>
       </div>
       {showPopup && (
