@@ -8,7 +8,6 @@ import categoryRouter from "./routes/category.js";
 import router from "./routes/authRoutes.js";
 import userInfoRouter from "./routes/userRoute.js";
 import expenseRouter from "./routes/expense.js";
-import messageRouter from "./routes/messageRouter.js";
 import transactionRouter from "./routes/transaction.js";
 
 // Create an express server
@@ -36,6 +35,5 @@ app.use("/api", userInfoRouter);
 app.use("/api/user", userInfoRouter);
 app.use("/api/expense", expenseRouter);
 app.use("/api/transactions", transactionRouter);
-app.use("/api/messages", messageRouter);
 
 export { app, server };
