@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import "./rentStyle.css";
-import { logError } from "../../../../server/src/util/logging";
+import { logError, logInfo } from "../../../../server/src/util/logging";
 
 const DepositPrice = ({ itemId, setRenterId, setTotalPrice, days }) => {
   const [rentalInfo, setRentalInfo] = useState(null);
@@ -15,6 +15,7 @@ const DepositPrice = ({ itemId, setRenterId, setTotalPrice, days }) => {
         const response = await axios.get(
           `${process.env.BASE_SERVER_URL}/api/expense/rentPage/${itemId}`
         );
+        logInfo(response.data);
         if (response.data && response.data.depositAmount !== null) {
           setTotalPrice(
             parseFloat(response.data.price) * days +
