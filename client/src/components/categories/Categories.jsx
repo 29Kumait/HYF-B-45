@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./Categories.css";
 import useFetch from "../../hooks/useFetch";
 import PropTypes from "prop-types";
-
-function Categories({ handleClick, selectedCategory }) {
+import { SearchContext } from "../header/SearchContext";
+import { useNavigate } from "react-router-dom";
+function Categories() {
   const [categories, setCategories] = useState(null);
+  const navigate = useNavigate();
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     "/category",
     (response) => {
@@ -12,10 +14,28 @@ function Categories({ handleClick, selectedCategory }) {
     }
   );
 
+  const {
+    state: { category },
+    dispatch,
+  } = useContext(SearchContext);
+
   useEffect(() => {
     performFetch();
     return cancelFetch;
   }, []);
+
+  const handleCategoryClick = (categoryName) => {
+    // Toggle selected category
+    const newSelectedCategory = category === categoryName ? null : categoryName;
+    dispatch({ type: "SEARCH_CATEGORY", payload: newSelectedCategory });
+    navigate(
+      `/search?${
+        newSelectedCategory
+          ? `category=${encodeURIComponent(newSelectedCategory)}`
+          : ""
+      }`
+    );
+  };
 
   let content = null;
 
@@ -27,16 +47,20 @@ function Categories({ handleClick, selectedCategory }) {
     content = (
       <ul className="list-categories">
         {categories &&
-          categories.map((category) => {
-            const isSelected = category.name === selectedCategory;
+          categories.map((categoryItem) => {
+            const isSelected = categoryItem.name === category;
             return (
               <li
-                key={category._id}
-                onClick={() => handleClick(category.name)}
+                key={categoryItem._id}
+                onClick={() => handleCategoryClick(categoryItem.name)}
                 className={isSelected ? "selected-category" : ""}
               >
-                <img className="icon" src={category.icon} alt={category.name} />
-                <span>{category.name}</span>
+                <img
+                  className="icon"
+                  src={categoryItem.icon}
+                  alt={categoryItem.name}
+                />
+                <span>{categoryItem.name}</span>
               </li>
             );
           })}
@@ -48,7 +72,7 @@ function Categories({ handleClick, selectedCategory }) {
 }
 
 Categories.propTypes = {
-  handleClick: PropTypes.func.isRequired,
+  handleCategoryClick: PropTypes.func,
   selectedCategory: PropTypes.string,
 };
 

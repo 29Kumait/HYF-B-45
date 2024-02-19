@@ -4,7 +4,7 @@ import useFetch from "../../hooks/useFetch.js";
 import PropTypes from "prop-types";
 import "./Item.css";
 import Popup from "../popUp/Popup.jsx";
-// import { AuthContext } from "../Account/AuthContext.jsx";
+import { useAuth } from "../Account/AuthContext";
 import ProfilePic from "../../assets/fake-user.jpg";
 import SideChat from "../chat/SideChat.jsx";
 function Item() {
@@ -13,8 +13,7 @@ function Item() {
   const [showPopup, setShowPopup] = useState(false);
   const [item, setItem] = useState(null);
   const [showSideChat, setShowSideChat] = useState(false);
-
-  // const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated } = useAuth();
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/item/${itemId}`,
@@ -56,11 +55,11 @@ function Item() {
   };
 
   const handleNavigate = (path) => {
-    // if (isAuthenticated) {
-    navigate(path);
-    // } else {
-    // setShowPopup(true); // Show the popup if the user is not signed in
-    // }
+    if (isAuthenticated) {
+      navigate(path);
+    } else {
+      setShowPopup(true); // Show the popup if the user is not signed in
+    }
   };
   const handleClosePopup = () => {
     setShowPopup(false);

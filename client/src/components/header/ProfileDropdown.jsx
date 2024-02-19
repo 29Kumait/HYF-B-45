@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import "./ProfileDropdown.css";
 import ProfilePic from "../../assets/fake-user.jpg";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 const ProfileDropdown = ({ onLogout, profilePicture }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleDropdown = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
@@ -13,9 +15,13 @@ const ProfileDropdown = ({ onLogout, profilePicture }) => {
   const handleLogout = () => {
     if (onLogout) {
       onLogout();
+      navigate("/");
     }
     // Close the dropdown after logout
     setIsOpen(false);
+  };
+  const handleNavigate = () => {
+    navigate("/profile");
   };
 
   return (
@@ -26,6 +32,7 @@ const ProfileDropdown = ({ onLogout, profilePicture }) => {
       {isOpen && (
         <ul className="dropdown-menu">
           <li onClick={handleLogout}>Logout</li>
+          <li onClick={handleNavigate}>Your Profile/Items</li>
         </ul>
       )}
     </div>

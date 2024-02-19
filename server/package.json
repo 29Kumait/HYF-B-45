@@ -42,6 +42,7 @@
     "express": "^4.17.1",
     "mongodb-memory-server": "^8.0.3",
     "mongoose": "^6.0.13",
-    "socket.io": "^4.7.4"
+    "socket.io": "^4.7.4",
+    "stripe": "^14.17.0"
   }
 }

@@ -4,24 +4,36 @@ import "./ItemsList.css";
 import useFetch from "../../hooks/useFetch";
 import PropTypes from "prop-types";
 import { SearchContext } from "../header/SearchContext";
+import { useLocation } from "react-router-dom";
 
-const ItemsList = ({ selectedCategory }) => {
+const ItemsList = () => {
   const itemsPerPage = 12; // items per page
   const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedCategoryState, setSelectedCategoryState] = useState(null);
   const [hasMoreData, setHasMoreData] = useState(true); // tracking data availability
-  const [searchedTitle, setSearchedTitle] = useState(null);
-
-  const { state, dispatch } = useContext(SearchContext);
+  const { state } = useContext(SearchContext);
   const { title: searchValue } = state;
+  const {
+    state: { category },
+  } = useContext(SearchContext);
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  // Extract search parameters from the URL
+  const searchParam = params.get("title");
+  const categoryParam = params.get("category");
+
+  // Set searchValue and category based on URL parameters or context state
+  const initialSearchValue = searchParam || searchValue || "";
+  const initialCategory = categoryParam || category || "";
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/item?page=${currentPage}${
-      searchedTitle && !selectedCategoryState ? `&title=${searchedTitle}` : ""
+      initialSearchValue && !initialCategory
+        ? `&title=${initialSearchValue}`
+        : ""
     }${
-      selectedCategoryState && !searchedTitle
-        ? `&category=${encodeURIComponent(selectedCategoryState)}`
+      initialCategory && !initialSearchValue
+        ? `&category=${encodeURIComponent(initialCategory)}`
         : ""
     }`,
     (response) => {
@@ -39,20 +51,12 @@ const ItemsList = ({ selectedCategory }) => {
   useEffect(() => {
     performFetch();
     return cancelFetch;
-  }, [currentPage, searchedTitle, selectedCategoryState]);
+  }, [currentPage, initialSearchValue, initialCategory]);
 
   useEffect(() => {
-    setSelectedCategoryState(selectedCategory);
-    setSearchedTitle(searchValue);
     // Reset page when category changes
     setCurrentPage(1);
-  }, [selectedCategory, searchValue]);
-
-  useEffect(() => {}, [searchedTitle]);
-
-  useEffect(() => {
-    dispatch({ type: "SEARCH_CATEGORY", payload: selectedCategoryState });
-  }, [selectedCategoryState]);
+  }, [category, initialSearchValue]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
