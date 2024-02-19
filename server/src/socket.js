@@ -11,6 +11,7 @@ const initializeSocketIO = (server) => {
   });
 
   let users = {};
+  let missedMessages = {};
 
   io.on("connection", (socket) => {
     const token = socket.handshake.query.token;
@@ -19,36 +20,44 @@ const initializeSocketIO = (server) => {
       if (!user) throw new Error("Authentication failed.");
       users[user.id] = { socketId: socket.id, username: user.username };
       logInfo(`User ${user.username} connected with socket ${socket.id}`);
+
+      if (missedMessages[user.id] && missedMessages[user.id].length > 0) {
+        socket.emit("missed messages", missedMessages[user.id]);
+        delete missedMessages[user.id];
+      }
+
+      socket.on("chat message", ({ recipientId, msg }) => {
+        const recipientSocketId = users[recipientId]?.socketId;
+        if (recipientSocketId) {
+          io.to(recipientSocketId).emit("chat message", {
+            from: users[socket.id].username,
+            message: msg,
+          });
+        } else {
+          missedMessages[recipientId] = missedMessages[recipientId] || [];
+          missedMessages[recipientId].push({
+            from: users[socket.id].username,
+            message: msg,
+          });
+          logInfo(
+            `Message stored for ${recipientId} from ${
+              users[socket.id].username
+            }`
+          );
+        }
+      });
     } catch (error) {
       logError(`Authentication error: ${error.message}`);
       socket.disconnect(true);
       return;
     }
-    socket.on("chat message", ({ recipientId, msg }) => {
-      try {
-        const userId = Object.keys(users).find(
-          (key) => users[key].socketId === socket.id
-        );
-        if (!userId) throw new Error("User not found or not authenticated");
-
-        const user = users[userId];
-        const recipientSocketId = users[recipientId]?.socketId;
-        if (!recipientSocketId) throw new Error("Recipient not connected.");
-
-        io.to(recipientSocketId).emit("chat message", {
-          from: user.username,
-          message: msg,
-        });
-      } catch (error) {
-        logError(`Chat message error: ${error.message}`);
-        socket.emit("error", { message: error.message });
-      }
-    });
 
     socket.on("disconnect", () => {
-      const userId = Object.keys(users).find((key) => users[key] === socket.id);
+      const userId = Object.keys(users).find(
+        (key) => users[key].socketId === socket.id
+      );
       if (userId) {
-        logInfo(`User ID ${userId} disconnected`);
+        logInfo(`User ${users[userId].username} disconnected`);
         delete users[userId];
       }
     });
