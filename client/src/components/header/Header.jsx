@@ -29,7 +29,7 @@ function Header() {
   const handleSearch = () => {
     // Dispatch the search action here
     dispatch({ type: "SEARCH_TITLE", payload: searchValue });
-    navigate("/search");
+    navigate(`/search?title=${searchValue}`);
   };
 
   return (
