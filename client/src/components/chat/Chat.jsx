@@ -9,7 +9,7 @@ const Chat = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("userData");
-    const newSocket = io("http://localhost:5000", {
+    const newSocket = io(process.env.BASE_SERVER_URL, {
       query: { token },
     });
     setSocket(newSocket);
