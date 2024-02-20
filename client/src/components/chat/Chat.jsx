@@ -1,71 +1,56 @@
 import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 
-const url = `${process.env.BASE_SERVER_URL}`;
+const socket = io("http://localhost:5000");
 
 const Chat = () => {
-  const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState([]);
-  const [currentMessage, setCurrentMessage] = useState("");
-  const [recipientId, setRecipientId] = useState("");
-  useEffect(() => {
-    const token = localStorage.getItem("userToken");
-    const newSocket = io(url, {
-      query: { token },
-    });
-    setSocket(newSocket);
-
-    return () => newSocket.close();
-  }, []);
+  const [messageText, setMessageText] = useState("");
+  const [userId, setUserId] = useState("");
 
   useEffect(() => {
-    if (socket) {
-      socket.on("missed messages", (missedMessages) => {
-        setMessages((prevMessages) => [...prevMessages, ...missedMessages]);
-      });
-
-      socket.on("chat message", (message) => {
-        setMessages((prevMessages) => [...prevMessages, message]);
-      });
-
-      socket.on("disconnect", (reason) => {
-        alert(`Disconnected: ${reason}`);
-      });
+    const storedUserData = localStorage.getItem("userData");
+    const userData = storedUserData ? JSON.parse(storedUserData) : null;
+    if (userData && userData.user && userData.user._id) {
+      setUserId(userData.user._id);
     }
-  }, [socket]);
+    socket.on("direct message", (message) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
+    });
+
+    return () => {
+      socket.off("direct message");
+    };
+  }, []);
 
   const sendMessage = (e) => {
     e.preventDefault();
-    if (socket && currentMessage.trim()) {
-      socket.emit("chat message", { recipientId, msg: currentMessage });
-      setCurrentMessage("");
+    if (messageText.trim()) {
+      const messageObj = { from: userId, text: messageText };
+      socket.emit("sendMessage", messageObj);
+      setMessageText("");
     }
   };
 
   return (
-    <div>
-      <ul>
+    <div className="App">
+      <div className="messages">
         {messages.map((message, index) => (
-          <li key={index}>
-            {message.from}: {message.message}
-          </li>
+          <div key={index}>
+            {message.from === userId ? "Me" : message.username || "Other"}:{" "}
+            {message.text}
+          </div>
         ))}
-      </ul>
-      <form onSubmit={sendMessage}>
+      </div>
+      <div className="input-box">
         <input
           type="text"
-          value={currentMessage}
-          onChange={(e) => setCurrentMessage(e.target.value)}
-          placeholder="Type a message..."
+          value={messageText}
+          onChange={(e) => setMessageText(e.target.value)}
+          placeholder="Type your message..."
         />
-        <input
-          type="text"
-          value={recipientId}
-          onChange={(e) => setRecipientId(e.target.value)}
-          placeholder="Recipient ID"
-        />
-        <button type="submit">Send</button>
-      </form>
+        <button onClick={sendMessage}>Send</button>
+      </div>
     </div>
   );
 };

@@ -1,69 +1,42 @@
 import { Server as SocketIOServer } from "socket.io";
-import { logInfo, logError } from "./util/logging.js";
-import { authenticateToken } from "./service/jwtChat.js";
-import User from "./models/User.js";
 
 const initializeSocketIO = (server) => {
   const io = new SocketIOServer(server, {
     cors: {
-      origin: process.env.BASE_CLIENT_URL,
+      origin: "http://localhost:8080",
       methods: ["GET", "POST"],
     },
+    pingTimeout: 60000,
   });
 
   let users = {};
-  let missedMessages = {};
 
-  io.on("connection", async (socket) => {
-    const token = socket.handshake.query.token;
-    try {
-      const decodedUser = authenticateToken(token);
-      if (!decodedUser) throw new Error("Authentication failed.");
+  io.on("connection", (socket) => {
+    socket.on("join", ({ userId }) => {
+      users[userId] = socket.id;
+      socket.emit("joined", { success: true });
+    });
 
-      const user = await User.findById(decodedUser.id);
-      if (!user) throw new Error("User not found.");
-
-      users[user.id] = { socketId: socket.id, username: user.username };
-      logInfo(`User ${user.username} connected with socket ${socket.id}`);
-
-      await User.findByIdAndUpdate(user.id, { online: true });
-
-      if (missedMessages[user.id] && missedMessages[user.id].length > 0) {
-        socket.emit("missed messages", missedMessages[user.id]);
-        delete missedMessages[user.id];
-      }
-
-      socket.on("chat message", ({ recipientId, msg }) => {
-        const recipientSocketId = users[recipientId]?.socketId;
-        if (recipientSocketId) {
-          io.to(recipientSocketId).emit("chat message", {
-            from: user.username,
-            message: msg,
-          });
-        } else {
-          missedMessages[recipientId] = missedMessages[recipientId] || [];
-          missedMessages[recipientId].push({
-            from: user.username,
-            message: msg,
-          });
-          logInfo(`Message stored for ${recipientId} from ${user.username}`);
-        }
-      });
-    } catch (error) {
-      logError(`Authentication error: ${error.message}`);
-      socket.disconnect(true);
-      return;
-    }
-
-    socket.on("disconnect", async () => {
-      const userId = Object.keys(users).find(
-        (key) => users[key].socketId === socket.id
+    socket.on("direct message", ({ recipientId, message }) => {
+      const senderUserId = Object.keys(users).find(
+        (key) => users[key] === socket.id
       );
-      if (userId) {
-        logInfo(`User ${users[userId].username} disconnected`);
-        delete users[userId];
+      const recipientSocketId = users[recipientId];
+      if (recipientSocketId && senderUserId) {
+        io.to(recipientSocketId).emit("direct message", {
+          from: senderUserId,
+          text: message,
+          username: "Sender's Username",
+        });
+      } else {
+        socket.emit("error", { message: "Recipient not connected." });
+      }
+    });
 
-        await User.findByIdAndUpdate(userId, { online: false });
+    socket.on("disconnect", () => {
+      const userId = Object.keys(users).find((key) => users[key] === socket.id);
+      if (userId) {
+        delete users[userId];
       }
     });
   });
