@@ -1,9 +1,12 @@
 import { Server as SocketIOServer } from "socket.io";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const initializeSocketIO = (server) => {
   const io = new SocketIOServer(server, {
     cors: {
-      origin: "http://localhost:8080",
+      origin: process.env.BASE_CLIENT_URL,
       methods: ["GET", "POST"],
     },
     pingTimeout: 60000,
