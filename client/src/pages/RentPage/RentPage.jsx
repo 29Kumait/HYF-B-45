@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import DepositPrice from "./DepositPrice";
 import InputDate from "./InputDate";
@@ -17,6 +17,8 @@ const RentPage = () => {
   const [renterId, setRenterId] = useState("");
   const [days, setDays] = useState(1); // Default value is 1 day
   const { userData } = useAuth();
+  const [unavailableDates, setUnavailableDates] = useState([]);
+
   const { isLoading, performFetch, error } = useFetch(
     `/transactions/rentPage/${itemId}`,
     (response) => {
@@ -57,6 +59,23 @@ const RentPage = () => {
     return data.checkoutUrl;
   };
 
+  const getUnavailableDates = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.BASE_SERVER_URL}/api/transactions/rentPage/${itemId}`
+      );
+      const responseData = await response.json();
+      logInfo(responseData.result); // remove this line
+      setUnavailableDates(responseData.result);
+    } catch (error) {
+      logError("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    getUnavailableDates();
+  }, []);
+
   const handleRentItem = async () => {
     if (!startDate || !endDate) {
       logError("Please select both start and end dates.");
@@ -96,8 +115,7 @@ const RentPage = () => {
       <Header />
       <div className="pricey">
         <InputDate
-          rentPageLoading={isLoading}
-          itemId={itemId}
+          unavailableDates={unavailableDates}
           handleStartDateChange={handleStartDateChange}
           handleEndDateChange={handleEndDateChange}
         />
