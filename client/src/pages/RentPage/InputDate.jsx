@@ -13,11 +13,13 @@ const InputDate = ({
   const [endDate, setEndDate] = useState(null);
 
   const handleStartDateInput = (date) => {
+    date.setHours(0, 0, 0, 0);
     setStartDate(date);
     handleStartDateChange(date);
   };
 
   const handleEndDateInput = (date) => {
+    date.setHours(23, 59, 59, 999);
     setEndDate(date);
     handleEndDateChange(date);
   };
@@ -29,7 +31,8 @@ const InputDate = ({
         <DatePicker
           selected={startDate}
           onChange={(date) => handleStartDateInput(date)}
-          excludeDates={unavailableDates.map((date) => new Date(date))}
+          excludeDates={unavailableDates}
+          minDate={new Date()}
         />
       </div>
       <div>
@@ -37,7 +40,8 @@ const InputDate = ({
         <DatePicker
           selected={endDate}
           onChange={(date) => handleEndDateInput(date)}
-          excludeDates={unavailableDates.map((date) => new Date(date))}
+          excludeDates={unavailableDates}
+          minDate={new Date()}
         />
       </div>
     </div>
