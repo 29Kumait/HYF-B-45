@@ -1,7 +1,9 @@
+// socket.js
+
 import { Server as SocketIOServer } from "socket.io";
 import dotenv from "dotenv";
 import { logInfo } from "./util/logging.js";
-import formatMessage from "./util/formatMessage.js";
+import { formatMessage } from "./util/formatMessage.js";
 
 dotenv.config();
 
@@ -15,16 +17,25 @@ const initializeSocketIO = (server) => {
 
   io.on("connection", (socket) => {
     logInfo("A user has connected");
+    // Handle joining a chat room
+    socket.on("joinRoom", (itemId) => {
+      const roomName = `room-${itemId}`;
+      socket.join(roomName); // Join the chat room
+      logInfo(`A user has connected to room: ${roomName}`);
+    });
+
     // Handle chat messages
     socket.on("chat message", (message) => {
+      logInfo("Received chat message:", message.text);
+
       // Format the message
       const formattedMessage = formatMessage(message.userName, message.text);
+      logInfo("Formatted message:", formattedMessage);
 
-      // Broadcast the formatted message to all connected clients
-      io.emit("chat message", formattedMessage);
+      // Broadcast the formatted message to all users in the room
+      io.to(message.room).emit("chat message", formattedMessage);
+      logInfo(`Broadcasted message to room: ${message.room}`);
     });
-    socket.emit("try", formatMessage("user", "message"));
-    socket.broadcast.emit("try", "A user has connected");
 
     // Handle disconnects
     socket.on("disconnect", () => {

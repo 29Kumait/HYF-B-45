@@ -1,5 +1,8 @@
+// Chato.js
+
 import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
+import { useParams } from "react-router-dom";
 import { useAuth } from "../Account/AuthContext";
 import "./Chato.css";
 
@@ -9,6 +12,7 @@ const Chato = () => {
   const [messages, setMessages] = useState([]);
   const [currentMessage, setCurrentMessage] = useState("");
   const messagesEndRef = useRef(null);
+  const { itemId } = useParams();
 
   useEffect(() => {
     const newSocket = io(process.env.BASE_SERVER_URL);
@@ -17,7 +21,14 @@ const Chato = () => {
     return () => {
       newSocket.disconnect();
     };
-  }, []);
+  }, [itemId]);
+
+  useEffect(() => {
+    // Join the chat room based on the item ID
+    if (socket) {
+      socket.emit("joinRoom", itemId);
+    }
+  }, [socket, itemId]);
 
   useEffect(() => {
     if (socket) {
@@ -41,6 +52,7 @@ const Chato = () => {
       const messageData = {
         userName: userData.user.firstName,
         text: currentMessage,
+        room: `room-${itemId}`, // Include the room name in the message data
       };
       socket.emit("chat message", messageData); // Emit message object to server
       setCurrentMessage("");
