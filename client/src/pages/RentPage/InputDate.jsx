@@ -7,10 +7,10 @@ import "react-datepicker/dist/react-datepicker.css";
 const InputDate = ({
   handleStartDateChange,
   handleEndDateChange,
-  // unavailableDates,
+  unavailableDates,
 }) => {
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   const handleStartDateInput = (date) => {
     setStartDate(date);
@@ -29,6 +29,7 @@ const InputDate = ({
         <DatePicker
           selected={startDate}
           onChange={(date) => handleStartDateInput(date)}
+          excludeDates={unavailableDates.map((date) => new Date(date))}
         />
       </div>
       <div>
@@ -36,6 +37,7 @@ const InputDate = ({
         <DatePicker
           selected={endDate}
           onChange={(date) => handleEndDateInput(date)}
+          excludeDates={unavailableDates.map((date) => new Date(date))}
         />
       </div>
     </div>

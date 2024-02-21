@@ -11,8 +11,8 @@ import { useAuth } from "../../components/Account/AuthContext";
 
 const RentPage = () => {
   const { itemId } = useParams();
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [price, setPrice] = useState("");
   const [renterId, setRenterId] = useState("");
   const [days, setDays] = useState(1); // Default value is 1 day

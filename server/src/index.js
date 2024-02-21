@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import express from "express";
 dotenv.config();
 
-import app from "./app.js";
+import { app, server } from "./app.js";
 import { logInfo, logError } from "./util/logging.js";
 import connectDB from "./db/connectDB.js";
 import testRouter from "./testRouter.js";
@@ -22,7 +22,7 @@ const startServer = async () => {
     await connectDB();
     await initializeCategories();
     await initializeItems();
-    app.listen(port, () => {
+    server.listen(port, () => {
       logInfo(`Server started on port ${port}`);
     });
   } catch (error) {
