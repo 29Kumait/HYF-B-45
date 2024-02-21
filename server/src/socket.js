@@ -29,7 +29,11 @@ const initializeSocketIO = (server) => {
       logInfo("Received chat message:", message.text);
 
       // Format the message
-      const formattedMessage = formatMessage(message.userName, message.text);
+      const formattedMessage = formatMessage(
+        message.userName,
+        message.text,
+        message.pic
+      );
       logInfo("Formatted message:", formattedMessage);
 
       // Broadcast the formatted message to all users in the room

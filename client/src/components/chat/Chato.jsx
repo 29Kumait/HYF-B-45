@@ -5,6 +5,7 @@ import io from "socket.io-client";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../Account/AuthContext";
 import "./Chato.css";
+import FakeUserProfilePicture from "../../assets/fake-user.jpg";
 
 const Chato = () => {
   const { userData } = useAuth();
@@ -52,6 +53,7 @@ const Chato = () => {
       const messageData = {
         userName: userData.user.firstName,
         text: currentMessage,
+        pic: userData.user.userImageURL,
         room: `room-${itemId}`, // Include the room name in the message data
       };
       socket.emit("chat message", messageData); // Emit message object to server
@@ -66,11 +68,18 @@ const Chato = () => {
         {messages.map((message, index) => (
           <li key={index} className="message-item">
             <div>
-              <span className="message-time">{message.time}</span>
+              <img
+                src={message.pic || FakeUserProfilePicture}
+                alt="profile-pic"
+                className="chat-profile-pic"
+              />
             </div>
             <div className="message-info">
-              <strong className="chat-strong">{message.userName}: </strong>
-              <div className="message-text">{message.text}</div>
+              <strong className="chat-strong">{message.userName} </strong>
+              <span className="message-time">{message.time}</span>
+              <div>
+                <div className="message-text">{message.text}</div>
+              </div>
             </div>
           </li>
         ))}
