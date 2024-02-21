@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import DepositPrice from "./DepositPrice";
 import InputDate from "./InputDate";
 import "./rentStyle.css";
@@ -126,8 +126,14 @@ const RentPage = () => {
           days={days}
         />
         <button className="rent" type="submit" onClick={handleRentItem}>
-          PURCHASE
+          Purchase
         </button>
+        <Link to={`/item/${itemId}`}>
+          <button className="rent" type="submit" onClick={handleRentItem}>
+            Cancel
+          </button>
+        </Link>
+
         {error && <p>{error}</p>}
         {isLoading && <p>Loading...</p>}
       </div>
