@@ -13,11 +13,13 @@ const InputDate = ({
   const [endDate, setEndDate] = useState(null);
 
   const handleStartDateInput = (date) => {
+    date.setHours(0, 0, 0, 0);
     setStartDate(date);
     handleStartDateChange(date);
   };
 
   const handleEndDateInput = (date) => {
+    date.setHours(23, 59, 59, 999);
     setEndDate(date);
     handleEndDateChange(date);
   };
