@@ -128,7 +128,7 @@ const RentPage = () => {
         <button className="rent" type="submit" onClick={handleRentItem}>
           Purchase
         </button>
-        <Link to={`/item/${itemId}`} className="rent">
+        <Link to={`/item/${itemId}`} className="cancel-btn">
           Cancel
         </Link>
 
