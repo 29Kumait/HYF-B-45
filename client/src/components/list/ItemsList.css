@@ -81,7 +81,9 @@
   transition: background-color 0.3s ease;
   text-decoration: none;
 }
-
+.link-btn {
+  text-decoration: none;
+}
 .product-item__view-button:hover {
   background-color: var(--pink-hover);
 }
