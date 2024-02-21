@@ -6,6 +6,7 @@
   border-radius: 30px;
   background-color: var(--teal-bg);
   overflow: hidden;
+  box-shadow: 5px 10px 10px rgba(0, 128, 128, 0.2);
 }
 
 .w-message {
