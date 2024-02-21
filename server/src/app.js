@@ -1,4 +1,6 @@
 import express from "express";
+import http from "http";
+import initializeSocketIO from "./socket.js";
 import cors from "cors";
 import itemRouter from "./routes/item.js";
 import userRouter from "./routes/user.js";
@@ -8,8 +10,13 @@ import userInfoRouter from "./routes/userRoute.js";
 import expenseRouter from "./routes/expense.js";
 import transactionRouter from "./routes/transaction.js";
 import checkoutRouter from "./routes/checkout.js";
+
 // Create an express server
 const app = express();
+const server = http.createServer(app);
+
+const io = initializeSocketIO(server);
+app.io = io;
 
 // Tell express to use the json middleware
 app.use(express.json());
@@ -31,4 +38,4 @@ app.use("/api/expense", expenseRouter);
 app.use("/api/transactions", transactionRouter);
 app.use("/api/checkout", checkoutRouter);
 
-export default app;
+export { app, server };
