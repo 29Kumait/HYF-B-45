@@ -1,13 +1,28 @@
 .chat-container {
   max-width: 600px;
   margin: 0 auto;
+  margin-bottom: 60px;
   padding: 20px;
+  border-radius: 30px;
   background-color: var(--teal-bg);
+  overflow: hidden;
+}
+
+.w-message {
+  color: var(--pink-bg);
+  background-color: var(--pink);
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
 }
 
 .message-list {
   list-style: none;
   padding: 0;
+  overflow-y: auto;
+  height: 200px;
+  max-height: 300px;
+  scrollbar-color: var(--pink) transparent; /* Color of the scrollbar */
 }
 
 .message-item {
@@ -20,12 +35,17 @@
 .message-info {
   display: flex;
 }
+.message-text {
+  color: var(--teal);
+}
 
 .message-time {
   font-size: 12px;
-  color: #666;
+  color: var(--teal);
 }
-
+.chat-strong {
+  color: var(--teal);
+}
 .message-form {
   margin-top: 20px;
 }
@@ -39,12 +59,13 @@
 
 .send-button {
   border: 1px solid transparent;
-  padding: 8px 20px;
+  padding: 8px 50px;
   border-radius: 20px;
   margin-left: 10px;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
+  background-color: var(--pink);
 }
 
 .send-button:hover {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import { useAuth } from "../Account/AuthContext";
 import "./Chato.css";
@@ -8,6 +8,7 @@ const Chato = () => {
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState([]);
   const [currentMessage, setCurrentMessage] = useState("");
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     const newSocket = io(process.env.BASE_SERVER_URL);
@@ -23,11 +24,16 @@ const Chato = () => {
       socket.on("chat message", (message) => {
         setMessages((prevMessages) => [...prevMessages, message]);
       });
-      // socket.on("try", (message) => {
-      //   console.log(message);
-      // });
     }
   }, [socket]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const sendMessage = (e) => {
     e.preventDefault();
@@ -43,20 +49,20 @@ const Chato = () => {
 
   return (
     <div className="chat-container">
-      <h2>Chat</h2>
+      <h2 className="w-message">Welcome to the Chat</h2>
       <ul className="message-list">
         {messages.map((message, index) => (
           <li key={index} className="message-item">
             <div>
-              {" "}
               <span className="message-time">{message.time}</span>
             </div>
             <div className="message-info">
-              <strong>{message.userName}: </strong>
+              <strong className="chat-strong">{message.userName}: </strong>
               <div className="message-text">{message.text}</div>
             </div>
           </li>
         ))}
+        <div ref={messagesEndRef} />
       </ul>
       <form onSubmit={sendMessage} className="message-form">
         <input
