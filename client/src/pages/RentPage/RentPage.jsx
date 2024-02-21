@@ -129,7 +129,7 @@ const RentPage = () => {
           Purchase
         </button>
         <Link to={`/item/${itemId}`} className="cancel-btn">
-          Cancel
+          <button>Cancel</button>
         </Link>
 
         {error && <p>{error}</p>}
