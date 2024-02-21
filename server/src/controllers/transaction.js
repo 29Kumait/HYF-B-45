@@ -34,16 +34,16 @@ export const getUnavailableDates = async (req, res) => {
     existingTransactions.forEach((transaction) => {
       const { startDate, endDate } = transaction;
       const daysBetween = getDatesBetween(startDate, endDate);
-      if (!unavailableDates.includes(startDate.toISOString().slice(0, 10))) {
-        unavailableDates.push(startDate.toISOString().slice(0, 10));
+      if (!unavailableDates.includes(startDate)) {
+        unavailableDates.push(startDate);
       }
       daysBetween.forEach((date) => {
-        if (!unavailableDates.includes(date.toISOString().slice(0, 10))) {
-          unavailableDates.push(date.toISOString().slice(0, 10));
+        if (!unavailableDates.includes(date)) {
+          unavailableDates.push(date);
         }
       });
-      if (!unavailableDates.includes(endDate.toISOString().slice(0, 10))) {
-        unavailableDates.push(endDate.toISOString().slice(0, 10));
+      if (!unavailableDates.includes(endDate)) {
+        unavailableDates.push(endDate);
       }
     });
     res.status(200).json({ success: true, result: unavailableDates });

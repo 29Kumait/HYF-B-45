@@ -31,7 +31,8 @@ const InputDate = ({
         <DatePicker
           selected={startDate}
           onChange={(date) => handleStartDateInput(date)}
-          excludeDates={unavailableDates.map((date) => new Date(date))}
+          excludeDates={unavailableDates}
+          minDate={new Date()}
         />
       </div>
       <div>
@@ -39,7 +40,8 @@ const InputDate = ({
         <DatePicker
           selected={endDate}
           onChange={(date) => handleEndDateInput(date)}
-          excludeDates={unavailableDates.map((date) => new Date(date))}
+          excludeDates={unavailableDates}
+          minDate={new Date()}
         />
       </div>
     </div>
