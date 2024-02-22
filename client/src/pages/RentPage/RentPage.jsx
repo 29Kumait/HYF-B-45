@@ -126,12 +126,11 @@ const RentPage = () => {
           days={days}
         />
         <button className="rent" type="submit" onClick={handleRentItem}>
-          Purchase
+          PURCHASE
         </button>
         <Link to={`/item/${itemId}`} className="link-btn">
-          <button className="cancel-btn">Cancel</button>
+          <button className="rent">CANCEL</button>
         </Link>
-
         {error && <p>{error}</p>}
         {isLoading && <p>Loading...</p>}
       </div>
