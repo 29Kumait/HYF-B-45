@@ -6,13 +6,13 @@ import "./Item.css";
 import Popup from "../popUp/Popup.jsx";
 import { useAuth } from "../Account/AuthContext";
 import ProfilePic from "../../assets/fake-user.jpg";
-import SideChat from "../chat/SideChat.jsx";
+// import SideChat from "../chat/SideChat.jsx";
 function Item() {
   const { itemId } = useParams(); // Extract itemId from URL params using useParams
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const [item, setItem] = useState(null);
-  const [showSideChat, setShowSideChat] = useState(false);
+  // const [showSideChat, setShowSideChat] = useState(false);
   const { isAuthenticated } = useAuth();
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
@@ -48,10 +48,11 @@ function Item() {
   // };
 
   const handleChat = () => {
-    setShowSideChat((prevShowSideChat) => !prevShowSideChat);
-  };
-  const handleCloseSidebar = () => {
-    setShowSideChat(false);
+    //   setShowSideChat((prevShowSideChat) => !prevShowSideChat);
+    // };
+    // const handleCloseSidebar = () => {
+    //   setShowSideChat(false);
+    handleNavigate(`/chat/${itemId}`);
   };
 
   const handleNavigate = (path) => {
@@ -128,7 +129,7 @@ function Item() {
           <button className="chat" onClick={handleChat}>
             Chat
           </button>
-          <SideChat open={showSideChat} onClose={handleCloseSidebar} />
+          {/* <SideChat open={showSideChat} onClose={handleCloseSidebar} /> */}
         </div>
       </div>
       {showPopup && (
