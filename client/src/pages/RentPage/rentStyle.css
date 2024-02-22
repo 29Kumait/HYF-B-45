@@ -10,20 +10,3 @@
   font-family: "Roboto", sans-serif;
   color: var(--teal);
 }
-
-.cancel-btn {
-  background-color: var(--pink);
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  text-decoration: none;
-}
-
-.cancel-btn:hover {
-  background-color: var(--pink-hover);
-}
