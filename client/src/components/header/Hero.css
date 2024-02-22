@@ -56,6 +56,7 @@
 @media (max-width: 768px) {
   .landing-container {
     flex-direction: column;
+    margin-top: 100px;
   }
 
   .landing-text {

@@ -67,3 +67,12 @@
   background-color: #000000;
   color: #ffffff;
 }
+
+/* Media Query for smaller screens */
+@media screen and (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    padding-bottom: 20px;
+    margin-bottom: 300px;
+  }
+}
