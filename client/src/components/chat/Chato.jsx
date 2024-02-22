@@ -1,5 +1,3 @@
-// Chato.js
-
 import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import { useParams } from "react-router-dom";
