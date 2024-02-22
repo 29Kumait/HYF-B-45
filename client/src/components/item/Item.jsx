@@ -48,7 +48,11 @@ function Item() {
   // };
 
   const handleChat = () => {
-    setShowSideChat((prevShowSideChat) => !prevShowSideChat);
+    if (isAuthenticated) {
+      setShowSideChat((prevShowSideChat) => !prevShowSideChat);
+    } else {
+      setShowPopup(true);
+    }
   };
   const handleCloseSidebar = () => {
     setShowSideChat(false);
