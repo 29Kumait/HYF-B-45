@@ -58,6 +58,9 @@ const initializeSocketIO = (server) => {
       // Broadcast the formatted message to all users in the room
       io.to(message.room).emit("chat message", formattedMessage);
       logInfo(`Broadcasted message to room: ${message.room}`);
+
+      // Emit a notification event to the client
+      io.emit("notification", "New message received");
     });
 
     // Handle disconnects
