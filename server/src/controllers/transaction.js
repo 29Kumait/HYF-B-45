@@ -80,7 +80,10 @@ export const getUserTransactions = async (req, res) => {
     const listedItemIds = []; // Array to store IDs of items listed by the user
 
     userTransactions.forEach((transaction) => {
-      if (transaction.renter_id === userId) {
+      // Convert ObjectId to string for comparison
+      const transactionRenterIdString = transaction.renter_id.toString();
+
+      if (transactionRenterIdString === userId) {
         rentedItems.push(transaction);
       } else {
         borrowedItems.push(transaction);
