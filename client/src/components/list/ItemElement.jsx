@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-//import FakeUserProfilePicture from "../../assets/fake-user.jpg";
 import { Link } from "react-router-dom";
 import "./ItemsList.css"; // Import the CSS file
 import Renter from "./Renter";
@@ -12,6 +11,10 @@ const ItemElement = ({ item, userLocale }) => {
     const shortenedText = textWords.slice(0, words).join(" ");
     return shortenedText;
   };
+
+  if (!item.active) {
+    return null;
+  }
 
   return (
     <li className="product-item">
@@ -54,6 +57,7 @@ ItemElement.propTypes = {
     category: PropTypes.string.isRequired,
     price: PropTypes.number,
     renter_id: PropTypes.string.isRequired,
+    active: PropTypes.bool.isRequired,
   }).isRequired,
   userLocale: PropTypes.string.isRequired,
 };
