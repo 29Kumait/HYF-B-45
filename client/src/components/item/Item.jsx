@@ -69,13 +69,12 @@ function Item() {
 
   const updateItemActiveStatus = async () => {
     try {
-      const updatedItem = { ...item, active: !item.active };
       await performFetch({
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ active: updatedItem.active }),
       });
       navigate("/profile");
+      cancelFetch();
     } catch (error) {
       logError(`Error deleting item: ${error.message}`);
     }
