@@ -1,8 +1,7 @@
 .chat-container {
   max-width: 600px;
   margin: 0 auto;
-  margin-bottom: 60px;
-  padding: 20px;
+  padding-bottom: 20px;
   border-radius: 30px;
   background-color: var(--teal-bg);
   overflow: hidden;
@@ -13,6 +12,8 @@
   color: var(--pink-bg);
   background-color: var(--pink);
   padding: 10px;
+  width: 100%;
+  margin-top: 0;
   border-radius: 5px;
   text-align: center;
 }
@@ -25,19 +26,19 @@
   list-style: none;
   padding: 0;
   overflow-y: auto;
-  height: 200px;
-  max-height: 300px;
+  height: 550px;
   scrollbar-color: var(--pink) transparent; /* Color of the scrollbar */
 }
 
 .message-item {
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  padding: 0 15px;
   display: flex;
 }
 
 .message-info {
-  margin-left: 8px;
+  margin-left: 10px;
 }
 .message-text {
   color: var(--teal);
@@ -52,10 +53,10 @@
 }
 .message-form {
   margin-top: 20px;
+  display: flex;
 }
-
 .message-input {
-  width: 70%;
+  flex: 1;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -63,7 +64,7 @@
 
 .send-button {
   border: 1px solid transparent;
-  padding: 8px 50px;
+  padding: 8px 20px;
   border-radius: 20px;
   margin-left: 10px;
   font-weight: bold;
@@ -76,4 +77,20 @@
   border-color: #000000;
   background-color: #000000;
   color: #ffffff;
+}
+
+@media screen and (max-width: 600px) {
+  .message-form {
+    flex-direction: column;
+  }
+
+  .message-input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .send-button {
+    width: 100%;
+    margin-left: 0;
+  }
 }
