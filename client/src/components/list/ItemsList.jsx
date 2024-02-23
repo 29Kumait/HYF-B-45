@@ -83,7 +83,6 @@ const ItemsList = () => {
           <ItemElement key={item._id} item={item} userLocale={userLocale} />
         ))}
       </ul>
-
       <div className="pagination">
         <button onClick={handlePrevPage} disabled={currentPage === 1}>
           Previous
