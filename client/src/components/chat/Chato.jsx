@@ -10,6 +10,7 @@ const Chato = () => {
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState([]);
   const [currentMessage, setCurrentMessage] = useState("");
+  const [oldMessages, setOldMessages] = useState([]); // State to store old messages
   const messagesEndRef = useRef(null);
   const { itemId } = useParams();
 
@@ -34,6 +35,11 @@ const Chato = () => {
       socket.on("chat message", (message) => {
         setMessages((prevMessages) => [...prevMessages, message]);
       });
+
+      // Listen for old messages when joining the room
+      socket.on("oldMessages", (oldMsgs) => {
+        setOldMessages(oldMsgs);
+      });
     }
   }, [socket]);
 
@@ -52,9 +58,9 @@ const Chato = () => {
         userName: userData.user.firstName,
         text: currentMessage,
         pic: userData.user.userImageURL,
-        room: `room-${itemId}`, // Include the room name in the message data
+        room: `room-${itemId}`,
       };
-      socket.emit("chat message", messageData); // Emit message object to server
+      socket.emit("chat message", messageData);
       setCurrentMessage("");
     }
   };
@@ -63,8 +69,28 @@ const Chato = () => {
     <div className="chat-container">
       <h2 className="w-message">Welcome to the Chat</h2>
       <ul className="message-list">
-        {messages.map((message, index) => (
+        {/* Display old messages */}
+        {oldMessages.map((message, index) => (
           <li key={index} className="message-item">
+            <div>
+              <img
+                src={message.pic || FakeUserProfilePicture}
+                alt="profile-pic"
+                className="chat-profile-pic"
+              />
+            </div>
+            <div className="message-info">
+              <strong className="chat-strong">{message.userName} </strong>
+              <span className="message-time">{message.time}</span>
+              <div>
+                <div className="message-text">{message.text}</div>
+              </div>
+            </div>
+          </li>
+        ))}
+        {/* Display new messages */}
+        {messages.map((message, index) => (
+          <li key={index + oldMessages.length} className="message-item">
             <div>
               <img
                 src={message.pic || FakeUserProfilePicture}
