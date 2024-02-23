@@ -32,6 +32,7 @@ const Chato = () => {
   useEffect(() => {
     if (socket) {
       socket.on("chat message", (message) => {
+        // console.log("Received message:", message);
         setMessages((prevMessages) => [...prevMessages, message]);
       });
     }
@@ -54,6 +55,7 @@ const Chato = () => {
         pic: userData.user.userImageURL,
         room: `room-${itemId}`, // Include the room name in the message data
       };
+      // console.log("messageData", messageData);
       socket.emit("chat message", messageData); // Emit message object to server
       setCurrentMessage("");
     }
