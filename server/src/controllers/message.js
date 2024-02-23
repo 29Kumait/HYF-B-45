@@ -1,4 +1,5 @@
 import Message from "../models/Message.js";
+import { logError } from "../util/logging.js";
 
 // Controller function to create a new message
 export const createMessage = async (message) => {
@@ -8,20 +9,19 @@ export const createMessage = async (message) => {
     const savedMessage = await newMessage.save();
     return savedMessage;
   } catch (error) {
-    console.error(error);
+    logError(error);
     throw new Error("Error saving message");
   }
 };
 
 // Controller function to get all messages for a room
-export const getMessagesByRoom = async (req, res) => {
+export const getMessagesByRoom = async (room) => {
   try {
-    const room = req.params.room;
     const messages = await Message.find({ room });
-    res.json(messages);
+    return messages;
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Server error" });
+    logError("Error retrieving messages:", error);
+    return []; // Return an empty array or handle the error as needed
   }
 };
 
@@ -31,7 +31,6 @@ export const deleteAllmessages = async (req, res) => {
     await Message.deleteMany({});
     res.status(200).json({ message: "Collection cleared successfully" });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: "Server error" });
   }
 };
