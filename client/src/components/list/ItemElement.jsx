@@ -12,10 +12,6 @@ const ItemElement = ({ item, userLocale }) => {
     return shortenedText;
   };
 
-  if (!item.active) {
-    return null;
-  }
-
   return (
     <li className="product-item">
       <Renter userId={item.renter_id} />

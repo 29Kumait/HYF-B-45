@@ -114,8 +114,11 @@ export const getUserTransactions = async (req, res) => {
       }
     });
 
-    // Fetch corresponding listed items from the database
-    const listedItemsData = await Item.find({ _id: { $in: listedItemIds } });
+    // Fetch corresponding listed items from the database with the active status
+    const listedItemsData = await Item.find({
+      _id: { $in: listedItemIds },
+      active: true,
+    });
 
     // Send the user's rented, borrowed, and listed items as separate arrays in the response
     res.status(200).json({

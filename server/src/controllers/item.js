@@ -12,8 +12,8 @@ export const getItems = async (req, res) => {
     //Calculate the skip value based on the page number
     const skip = (page - 1) * pageSize;
 
-    // Define a filter object if category is chosen
-    const filter = {};
+    // Define a filter object if category is chosen and only for active items
+    const filter = { active: true };
     if (category) {
       filter.category = category;
     }
