@@ -1,37 +1,45 @@
 import React, { useState, useEffect } from "react";
 import "./Message.css";
-import useFetch from "../../hooks/useFetch";
-import MessageIcon from "../../assets/message.svg";
+// import useFetch from "../../hooks/useFetch";
 import { useAuth } from "../Account/AuthContext";
+import MessageIcon from "../../assets/message.svg";
 import io from "socket.io-client";
 
 const Message = () => {
   const { userData } = useAuth();
   const [listedItemsIds, setListedItemsIds] = useState([]);
   const [notificationCount, setNotificationCount] = useState(0);
-  const { performFetch } = useFetch(
-    `/transactions/${userData.user._id}`,
-    (response) => {
-      // Update listedItemsIds directly after fetching the data
-      const ids = response.listedItems.map((item) => item._id);
-      setListedItemsIds(ids);
-      // console.log(ids);
+
+  // Check if userData exists before performing the fetch
+  useEffect(() => {
+    if (userData && userData.user) {
+      const { user } = userData;
+      const userId = user._id;
+
+      // Perform fetch when userData is available
+      const fetchTransactions = async () => {
+        try {
+          const response = await fetch(
+            `${process.env.BASE_SERVER_URL}/api/transactions/${userId}`
+          );
+          const data = await response.json();
+          const ids = data.listedItems.map((item) => item._id);
+          setListedItemsIds(ids);
+        } catch (error) {
+          // console.error("Error fetching transactions:", error);
+        }
+      };
+
+      fetchTransactions();
     }
-  );
+  }, [userData]);
 
+  // Establish socket connection and handle notifications
   useEffect(() => {
-    // Perform fetch when component mounts
-    performFetch();
-  }, []);
-
-  useEffect(() => {
-    // Establish socket connection
     const socket = io(process.env.BASE_SERVER_URL);
 
-    // Listen for notification events
     socket.on("notification", (message) => {
-      // Extract the item ID from the message
-      const itemId = message.split("-")[1]; // Extracts the part after "room-"
+      const itemId = message.split("-")[1]; // Extract the item ID from the message
 
       // Check if the extracted item ID is in listedItemsIds
       if (listedItemsIds.includes(itemId)) {
