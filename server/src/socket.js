@@ -60,7 +60,7 @@ const initializeSocketIO = (server) => {
       logInfo(`Broadcasted message to room: ${message.room}`);
 
       // Emit a notification event to the client
-      io.emit("notification", "New message received");
+      io.emit("notification", message.room);
     });
 
     // Handle disconnects
