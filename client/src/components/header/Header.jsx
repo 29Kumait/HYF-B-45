@@ -5,6 +5,7 @@ import Login from "../Account/Login";
 import SearchIcon from "../../assets/search-icon.svg";
 import Logo from "../../assets/logo-color.svg";
 import AddItemButton from "./AddItemButton";
+import Message from "./Message";
 import ProfileDropdown from "./ProfileDropdown";
 import "./Header.css";
 import { Link } from "react-router-dom";
@@ -58,6 +59,7 @@ function Header() {
         {isAuthenticated ? (
           <>
             <AddItemButton />
+            <Message />
             <ProfileDropdown
               onLogout={logout}
               profilePicture={userData?.user.userImageURL}
