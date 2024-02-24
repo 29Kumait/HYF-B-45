@@ -71,3 +71,37 @@
   font-size: 20px;
   margin-top: -8px;
 }
+
+.container-listed {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--pink-bg);
+  transition: transform 0.3s ease;
+}
+
+.container-listed:hover {
+  transform: translateY(-5px);
+}
+
+.container-listed.inactive {
+  opacity: 0.5;
+}
+
+.container-listed button {
+  padding: 10px 20px;
+  background-color: var(--teal);
+  color: var(--pink);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+}
+
+.container-listed button:hover {
+  background-color: var(--pink);
+  color: var(--teal);
+}
