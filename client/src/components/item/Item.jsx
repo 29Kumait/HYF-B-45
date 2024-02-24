@@ -144,15 +144,24 @@ function Item() {
             </p>
           </div>
           <div className="buttons">
-            {userData.user._id !== item.renter_id ? (
-              <button className="rent" onClick={() => handleRent(itemId)}>
-                Rent
-              </button>
-            ) : (
+            {isAuthenticated && userData.user._id === item.renter_id && (
               <button className="rent" onClick={updateItemActiveStatus}>
                 Disable
               </button>
             )}
+
+            {isAuthenticated && userData.user._id !== item.renter_id && (
+              <button className="rent" onClick={() => handleRent(itemId)}>
+                Rent
+              </button>
+            )}
+
+            {!isAuthenticated && (
+              <button className="rent" onClick={() => handleRent(itemId)}>
+                Rent
+              </button>
+            )}
+
             <button className="chat" onClick={handleChat}>
               Chat
             </button>
