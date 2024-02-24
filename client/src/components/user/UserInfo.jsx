@@ -4,6 +4,7 @@ import { useAuth } from "../Account/AuthContext";
 import ItemElement from "../list/ItemElement";
 import UserProfile from "./UserProfile";
 import "./UserInfo.css";
+import { logError } from "../../../../server/src/util/logging";
 
 const UserInfo = () => {
   const { userData } = useAuth();
@@ -36,6 +37,27 @@ const UserInfo = () => {
   // Get user's locale
   const userLocale = navigator.language;
 
+  const toggleItemActiveStatus = async (itemId) => {
+    try {
+      const response = await fetch(
+        `${process.env.BASE_SERVER_URL}/api/item/${itemId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to update item active status");
+      }
+      // Refresh listed items after update
+      performFetch();
+    } catch (error) {
+      logError("Error updating item active status:", error.message);
+    }
+  };
+
   return (
     <div>
       <UserProfile user={userData.user} />
@@ -48,11 +70,21 @@ const UserInfo = () => {
             {listedItems.length > 0 ? (
               <ul className="your-product-list">
                 {listedItems.map((item) => (
-                  <ItemElement
+                  <div
                     key={item._id}
-                    item={item}
-                    userLocale={userLocale}
-                  />
+                    className={`container-listed ${
+                      !item.active ? "inactive" : ""
+                    }`}
+                  >
+                    <ItemElement
+                      key={item._id}
+                      item={item}
+                      userLocale={userLocale}
+                    />
+                    <button onClick={() => toggleItemActiveStatus(item._id)}>
+                      {item.active ? "Disable" : "Activate"}
+                    </button>
+                  </div>
                 ))}
               </ul>
             ) : (
