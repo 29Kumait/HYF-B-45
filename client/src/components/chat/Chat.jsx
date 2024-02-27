@@ -51,16 +51,14 @@ const Chat = () => {
     }
   }, [socket, itemId]);
 
-  const roomName = itemId ? `room-${itemId}` : null;
-
   const sendMessage = (e) => {
-    if (roomName && currentMessage.trim()) {
-      e.preventDefault();
+    e.preventDefault();
+    if (currentMessage.trim()) {
       const messageData = {
         userName: userData.user.firstName,
         text: currentMessage,
         pic: userData.user.userImageURL || StranderUserProfilePicture,
-        room: roomName,
+        room: `room-${itemId}`,
       };
       emitEvent("chat message", messageData);
       setCurrentMessage("");
@@ -68,7 +66,8 @@ const Chat = () => {
   };
 
   const deleteMessage = (messageId) => {
-    if (roomName && messageId) {
+    const roomName = `room-${itemId}`;
+    if (messageId) {
       socket.emit("delete message", { messageId, roomName });
     }
   };
