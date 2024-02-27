@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../Account/AuthContext.jsx";
 import useSocket from "../../hooks/useSocket.js";
+import { useAutoScroll } from "../../hooks/useAutoScroll.js";
 import FakeUserProfilePicture from "../../assets/fake-user.jpg";
 import "./Chato.css";
 
@@ -10,9 +11,10 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [currentMessage, setCurrentMessage] = useState("");
   const [oldMessages, setOldMessages] = useState([]);
-  const messagesEndRef = useRef(null);
   const { itemId } = useParams();
   const { socket, emitEvent } = useSocket(process.env.BASE_SERVER_URL);
+
+  const messagesEndRef = useAutoScroll([messages]); // use the hook
 
   useEffect(() => {
     if (!process.env.BASE_SERVER_URL) return;
@@ -37,14 +39,6 @@ const Chat = () => {
       };
     }
   }, [socket, itemId]);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
 
   const sendMessage = (e) => {
     e.preventDefault();
