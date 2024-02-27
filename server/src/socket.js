@@ -3,7 +3,11 @@ import dotenv from "dotenv";
 import { logError, logInfo } from "./util/logging.js";
 import formatMessage from "./util/formatMessage.js";
 // import Message from "../models/Message.js"; // Import the Message model
-import { createMessage, getMessagesByRoom, deleteMessageById } from "./controllers/message.js";
+import {
+  createMessage,
+  getMessagesByRoom,
+  deleteMessageById,
+} from "./controllers/message.js";
 dotenv.config();
 
 const initializeSocketIO = (server) => {
@@ -61,24 +65,25 @@ const initializeSocketIO = (server) => {
       // Emit a notification event to the client
       io.emit("notification", message.room);
 
-
-
-
       socket.on("delete message", async (messageId, roomId) => {
-        logInfo(`Delete message request received for message ID: ${messageId} in room: ${roomId}`);
-      
+        logInfo(
+          `Delete message request received for message ID: ${messageId} in room: ${roomId}`
+        );
+
         try {
           await deleteMessageById(messageId);
           logInfo(`Message with ID: ${messageId} deleted successfully`);
-      
+
           io.to(roomId).emit("message deleted", messageId);
           logInfo(`Notified room: ${roomId} about message deletion`);
         } catch (error) {
           logError("Error deleting message:", error);
-          socket.emit("delete failed", { messageId, error: "Failed to delete message" });
+          socket.emit("delete failed", {
+            messageId,
+            error: "Failed to delete message",
+          });
         }
       });
-
     });
 
     // Handle disconnects
