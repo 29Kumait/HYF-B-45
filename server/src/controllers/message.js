@@ -49,7 +49,6 @@ export const deleteMessageHandler = async (req, res) => {
   }
 };
 
-
 export const deleteAllmessages = async (req, res) => {
   try {
     // Delete all documents from the Message collection
