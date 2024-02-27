@@ -7,7 +7,8 @@ import {
   createMessage,
   getMessagesByRoom,
   deleteMessageById,
-} from "./controllers/message.js";
+} from "./controllers/message.js"; // Import the createMessage controller
+
 dotenv.config();
 
 const initializeSocketIO = (server) => {
@@ -54,36 +55,31 @@ const initializeSocketIO = (server) => {
       // Save the message to the database
       try {
         const savedMessage = await createMessage(formattedMessage);
+        io.to(message.room).emit("chat message", {
+          ...savedMessage.toObject(),
+          _id: savedMessage._id.toString(),
+        });
         logInfo("Message saved to database:", savedMessage);
       } catch (error) {
         logError("Error saving message:", error);
       }
       // Broadcast the formatted message to all users in the room
-      io.to(message.room).emit("chat message", formattedMessage);
+      // io.to(message.room).emit("chat message", formattedMessage);
       logInfo(`Broadcasted message to room: ${message.room}`);
 
       // Emit a notification event to the client
       io.emit("notification", message.room);
+    });
 
-      socket.on("delete message", async (messageId, roomId) => {
-        logInfo(
-          `Delete message request received for message ID: ${messageId} in room: ${roomId}`
-        );
-
-        try {
-          await deleteMessageById(messageId);
-          logInfo(`Message with ID: ${messageId} deleted successfully`);
-
-          io.to(roomId).emit("message deleted", messageId);
-          logInfo(`Notified room: ${roomId} about message deletion`);
-        } catch (error) {
-          logError("Error deleting message:", error);
-          socket.emit("delete failed", {
-            messageId,
-            error: "Failed to delete message",
-          });
-        }
-      });
+    socket.on("delete message", async ({ messageId, roomName }) => {
+      try {
+        await deleteMessageById(messageId);
+        io.to(roomName).emit("message deleted", messageId);
+        logInfo(`Message with ID: ${messageId} deleted successfully`);
+      } catch (error) {
+        logError(`Failed to delete message with ID: ${messageId}`, error);
+        socket.emit("delete failed", { messageId, error: error.message });
+      }
     });
 
     // Handle disconnects

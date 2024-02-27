@@ -33,12 +33,20 @@ const Chat = () => {
         setOldMessages(oldMsgs);
       };
 
+      const handleDeleteMessage = (messageId) => {
+        setMessages((prevMessages) =>
+          prevMessages.filter((message) => message._id !== messageId)
+        );
+      };
+
       socket.on("chat message", handleNewMessage);
       socket.on("oldMessages", handleOldMessages);
+      socket.on("message deleted", handleDeleteMessage);
 
       return () => {
         socket.off("chat message", handleNewMessage);
         socket.off("oldMessages", handleOldMessages);
+        socket.off("message deleted", handleDeleteMessage);
       };
     }
   }, [socket, itemId]);
@@ -57,8 +65,13 @@ const Chat = () => {
     }
   };
 
-  const deleteMessage = (id) => {
-    emitEvent("delete message", id);
+  const deleteMessage = (messageId) => {
+    const roomName = `room-${itemId}`;
+    if (messageId) {
+      socket.emit("delete message", { messageId, roomName });
+    } else {
+      //  console.error("Cannot delete message: messageId is undefined");
+    }
   };
 
   return socket ? (
@@ -70,6 +83,7 @@ const Chat = () => {
         endRef={messagesEndRef}
         deleteMessage={deleteMessage}
       />
+
       <MessageForm
         currentMessage={currentMessage}
         setCurrentMessage={setCurrentMessage}

@@ -16,17 +16,18 @@ const MessageItem = ({ message, deleteMessage }) => (
       <span className="message-time">{message.time}</span>
       <div className="message-text">{message.text}</div>
     </div>
+    {message.text}
     <button onClick={() => deleteMessage(message._id)}>Delete</button>
   </li>
 );
 
 MessageItem.propTypes = {
   message: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
     pic: PropTypes.string,
     userName: PropTypes.string.isRequired,
     time: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
   }).isRequired,
   deleteMessage: PropTypes.func.isRequired,
 };
