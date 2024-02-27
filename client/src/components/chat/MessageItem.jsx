@@ -21,7 +21,13 @@ const MessageItem = ({ message, deleteMessage }) => (
 );
 
 MessageItem.propTypes = {
-  message: PropTypes.shape().isRequired,
+  message: PropTypes.shape({
+    pic: PropTypes.string,
+    userName: PropTypes.string.isRequired,
+    time: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    _id: PropTypes.string,
+  }).isRequired,
   deleteMessage: PropTypes.func.isRequired,
 };
 
