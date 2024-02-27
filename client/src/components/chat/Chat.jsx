@@ -67,8 +67,6 @@ const Chat = () => {
         {/* Display old messages */}
         {oldMessages.map((message, index) => (
           <li key={`old-${index}`} className="message-item">
-            {" "}
-            {/* key more unique */}
             <div>
               <img
                 src={message.pic || FakeUserProfilePicture}
@@ -88,8 +86,6 @@ const Chat = () => {
         {/* Display new messages */}
         {messages.map((message, index) => (
           <li key={`new-${index}`} className="message-item">
-            {" "}
-            {/*  uniquer key */}
             <div>
               <img
                 src={message.pic || FakeUserProfilePicture}
