@@ -1,47 +1,42 @@
 import React, { useState, useEffect, useRef } from "react";
-import io from "socket.io-client";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../Account/AuthContext";
-import "./Chato.css";
+import useSocket from "../../hooks/useSocket.js";
 import FakeUserProfilePicture from "../../assets/fake-user.jpg";
+import "./Chato.css";
 
-const Chato = () => {
+const Chat = () => {
   const { userData } = useAuth();
-  const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState([]);
   const [currentMessage, setCurrentMessage] = useState("");
-  const [oldMessages, setOldMessages] = useState([]); // State to store old messages
+  const [oldMessages, setOldMessages] = useState([]);
   const messagesEndRef = useRef(null);
   const { itemId } = useParams();
+  const { socket, emitEvent } = useSocket(process.env.BASE_SERVER_URL);
 
   useEffect(() => {
-    const newSocket = io(process.env.BASE_SERVER_URL);
-    setSocket(newSocket);
+    if (!process.env.BASE_SERVER_URL) return;
 
-    return () => {
-      newSocket.disconnect();
-    };
-  }, [itemId]);
-
-  useEffect(() => {
-    // Join the chat room based on the item ID
     if (socket) {
       socket.emit("joinRoom", itemId);
+
+      const handleNewMessage = (message) => {
+        setMessages((prevMessages) => [...prevMessages, message]);
+      };
+
+      const handleOldMessages = (oldMsgs) => {
+        setOldMessages(oldMsgs);
+      };
+
+      socket.on("chat message", handleNewMessage);
+      socket.on("oldMessages", handleOldMessages);
+
+      return () => {
+        socket.off("chat message", handleNewMessage);
+        socket.off("oldMessages", handleOldMessages);
+      };
     }
   }, [socket, itemId]);
-
-  useEffect(() => {
-    if (socket) {
-      socket.on("chat message", (message) => {
-        setMessages((prevMessages) => [...prevMessages, message]);
-      });
-
-      // Listen for old messages when joining the room
-      socket.on("oldMessages", (oldMsgs) => {
-        setOldMessages(oldMsgs);
-      });
-    }
-  }, [socket]);
 
   useEffect(() => {
     scrollToBottom();
@@ -53,25 +48,27 @@ const Chato = () => {
 
   const sendMessage = (e) => {
     e.preventDefault();
-    if (socket && currentMessage.trim()) {
+    if (currentMessage.trim()) {
       const messageData = {
         userName: userData.user.firstName,
         text: currentMessage,
-        pic: userData.user.userImageURL,
+        pic: userData.user.userImageURL || FakeUserProfilePicture,
         room: `room-${itemId}`,
       };
-      socket.emit("chat message", messageData);
+      emitEvent("chat message", messageData);
       setCurrentMessage("");
     }
   };
 
-  return (
+  return socket ? (
     <div className="chat-container">
       <h2 className="w-message">Welcome to the Chat</h2>
       <ul className="message-list">
         {/* Display old messages */}
         {oldMessages.map((message, index) => (
-          <li key={index} className="message-item">
+          <li key={`old-${index}`} className="message-item">
+            {" "}
+            {/* key more unique */}
             <div>
               <img
                 src={message.pic || FakeUserProfilePicture}
@@ -80,7 +77,7 @@ const Chato = () => {
               />
             </div>
             <div className="message-info">
-              <strong className="chat-strong">{message.userName} </strong>
+              <strong className="chat-strong">{message.userName}</strong>
               <span className="message-time">{message.time}</span>
               <div>
                 <div className="message-text">{message.text}</div>
@@ -90,7 +87,9 @@ const Chato = () => {
         ))}
         {/* Display new messages */}
         {messages.map((message, index) => (
-          <li key={index + oldMessages.length} className="message-item">
+          <li key={`new-${index}`} className="message-item">
+            {" "}
+            {/*  uniquer key */}
             <div>
               <img
                 src={message.pic || FakeUserProfilePicture}
@@ -99,7 +98,7 @@ const Chato = () => {
               />
             </div>
             <div className="message-info">
-              <strong className="chat-strong">{message.userName} </strong>
+              <strong className="chat-strong">{message.userName}</strong>
               <span className="message-time">{message.time}</span>
               <div>
                 <div className="message-text">{message.text}</div>
@@ -122,7 +121,9 @@ const Chato = () => {
         </button>
       </form>
     </div>
+  ) : (
+    <div>Loading Chat...</div>
   );
 };
 
-export default Chato;
+export default Chat;

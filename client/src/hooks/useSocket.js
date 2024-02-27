@@ -10,7 +10,7 @@ const useSocket = (url) => {
       reconnection: true,
       reconnectionAttempts: 5,
       reconnectionDelay: 3000,
-    })  ;
+    });
 
     setSocket(newSocket);
 
