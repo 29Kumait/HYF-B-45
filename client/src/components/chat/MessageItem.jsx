@@ -16,7 +16,6 @@ const MessageItem = ({ message, deleteMessage }) => (
       <span className="message-time">{message.time}</span>
       <div className="message-text">{message.text}</div>
     </div>
-    {message.text}
     <button onClick={() => deleteMessage(message._id)}>Delete</button>
   </li>
 );

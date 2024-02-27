@@ -6,7 +6,7 @@ import { useAutoScroll } from "../../hooks/useAutoScroll.js";
 import StranderUserProfilePicture from "../../assets/stranderUserProfilePicture.jpg";
 import MessageList from "./MessageList.jsx";
 import MessageForm from "./MessageForm.jsx";
-import "./Chato.css";
+import "./chat.css";
 
 const Chat = () => {
   const { userData } = useAuth();
