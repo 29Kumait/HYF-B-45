@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import FakeUserProfilePicture from "../../assets/fake-user.jpg";
 
-const MessageItem = ({ message }) => (
+const MessageItem = ({ message, deleteMessage }) => (
   <li className="message-item">
     <div>
       <img
@@ -16,16 +16,19 @@ const MessageItem = ({ message }) => (
       <span className="message-time">{message.time}</span>
       <div className="message-text">{message.text}</div>
     </div>
+    <button onClick={() => deleteMessage(message._id)}>Delete</button>
   </li>
 );
 
 MessageItem.propTypes = {
   message: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
     pic: PropTypes.string,
     userName: PropTypes.string.isRequired,
     time: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
   }).isRequired,
+  deleteMessage: PropTypes.func.isRequired,
 };
 
 export default MessageItem;

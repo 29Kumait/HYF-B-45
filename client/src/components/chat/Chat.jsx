@@ -57,6 +57,11 @@ const Chat = () => {
     }
   };
 
+
+  const deleteMessage = (id) => {
+    emitEvent("delete message", id);
+  };
+
   return socket ? (
     <div className="chat-container">
       <h2 className="w-message">Welcome to the Chat</h2>
@@ -64,6 +69,7 @@ const Chat = () => {
         messages={messages}
         oldMessages={oldMessages}
         endRef={messagesEndRef}
+        deleteMessage={deleteMessage}
       />
       <MessageForm
         currentMessage={currentMessage}
