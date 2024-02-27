@@ -73,7 +73,7 @@ const Chat = () => {
     }
   };
 
-  return socket ? (
+  return (
     <div className="chat-container">
       <h2 className="w-message">Welcome to the Chat</h2>
       <MessageList
@@ -89,8 +89,6 @@ const Chat = () => {
         sendMessage={sendMessage}
       />
     </div>
-  ) : (
-    <div>Loading Chat...</div>
   );
 };
 
