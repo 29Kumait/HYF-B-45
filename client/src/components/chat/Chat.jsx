@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { useAuth } from "../Account/AuthContext";
+import { useAuth } from "../Account/AuthContext.jsx";
 import useSocket from "../../hooks/useSocket.js";
 import FakeUserProfilePicture from "../../assets/fake-user.jpg";
 import "./Chato.css";
