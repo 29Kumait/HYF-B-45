@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import FakeUserProfilePicture from "../../assets/fake-user.jpg";
+import StranderUserProfilePicture from "../../assets/stranderUserProfilePicture.jpg";
 
 const MessageItem = ({ message, deleteMessage }) => (
   <li className="message-item">
     <div>
       <img
-        src={message.pic || FakeUserProfilePicture}
+        src={message.pic || StranderUserProfilePicture}
         alt="profile-pic"
         className="chat-profile-pic"
       />
