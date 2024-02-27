@@ -27,7 +27,7 @@ MessageItem.propTypes = {
     userName: PropTypes.string.isRequired,
     time: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
-    _id: PropTypes.string.isRequired,
+    _id: PropTypes.string,
   }).isRequired,
   deleteMessage: PropTypes.func.isRequired,
 };
