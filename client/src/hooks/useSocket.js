@@ -19,7 +19,7 @@ const useSocket = (url) => {
     }
   };
 
-  return { socket, emitEvent};
+  return { socket, emitEvent };
 };
 
 export default useSocket;
