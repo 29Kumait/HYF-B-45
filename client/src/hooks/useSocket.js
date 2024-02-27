@@ -6,7 +6,11 @@ const useSocket = (url) => {
   useEffect(() => {
     if (!url) return;
 
-    const newSocket = io(url);
+    const newSocket = io(url, {
+      reconnection: true,
+      reconnectionAttempts: 5,
+      reconnectionDelay: 3000,
+    });
 
     setSocket(newSocket);
 
