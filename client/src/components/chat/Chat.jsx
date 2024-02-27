@@ -67,7 +67,7 @@ const Chat = () => {
 
   const deleteMessage = (messageId) => {
     const roomName = `room-${itemId}`;
-    if (messageId) {
+    if (roomName && messageId) {
       socket.emit("delete message", { messageId, roomName });
     }
   };
