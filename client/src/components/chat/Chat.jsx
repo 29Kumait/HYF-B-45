@@ -57,7 +57,6 @@ const Chat = () => {
     }
   };
 
-
   const deleteMessage = (id) => {
     emitEvent("delete message", id);
   };

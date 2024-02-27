@@ -5,10 +5,18 @@ import MessageItem from "./MessageItem";
 const MessageList = ({ messages, oldMessages, endRef, deleteMessage }) => (
   <ul className="message-list">
     {oldMessages.map((message, index) => (
-      <MessageItem key={`old-${index}`} message={message} deleteMessage={deleteMessage} />
+      <MessageItem
+        key={`old-${index}`}
+        message={message}
+        deleteMessage={deleteMessage}
+      />
     ))}
     {messages.map((message, index) => (
-      <MessageItem key={`new-${index}`} message={message} deleteMessage={deleteMessage} />
+      <MessageItem
+        key={`new-${index}`}
+        message={message}
+        deleteMessage={deleteMessage}
+      />
     ))}
     <div ref={endRef} />
   </ul>
