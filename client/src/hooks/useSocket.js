@@ -4,7 +4,13 @@ import io from "socket.io-client";
 const useSocket = (url) => {
   const [socket, setSocket] = useState(null);
   useEffect(() => {
-    const newSocket = io(url);
+    if (!url) return;
+
+    const newSocket = io(url, {
+      reconnection: true,
+      reconnectionAttempts: 5,
+      reconnectionDelay: 3000,
+    })  ;
 
     setSocket(newSocket);
 
