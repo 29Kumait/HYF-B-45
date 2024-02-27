@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import StranderUserProfilePicture from "../../assets/fake-user.jpg";
+import StranderUserProfilePicture from "../../assets/stranderUserProfilePicture.jpg";
 import PropTypes from "prop-types";
 const Renter = ({ userId }) => {
   const [userData, setUserData] = useState(null);

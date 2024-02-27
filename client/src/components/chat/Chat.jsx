@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../Account/AuthContext.jsx";
 import useSocket from "../../hooks/useSocket.js";
 import { useAutoScroll } from "../../hooks/useAutoScroll.js";
-import FakeUserProfilePicture from "../../assets/fake-user.jpg";
+import StranderUserProfilePicture from "../../assets/stranderUserProfilePicture.jpg";
 import MessageList from "./MessageList.jsx";
 import MessageForm from "./MessageForm.jsx";
 import "./Chato.css";
@@ -51,14 +51,16 @@ const Chat = () => {
     }
   }, [socket, itemId]);
 
+  const roomName = itemId ? `room-${itemId}` : null;
+
   const sendMessage = (e) => {
-    e.preventDefault();
-    if (currentMessage.trim()) {
+    if (roomName && currentMessage.trim()) {
+      e.preventDefault();
       const messageData = {
         userName: userData.user.firstName,
         text: currentMessage,
-        pic: userData.user.userImageURL || FakeUserProfilePicture,
-        room: `room-${itemId}`,
+        pic: userData.user.userImageURL || StranderUserProfilePicture,
+        room: roomName,
       };
       emitEvent("chat message", messageData);
       setCurrentMessage("");
@@ -66,11 +68,8 @@ const Chat = () => {
   };
 
   const deleteMessage = (messageId) => {
-    const roomName = `room-${itemId}`;
-    if (messageId) {
+    if (roomName && messageId) {
       socket.emit("delete message", { messageId, roomName });
-    } else {
-      //  console.error("Cannot delete message: messageId is undefined");
     }
   };
 

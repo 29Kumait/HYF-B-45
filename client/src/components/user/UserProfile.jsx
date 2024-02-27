@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import ProfilePic from "../../assets/fake-user.jpg";
+import ProfilePic from "../../assets/stranderUserProfilePicture.jpg";
 import "./UserInfo.css";
 
 const UserProfile = ({ user }) => {
