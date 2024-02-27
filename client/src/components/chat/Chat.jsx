@@ -4,6 +4,8 @@ import { useAuth } from "../Account/AuthContext.jsx";
 import useSocket from "../../hooks/useSocket.js";
 import { useAutoScroll } from "../../hooks/useAutoScroll.js";
 import FakeUserProfilePicture from "../../assets/fake-user.jpg";
+import MessageList from "./MessageList.jsx";
+import MessageForm from "./MessageForm.jsx";
 import "./Chato.css";
 
 const Chat = () => {
@@ -12,9 +14,10 @@ const Chat = () => {
   const [currentMessage, setCurrentMessage] = useState("");
   const [oldMessages, setOldMessages] = useState([]);
   const { itemId } = useParams();
+
   const { socket, emitEvent } = useSocket(process.env.BASE_SERVER_URL);
 
-  const messagesEndRef = useAutoScroll([messages]); // use the hook
+  const messagesEndRef = useAutoScroll([messages]);
 
   useEffect(() => {
     if (!process.env.BASE_SERVER_URL) return;
@@ -57,59 +60,16 @@ const Chat = () => {
   return socket ? (
     <div className="chat-container">
       <h2 className="w-message">Welcome to the Chat</h2>
-      <ul className="message-list">
-        {/* Display old messages */}
-        {oldMessages.map((message, index) => (
-          <li key={`old-${index}`} className="message-item">
-            <div>
-              <img
-                src={message.pic || FakeUserProfilePicture}
-                alt="profile-pic"
-                className="chat-profile-pic"
-              />
-            </div>
-            <div className="message-info">
-              <strong className="chat-strong">{message.userName}</strong>
-              <span className="message-time">{message.time}</span>
-              <div>
-                <div className="message-text">{message.text}</div>
-              </div>
-            </div>
-          </li>
-        ))}
-        {/* Display new messages */}
-        {messages.map((message, index) => (
-          <li key={`new-${index}`} className="message-item">
-            <div>
-              <img
-                src={message.pic || FakeUserProfilePicture}
-                alt="profile-pic"
-                className="chat-profile-pic"
-              />
-            </div>
-            <div className="message-info">
-              <strong className="chat-strong">{message.userName}</strong>
-              <span className="message-time">{message.time}</span>
-              <div>
-                <div className="message-text">{message.text}</div>
-              </div>
-            </div>
-          </li>
-        ))}
-        <div ref={messagesEndRef} />
-      </ul>
-      <form onSubmit={sendMessage} className="message-form">
-        <input
-          type="text"
-          value={currentMessage}
-          onChange={(e) => setCurrentMessage(e.target.value)}
-          placeholder="Type a message..."
-          className="message-input"
-        />
-        <button type="submit" className="send-button">
-          Send
-        </button>
-      </form>
+      <MessageList
+        messages={messages}
+        oldMessages={oldMessages}
+        endRef={messagesEndRef}
+      />
+      <MessageForm
+        currentMessage={currentMessage}
+        setCurrentMessage={setCurrentMessage}
+        sendMessage={sendMessage}
+      />
     </div>
   ) : (
     <div>Loading Chat...</div>
