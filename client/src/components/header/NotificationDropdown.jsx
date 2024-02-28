@@ -1,30 +1,28 @@
 import React from "react";
-import moment from "moment";
 import PropTypes from "prop-types";
-
-// import OfferIcon from '../../assets/offer.svg';
+import moment from "moment";
 import Message from "../../assets/message.svg";
 
 const getNotificationIcon = (type) => {
   switch (type) {
     case "New Offer":
       return <img src={Message} alt="Offer" className="notification-icon" />;
-    // case "Item Sold":
-    //   return <img src={SoldIcon} alt="Sold" className="notification-icon" />;
-    // default:
-    //   return null;
   }
 };
 
 const formatTimestamp = (timestamp) => {
   return moment(timestamp).fromNow(); // (e.g., "5 hours ago")
 };
+
 const NotificationDropdown = ({ notifications, handleSelectedItem }) => {
   return (
     <ul className="dropdown-menu">
       {notifications.map(
-        ({ itemId, notificationType, messageText, timestamp }) => (
-          <li key={itemId} onClick={() => handleSelectedItem(itemId)}>
+        ({ itemId, notificationType, messageText, timestamp }, index) => (
+          <li
+            key={`${itemId}-${timestamp || `index-${index}`}`}
+            onClick={() => handleSelectedItem(itemId)}
+          >
             {getNotificationIcon(notificationType)}
             <div className="notification-info">
               <div className="notification-title">{messageText}</div>
@@ -40,8 +38,8 @@ const NotificationDropdown = ({ notifications, handleSelectedItem }) => {
 };
 
 NotificationDropdown.propTypes = {
-  notifications: PropTypes.array.isRequired, // Assuming notifications is an array
-  handleSelectedItem: PropTypes.func.isRequired, // Assuming handleSelectedItem is a function
+  notifications: PropTypes.array.isRequired,
+  handleSelectedItem: PropTypes.func.isRequired,
 };
 
 export default NotificationDropdown;
