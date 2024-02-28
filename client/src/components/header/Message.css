@@ -42,3 +42,19 @@
   justify-content: center;
   align-items: center;
 }
+
+.notification-type {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.notification-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+}
+
+.notification-info {
+  display: flex;
+  align-items: center;
+}

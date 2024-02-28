@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./Message.css";
-// import useFetch from "../../hooks/useFetch";
 import { useAuth } from "../Account/AuthContext";
 import MessageIcon from "../../assets/message.svg";
-import io from "socket.io-client";
+import NotificationDropdown from "./NotificationDropdown";
+import useSocket from "../../hooks/useSocket";
 import { useNavigate } from "react-router-dom";
 
 const Message = () => {
   const { userData } = useAuth();
-  const [listedItems, setListedItems] = useState([]);
+  const [setListedItems] = useState([]);
   const [notificationCount, setNotificationCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [itemsIdWithNotifications, setItemsIdWithNotifications] = useState([]);
@@ -37,38 +37,48 @@ const Message = () => {
     }
   }, [userData]);
 
-  // Establish socket connection and handle notifications
+  const [notifications, setNotifications] = useState([]);
+
+  // Use the custom useSocket hook
+
+  const { socket } = useSocket(process.env.BASE_SERVER_URL);
+
   useEffect(() => {
-    const socket = io(process.env.BASE_SERVER_URL);
-
-    socket.on("notification", (message) => {
-      const itemId = message.split("-")[1]; // Extract the item ID from the message
-
+    if (!socket) return;
+    const handleNotification = (message) => {
+      const [notificationType, itemId, messageText, timestamp] =
+        message.split("-");
+      setNotifications((prevNotifications) => [
+        ...prevNotifications,
+        { itemId, notificationType, messageText, timestamp },
+      ]);
       if (!itemsIdWithNotifications.includes(itemId)) {
-        // Include item id related to the notification in the array
         setItemsIdWithNotifications((prevItemsIds) => [
           ...prevItemsIds,
           itemId,
         ]);
-        // Increment notification count
         setNotificationCount((prevCount) => prevCount + 1);
       }
-    });
-
-    // Clean up the socket connection when the component unmounts
-    return () => {
-      socket.disconnect();
     };
-  }, [itemsIdWithNotifications]);
+
+    socket.on("notification", handleNotification);
+
+    return () => {
+      socket.off("notification", handleNotification);
+    };
+  }, [socket]);
 
   const toggleDropdown = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
-  const handleSelectedItem = (itemId) => {
-    navigate(`/item/${itemId}`);
-    toggleDropdown();
-  };
+  const handleSelectedItem = useCallback(
+    (itemId) => {
+      navigate(`/item/${itemId}`);
+      toggleDropdown();
+    },
+    [navigate]
+  );
 
   return (
     <div className="message-container">
@@ -79,15 +89,10 @@ const Message = () => {
         )}
       </div>
       {isOpen && (
-        <ul className="dropdown-menu">
-          {listedItems
-            .filter((item) => itemsIdWithNotifications.includes(item._id))
-            .map((item) => (
-              <li key={item._id} onClick={() => handleSelectedItem(item._id)}>
-                {item.title}
-              </li>
-            ))}
-        </ul>
+        <NotificationDropdown
+          notifications={notifications}
+          handleSelectedItem={handleSelectedItem}
+        />
       )}
     </div>
   );
