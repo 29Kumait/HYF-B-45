@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import useSocket from "./useSocket";
 
+let notificationCounter = 0; // Counter as ID's generator
+
 const useNotify = () => {
   const [notifications, setNotifications] = useState([]);
   const { socket } = useSocket(process.env.BASE_SERVER_URL);
@@ -11,7 +13,7 @@ const useNotify = () => {
     oscillator.type = "sine";
     oscillator.frequency.setValueAtTime(1000, audioCtx.currentTime);
     oscillator.connect(audioCtx.destination);
-    oscillator.start(); // Start beep
+    oscillator.start();
     oscillator.stop(audioCtx.currentTime + 0.2); //seconds
   }, []);
 
@@ -34,14 +36,21 @@ const useNotify = () => {
   }, [socket, playBeep]);
 
   const addNotification = useCallback(
-    (notification) => {
+    (text) => {
+      const notification = {
+        id: `${Date.now()}-${notificationCounter++}`, // Use timestamp and counter for unique ID
+        text,
+      };
       setNotifications((prev) => [...prev, notification]);
       playBeep();
     },
     [playBeep]
   );
 
-  const clearNotifications = () => setNotifications([]);
+  const clearNotifications = useCallback(() => {
+    setNotifications([]);
+  }, []);
+
   return { notifications, addNotification, clearNotifications };
 };
 

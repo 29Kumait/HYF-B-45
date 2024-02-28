@@ -89,8 +89,8 @@ const Chat = () => {
         <div>
           <h4>Notifications</h4>
           <ul>
-            {notifications.map((notification, index) => (
-              <li key={index}>{notification}</li>
+            {notifications.map((notification) => (
+              <div key={notification.id}>{notification.text}</div>
             ))}
           </ul>
           <button onClick={clearNotifications}>Clear Notifications</button>

@@ -7,7 +7,7 @@ const MessageItem = ({ message, deleteMessage }) => (
     <div>
       <img
         src={message.pic || StranderUserProfilePicture}
-        alt="profile-pic"
+        alt="User profile"
         className="chat-profile-pic"
       />
     </div>
@@ -26,7 +26,7 @@ MessageItem.propTypes = {
     userName: PropTypes.string.isRequired,
     time: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
-    _id: PropTypes.string,
+    _id: PropTypes.string.isRequired,
   }).isRequired,
   deleteMessage: PropTypes.func.isRequired,
 };
