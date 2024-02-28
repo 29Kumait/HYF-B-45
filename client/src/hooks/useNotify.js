@@ -34,11 +34,7 @@ const useNotify = () => {
   }, [socket, playBeep]);
 
   const addNotification = useCallback(
-    (text) => {
-      const notification = {
-        id: Date.now(), // Simple way to get a unique ID based on the current time
-        text,
-      };
+    (notification) => {
       setNotifications((prev) => [...prev, notification]);
       playBeep();
     },

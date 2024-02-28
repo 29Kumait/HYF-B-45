@@ -62,6 +62,8 @@ const Chat = () => {
     }
   }, [socket, addNotification, itemId]);
 
+  const roomName = itemId ? `room-${itemId}` : null;
+
   const sendMessage = (e) => {
     if (roomName && currentMessage.trim()) {
       e.preventDefault();
@@ -82,8 +84,6 @@ const Chat = () => {
     }
   };
 
-  const roomName = itemId ? `room-${itemId}` : null;
-
   return (
     <div className="chat-container">
       <h2 className="w-message">Welcome to the Chat</h2>
@@ -91,13 +91,16 @@ const Chat = () => {
         <div>
           <h4>Notifications</h4>
           <ul>
-            {notifications.map((notification) => (
-              <li key={notification.id}>{notification.text}</li>
+            {/* {messages.map((message) => (<li key={message._id}>{message.text}</li>))} */}
+
+            {notifications.map((notification, index) => (
+              <li key={index}>{notification.text}</li>
             ))}
           </ul>
           <button onClick={clearNotifications}>Clear Notifications</button>
         </div>
       )}
+
       <MessageList
         messages={messages}
         oldMessages={oldMessages}
