@@ -12,15 +12,12 @@ import "./chat.css";
 
 const Chat = () => {
   const { notifications, addNotification, clearNotifications } = useNotify();
-
   const { userData } = useAuth();
   const [messages, setMessages] = useState([]);
   const [currentMessage, setCurrentMessage] = useState("");
   const [oldMessages, setOldMessages] = useState([]);
   const { itemId } = useParams();
-
   const { socket, emitEvent } = useSocket(process.env.BASE_SERVER_URL);
-
   const messagesEndRef = useAutoScroll([messages]);
 
   useEffect(() => {
@@ -48,6 +45,9 @@ const Chat = () => {
         setMessages((prevMessages) =>
           prevMessages.filter((message) => message._id !== messageId)
         );
+        setOldMessages((prevOldMessages) =>
+          prevOldMessages.filter((message) => message._id !== messageId)
+        );
       };
 
       socket.on("chat message", handleNewMessage);
@@ -62,16 +62,14 @@ const Chat = () => {
     }
   }, [socket, addNotification, itemId]);
 
-  const roomName = itemId ? `room-${itemId}` : null;
-
   const sendMessage = (e) => {
-    if (roomName && currentMessage.trim()) {
-      e.preventDefault();
+    e.preventDefault();
+    if (itemId && currentMessage.trim()) {
       const messageData = {
         userName: userData.user.firstName,
         text: currentMessage,
         pic: userData.user.userImageURL || StranderUserProfilePicture,
-        room: roomName,
+        room: `room-${itemId}`,
       };
       emitEvent("chat message", messageData);
       setCurrentMessage("");
@@ -79,8 +77,8 @@ const Chat = () => {
   };
 
   const deleteMessage = (messageId) => {
-    if (roomName && messageId) {
-      socket.emit("delete message", { messageId, roomName });
+    if (itemId && messageId) {
+      socket.emit("delete message", { messageId, roomName: `room-${itemId}` });
     }
   };
 
@@ -91,16 +89,13 @@ const Chat = () => {
         <div>
           <h4>Notifications</h4>
           <ul>
-            {/* {messages.map((message) => (<li key={message._id}>{message.text}</li>))} */}
-
             {notifications.map((notification, index) => (
-              <li key={index}>{notification.text}</li>
+              <li key={index}>{notification}</li>
             ))}
           </ul>
           <button onClick={clearNotifications}>Clear Notifications</button>
         </div>
       )}
-
       <MessageList
         messages={messages}
         oldMessages={oldMessages}
