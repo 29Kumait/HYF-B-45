@@ -5,16 +5,9 @@ import MessageItem from "./MessageItem";
 const MessageList = ({ messages, oldMessages, endRef, deleteMessage }) => {
   return (
     <ul className="message-list">
-      {oldMessages.map((message) => (
+      {oldMessages.concat(messages).map((message, index) => (
         <MessageItem
-          key={message._id}
-          message={message}
-          deleteMessage={deleteMessage}
-        />
-      ))}
-      {messages.map((message) => (
-        <MessageItem
-          key={message._id}
+          key={message._id ? `message-${message._id}` : `index-${index}`}
           message={message}
           deleteMessage={deleteMessage}
         />
@@ -26,8 +19,8 @@ const MessageList = ({ messages, oldMessages, endRef, deleteMessage }) => {
 
 MessageList.propTypes = {
   messages: PropTypes.arrayOf(PropTypes.object).isRequired,
-  oldMessages: PropTypes.arrayOf(PropTypes.object),
-  endRef: PropTypes.object,
+  oldMessages: PropTypes.arrayOf(PropTypes.object).isRequired,
+  endRef: PropTypes.object.isRequired,
   deleteMessage: PropTypes.func.isRequired,
 };
 
