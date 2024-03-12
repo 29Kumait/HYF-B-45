@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import FakeUserProfilePicture from "../../assets/fake-user.jpg";
+import StranderUserProfilePicture from "../../assets/stranderUserProfilePicture.jpg";
 import PropTypes from "prop-types";
 const Renter = ({ userId }) => {
   const [userData, setUserData] = useState(null);
@@ -26,7 +26,7 @@ const Renter = ({ userId }) => {
       {userData ? (
         <>
           <img
-            src={userData.userImageURL || FakeUserProfilePicture}
+            src={userData.userImageURL || StranderUserProfilePicture}
             alt="Renter"
           />
           <span>

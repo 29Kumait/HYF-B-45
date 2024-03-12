@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import useOutsideClick from "../../hooks/useOutsideClick.js";
-import Chato from "./Chato.jsx";
+import Chat from "./Chat.jsx";
 import "./chatStyle.css";
 
 const SideChat = ({ open, onClose }) => {
@@ -14,7 +14,7 @@ const SideChat = ({ open, onClose }) => {
 
   const closeSidebar = () => {
     setShowSide(false);
-    if (onClose) onClose(); // Call the onClose prop function when sidebar is closed
+    if (onClose) onClose();
   };
 
   useOutsideClick(sideRef, closeSidebar);
@@ -23,7 +23,7 @@ const SideChat = ({ open, onClose }) => {
     <>
       {showSide && (
         <div ref={sideRef} className="sidebar">
-          <Chato />
+          <Chat />
         </div>
       )}
     </>

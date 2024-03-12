@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import "./Item.css";
 import Popup from "../popUp/Popup.jsx";
 import { useAuth } from "../Account/AuthContext";
-import ProfilePic from "../../assets/fake-user.jpg";
+import ProfilePic from "../../assets/stranderUserProfilePicture.jpg";
 import SideChat from "../chat/SideChat.jsx";
 import { logError } from "../../../../server/src/util/logging.js";
 function Item() {

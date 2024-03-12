@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./ProfileDropdown.css";
-import ProfilePic from "../../assets/fake-user.jpg";
+import ProfilePic from "../../assets/stranderUserProfilePicture.jpg";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
