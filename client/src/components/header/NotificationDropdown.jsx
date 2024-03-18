@@ -21,6 +21,9 @@ const NotificationDropdown = ({ notifications, handleSelectedItem }) => {
           </li>
         )
       )}
+      {notifications.length === 0 && (
+        <li className="notification-empty">No new notifications</li>
+      )}
     </ul>
   );
 };
