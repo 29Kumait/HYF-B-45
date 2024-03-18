@@ -1,64 +1,30 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import "./Message.css";
 import { useAuth } from "../Account/AuthContext";
 import MessageIcon from "../../assets/message.svg";
-import NotificationDropdown from "./NotificationDropdown";
+import NotificationDropdown from "../chat/NotificationDropdown";
 import useSocket from "../../hooks/useSocket";
-import { useNavigate } from "react-router-dom";
+import SideChat from "../chat/SideChat";
+import useNotify from "../../hooks/useNotify";
 
 const Message = () => {
   const { userData } = useAuth();
-  const [setListedItems] = useState([]);
-  const [notificationCount, setNotificationCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-  const [itemsIdWithNotifications, setItemsIdWithNotifications] = useState([]);
-  const navigate = useNavigate();
-
-  // Check if userData exists before performing the fetch
-  useEffect(() => {
-    if (userData && userData.user) {
-      const { user } = userData;
-      const userId = user._id;
-
-      // Perform fetch when userData is available
-      const fetchTransactions = async () => {
-        try {
-          const response = await fetch(
-            `${process.env.BASE_SERVER_URL}/api/transactions/${userId}`
-          );
-          const data = await response.json();
-          setListedItems(data.listedItems);
-        } catch (error) {
-          // console.error("Error fetching transactions:", error);
-        }
-      };
-
-      fetchTransactions();
-    }
-  }, [userData]);
-
-  const [notifications, setNotifications] = useState([]);
-
-  // Use the custom useSocket hook
-
   const { socket } = useSocket(process.env.BASE_SERVER_URL);
+  const { notifications, addNotification, clearNotifications } = useNotify();
+  const [isSideChatOpen, setIsSideChatOpen] = useState(false);
 
   useEffect(() => {
-    if (!socket) return;
+    if (Notification.permission !== "granted") {
+      Notification.requestPermission();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!socket || !userData) return;
+
     const handleNotification = (message) => {
-      const [notificationType, itemId, messageText, timestamp] =
-        message.split("-");
-      setNotifications((prevNotifications) => [
-        ...prevNotifications,
-        { itemId, notificationType, messageText, timestamp },
-      ]);
-      if (!itemsIdWithNotifications.includes(itemId)) {
-        setItemsIdWithNotifications((prevItemsIds) => [
-          ...prevItemsIds,
-          itemId,
-        ]);
-        setNotificationCount((prevCount) => prevCount + 1);
-      }
+      addNotification(message);
     };
 
     socket.on("notification", handleNotification);
@@ -66,26 +32,26 @@ const Message = () => {
     return () => {
       socket.off("notification", handleNotification);
     };
-  }, [socket]);
+  }, [socket, userData, addNotification]);
 
-  const toggleDropdown = () => {
-    setIsOpen((prevIsOpen) => !prevIsOpen);
+  const toggleDropdown = () => setIsOpen(!isOpen);
+
+  const handleSelectedItem = () => {
+    setIsOpen(false);
+    setIsSideChatOpen(true);
+    clearNotifications();
   };
 
-  const handleSelectedItem = useCallback(
-    (itemId) => {
-      navigate(`/item/${itemId}`);
-      toggleDropdown();
-    },
-    [navigate]
-  );
+  const closeSideChat = () => {
+    setIsSideChatOpen(false);
+  };
 
   return (
     <div className="message-container">
-      <div className="add-item-icon-container" onClick={toggleDropdown}>
-        <img src={MessageIcon} alt="Message" className="add-item-icon" />
-        {notificationCount > 0 && (
-          <div className="notification-count">{notificationCount}</div>
+      <div className="message-icon-container" onClick={toggleDropdown}>
+        <img src={MessageIcon} alt="Message" className="message-icon" />
+        {notifications.length > 0 && (
+          <div className="notification-count">{notifications.length}</div>
         )}
       </div>
       {isOpen && (
@@ -94,6 +60,7 @@ const Message = () => {
           handleSelectedItem={handleSelectedItem}
         />
       )}
+      {isSideChatOpen && <SideChat open={true} onClose={closeSideChat} />}
     </div>
   );
 };

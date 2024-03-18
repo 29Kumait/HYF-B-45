@@ -9,7 +9,6 @@ import { AuthProvider } from "./components/Account/AuthContext";
 import SearchItem from "./pages/SearchItem/SearchItem.jsx";
 import { SearchProvider } from "./components/header/SearchContext.jsx";
 import User from "./pages/User/User";
-import ChatPage from "./pages/ChatPage/ChatPage";
 
 const App = () => {
   return (
@@ -23,7 +22,6 @@ const App = () => {
             <Route path="/rentPage/:itemId" element={<RentPage />} />
             <Route path="/search" element={<SearchItem />} />
             <Route path="/profile" element={<User />} />
-            <Route path="/chat/:itemId" element={<ChatPage />} />
           </Routes>
         </SearchProvider>
       </AuthProvider>
