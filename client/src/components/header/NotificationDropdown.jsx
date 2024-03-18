@@ -1,18 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import moment from "moment";
-import Message from "../../assets/message.svg";
-
-const getNotificationIcon = (type) => {
-  switch (type) {
-    case "New Offer":
-      return <img src={Message} alt="Offer" className="notification-icon" />;
-  }
-};
-
-const formatTimestamp = (timestamp) => {
-  return moment(timestamp).fromNow(); // (e.g., "5 hours ago")
-};
+import { getNotificationIcon, formatTimestamp } from "../chat/utils";
 
 const NotificationDropdown = ({ notifications, handleSelectedItem }) => {
   return (
