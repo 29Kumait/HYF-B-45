@@ -6,12 +6,9 @@ import { useAutoScroll } from "../../hooks/useAutoScroll.js";
 import StranderUserProfilePicture from "../../assets/stranderUserProfilePicture.jpg";
 import MessageList from "./MessageList.jsx";
 import MessageForm from "./MessageForm.jsx";
-import useNotify from "../../hooks/useNotify.js";
-
 import "./chat.css";
 
 const Chat = () => {
-  const { notifications, addNotification, clearNotifications } = useNotify();
   const { userData } = useAuth();
   const [messages, setMessages] = useState([]);
   const [currentMessage, setCurrentMessage] = useState("");
@@ -21,12 +18,6 @@ const Chat = () => {
   const messagesEndRef = useAutoScroll([messages]);
 
   useEffect(() => {
-    if (Notification.permission !== "granted") {
-      Notification.requestPermission();
-    }
-  }, []);
-
-  useEffect(() => {
     if (!process.env.BASE_SERVER_URL) return;
 
     if (socket) {
@@ -34,7 +25,6 @@ const Chat = () => {
 
       const handleNewMessage = (message) => {
         setMessages((prevMessages) => [...prevMessages, message]);
-        addNotification("You have a new message");
       };
 
       const handleOldMessages = (oldMsgs) => {
@@ -60,7 +50,7 @@ const Chat = () => {
         socket.off("message deleted", handleDeleteMessage);
       };
     }
-  }, [socket, addNotification, itemId]);
+  }, [socket, itemId]);
 
   const sendMessage = (e) => {
     e.preventDefault();
@@ -84,18 +74,8 @@ const Chat = () => {
 
   return (
     <div className="chat-container">
-      <h2 className="w-message">Welcome to the Chat</h2>
-      {notifications.length > 0 && (
-        <div>
-          <h4>Notifications</h4>
-          <ul>
-            {notifications.map((notification) => (
-              <div key={notification.id}>{notification.text}</div>
-            ))}
-          </ul>
-          <button onClick={clearNotifications}>Clear Notifications</button>
-        </div>
-      )}
+      <h2 className="w-message"> Messages </h2>
+
       <MessageList
         messages={messages}
         oldMessages={oldMessages}
