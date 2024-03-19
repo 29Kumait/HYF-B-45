@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import "./rentStyle.css";
-import { logError } from "../../../../server/src/util/logging";
-
 const DepositPrice = ({ itemId, setRenterId, setTotalPrice, days }) => {
   const [rentalInfo, setRentalInfo] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -31,7 +29,6 @@ const DepositPrice = ({ itemId, setRenterId, setTotalPrice, days }) => {
         setRenterId(response.data.renterId);
       } catch (err) {
         setError("Unable to fetch rental details. Please try again later.");
-        logError("Error fetching rental details:", err);
       } finally {
         setLoading(false);
       }

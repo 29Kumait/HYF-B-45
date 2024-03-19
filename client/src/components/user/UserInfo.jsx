@@ -4,8 +4,6 @@ import { useAuth } from "../Account/AuthContext";
 import ItemElement from "../list/ItemElement";
 import UserProfile from "./UserProfile";
 import "./UserInfo.css";
-import { logError } from "../../../../server/src/util/logging";
-
 const UserInfo = () => {
   const { userData } = useAuth();
   const [listedItems, setListedItems] = useState([]);
@@ -49,12 +47,12 @@ const UserInfo = () => {
         }
       );
       if (!response.ok) {
-        throw new Error("Failed to update item active status");
+        alert("Failed to update item active status");
+      } else {
+        performFetch();
       }
-      // Refresh listed items after update
-      performFetch();
     } catch (error) {
-      logError("Error updating item active status:", error.message);
+      alert(error.message);
     }
   };
 

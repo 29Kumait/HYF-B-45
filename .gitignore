@@ -14,3 +14,7 @@ coverage
 
 # Cypress videos from our headless runs should not be pushed to github
 cypress/videos
+
+# Ignore Docker build output
+Dockerfile
+*.dockerignore

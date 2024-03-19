@@ -4,7 +4,6 @@ import DepositPrice from "./DepositPrice";
 import InputDate from "./InputDate";
 import "./rentStyle.css";
 import useFetch from "../../hooks/useFetch";
-import { logError, logInfo } from "../../../../server/src/util/logging";
 import Header from "../../components/header/Header";
 import { Footer } from "../../components/footer/Footer";
 import { useAuth } from "../../components/Account/AuthContext";
@@ -20,14 +19,7 @@ const RentPage = () => {
   const [unavailableDates, setUnavailableDates] = useState([]);
 
   const { isLoading, performFetch, error } = useFetch(
-    `/transactions/rentPage/${itemId}`,
-    (response) => {
-      if (response.success) {
-        logInfo("rental status is successful", response.success);
-      } else {
-        logError("Error renting item:", response.error);
-      }
-    }
+    `/transactions/rentPage/${itemId}`
   );
 
   const handleStartDateChange = (selectedStartDate) => {
@@ -65,10 +57,9 @@ const RentPage = () => {
         `${process.env.BASE_SERVER_URL}/api/transactions/rentPage/${itemId}`
       );
       const responseData = await response.json();
-      logInfo(responseData.result); // remove this line
       setUnavailableDates(responseData.result);
     } catch (error) {
-      logError("Error fetching data:", error);
+      alert(error);
     }
   };
 
@@ -78,14 +69,14 @@ const RentPage = () => {
 
   const handleRentItem = async () => {
     if (!startDate || !endDate) {
-      logError("Please select both start and end dates.");
+      alert("Please select both start and end dates.");
       return;
     }
     // Validate that end date is after start date
     const start = new Date(startDate);
     const end = new Date(endDate);
     if (end <= start) {
-      logError("End date must be after start date.");
+      alert("End date must be after start date.");
       return;
     }
     try {
@@ -102,10 +93,9 @@ const RentPage = () => {
           "Content-Type": "application/json",
         },
       });
-      const checkoutUrl = await createCheckout(price, itemId);
-      window.location.href = checkoutUrl;
+      window.location.href = await createCheckout(price, itemId);
     } catch (error) {
-      logError("Error renting item. Please try again later.");
+      alert("Error renting item. Please try again later.");
     }
   };
 
