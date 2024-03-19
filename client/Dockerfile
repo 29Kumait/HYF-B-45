@@ -1,5 +1,5 @@
-# Use Node.js v14
-FROM node:18
+# Use Node.js v18
+FROM node:18 AS build
 
 # Set the working directory in the container to /app
 WORKDIR /app
@@ -13,8 +13,11 @@ RUN npm install
 # Copy the rest of the application code into the container
 COPY . .
 
-# Expose port 8080 for the application
-EXPOSE 8080
+# Build the React application
+RUN npm run build
 
-# Define the command to run the application
-CMD [ "npm", "start" ]
+# Production environment
+FROM nginx:alpine
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

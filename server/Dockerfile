@@ -1,4 +1,4 @@
-# Use Node.js v14
+# Use Node.js v18
 FROM node:18
 
 # Set the working directory in the container to /app
@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 5000
 
 # Define the command to run the application
-CMD [ "npm", "start" ]
+CMD ["npm", "start"]
