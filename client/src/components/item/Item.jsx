@@ -7,7 +7,6 @@ import Popup from "../popUp/Popup.jsx";
 import { useAuth } from "../Account/AuthContext";
 import ProfilePic from "../../assets/stranderUserProfilePicture.jpg";
 import SideChat from "../chat/SideChat.jsx";
-import { logError } from "../../../../server/src/util/logging.js";
 function Item() {
   const { itemId } = useParams(); // Extract itemId from URL params using useParams
   const navigate = useNavigate();
@@ -81,7 +80,7 @@ function Item() {
       navigate("/profile");
       cancelFetch();
     } catch (error) {
-      logError(`Error deleting item: ${error.message}`);
+      // logError(`Error deleting item: ${error.message}`);
     }
   };
 

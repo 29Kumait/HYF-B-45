@@ -4,7 +4,6 @@ import { useForm } from "../../hooks/useForm.js";
 import Input from "../Input.jsx";
 import Modal from "./Modal.jsx";
 import "./style.css";
-import { logError } from "../../../../server/src/util/logging.js";
 import UploadImages from "../postItem/UploadImages.jsx";
 import PropTypes from "prop-types";
 
@@ -51,7 +50,6 @@ const SignUp = ({ onSignUpSuccess }) => {
         }
       }
     } catch (error) {
-      logError(error);
       setError(`An error occurred while registering: ${error.message}`);
     }
   };

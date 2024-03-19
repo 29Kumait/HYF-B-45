@@ -1,6 +1,5 @@
 import React, { createContext, useState } from "react";
 import PropTypes from "prop-types";
-import { logInfo, logError } from "../../../../server/src/util/logging.js";
 
 // Create the authentication context
 export const AuthContext = createContext();
@@ -44,9 +43,8 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(true);
       const userDataResponse = await fetchUserData(data.token);
       setUserData(userDataResponse); // Set user data from server response
-      logInfo("userDataResponse", userDataResponse);
     } catch (error) {
-      logError("Login error:", error);
+      alert(error.message);
       setIsAuthenticated(false);
       throw error;
     }
@@ -65,29 +63,25 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Method to fetch user data from the server using the token
+
   const fetchUserData = async (token) => {
-    try {
-      const response = await fetch(
-        `${process.env.BASE_SERVER_URL}/api/userInfo`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch user data");
+    const response = await fetch(
+      `${process.env.BASE_SERVER_URL}/api/userInfo`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
+    );
 
-      const userDataResponse = await response.json();
-      localStorage.setItem("userData", JSON.stringify(userDataResponse)); // Set user data to local storage
-      return userDataResponse;
-    } catch (error) {
-      logError("Error fetching user data:", error);
-      throw error;
+    if (!response.ok) {
+      throw new Error("Failed to fetch user data");
     }
+
+    const userDataResponse = await response.json();
+    localStorage.setItem("userData", JSON.stringify(userDataResponse)); // Set user data to local storage
+    return userDataResponse;
   };
 
   return (
