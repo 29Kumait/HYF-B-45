@@ -1,12 +1,15 @@
-`TODO: Add a nice screenshot of the app!`
+# Class 45 final project
 
-# Class XX final project
+![Screenshot](https://res.cloudinary.com/dibnqoge8/image/upload/v1710500353/peerEnt-2_yj7rsk.png)
 
 This is the final project for the HackYourFuture curriculum we did as a class using the MERN stack by following the agile methodology with our team and a group of mentors. A quick guide to what we built:
 
-> TODO: Add short description of the app
+- Implemented item search functionality by title or category
+- Developed user registration system for listing, renting and managing items
+- Integrated secure payment and messaging for item rentals
+- Implemented notification system for user engagement
 
-`[Click here for the Demo version](TODO: add link)`
+[Click here for the Demo version](https://c45-group-b-1af54f32aa25.herokuapp.com/)
 
 ## 1. Setup
 
