@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./PostItemForm.css";
 import CategorySelect from "./CategorySelect";
 import UploadImages from "./UploadImages";
 import PropTypes from "prop-types";
 
 const PostItemForm = ({ onSubmit, isLoading, error }) => {
+  const navigate = useNavigate();
+
   // State for form fields
   const initialFormData = {
     title: "",
@@ -78,12 +81,13 @@ const PostItemForm = ({ onSubmit, isLoading, error }) => {
     try {
       await onSubmit(formData);
     } catch (error) {
-      // Handle errors by updating the success message state with an error message
+      alert(`Error: ${error.message}`);
     }
   };
 
   const handleClick = () => {
     setFormData(initialFormData);
+    navigate(-1); // not a window so Navigate back to the previous page
   };
 
   return (
