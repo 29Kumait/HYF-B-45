@@ -48,7 +48,7 @@
     "@types/jest": "^29.5.12",
     "axios": "^1.6.8",
     "cypress": "^13.7.3",
-    "eslint": "^9.0.0",
+    "eslint": "^9.1.1",
     "husky": "^9.0.11"
   },
   "dependencies": {
