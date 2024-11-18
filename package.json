@@ -68,7 +68,7 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.1",
     "semver": "^7.6.3",
-    "socket.io-client": "^4.7.5",
+    "socket.io-client": "^4.8.1",
     "stripe": "^16.11.0"
   }
 }
